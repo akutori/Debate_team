@@ -1,0 +1,17 @@
+.genres{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+.genreimg{
+    height: auto;
+    width: calc(60%/3);
+    float: left;
+    margin: 0 0 calc(100%/10) calc(100%/10);
+    border: 4px black solid;
+}
+/*.test{
+    height: 20px;
+    width: 100%;
+    float: left;
+}*/
