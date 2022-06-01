@@ -12,10 +12,14 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {//todo 未完成
+    {
         Schema::create('bystander', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            //傍観者ID
+            $table->id('b_id')->primary();
+            //ユーザーID
+            $table->foreign('u_id')->on('users')->references('u_id');
+            //ルームID
+            $table->foreign('r_id')->on('room')->references('r_id');
         });
     }
 
