@@ -12,10 +12,14 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {//todo 未完成
+    {
         Schema::create('roomhistory', function (Blueprint $table) {
             $table->id('rh_id')->primary();
-            $table->integer();
+            $table->foreign('t_id')->on('title')->references('t_id');
+            $table->foreign('r_id')->on('room')->references('r_id');
+            $table->date('rh_day');
+            $table->integer('rh_sum');
+            $table->boolean('rh_win');
         });
     }
 
