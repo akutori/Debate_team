@@ -5,6 +5,7 @@
 .titles{
     background-color: white;
     border: 2px black solid;
+    border-radius: 10px 10px 0 0 ;
     float: left;
     margin: 5px 0 3px 0;
     height: 30px;
@@ -18,6 +19,7 @@
 .cont{
     background: #ffe4e1;
     border: 2px black solid;
+    border-radius: 0 0 10px 10px ;
     float: left;
     margin: 0 0 20px 0;
     height: 50px;
@@ -36,4 +38,91 @@
 }
 .test{
     margin: 5px;
+}
+
+.dialog_style{
+    background:none;
+    border-style:none;
+    width:auto;
+    height:auto;
+    top:0;
+    margin-left:0;
+}
+.back{
+    content: "";
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    background: rgba(221, 221, 221, .4);
+    /*position: absolute;*/
+    position: fixed;
+    min-height:100vh;
+}
+.back2{
+    content: "";
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    background: rgba(221, 221, 221, .4);
+    /*position: absolute;*/
+    position: fixed;
+    z-index: 1;
+    min-height:100vh;
+}
+.nnn{
+    background:white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    text-align:center;
+    height:200px;
+    margin-top:auto;
+    margin-bottom:auto;
+    margin:0 auto;
+    width:100%;
+    width:250px;
+    margin-top:15%;
+    position: relative;
+}
+
+.nnn2{
+    background:white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    text-align:center;
+    height:200px;
+    margin-top:auto;
+    margin-bottom:auto;
+    margin:0 auto;
+    width:100%;
+    width:250px;
+    margin-top:15%;
+    position: relative;
+    z-index: 1;
+}
+
+.p1{
+    padding-top: 10px;
+    font-size: 20px;
+}
+.p2{
+    margin-top: 40px;
+}
+.button1{
+    margin-top: 50px;
+}
+.popb1{
+    width: 90px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    border:none;
+}
+.under{
+    margin-bottom:5px;
+}
+.p3{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.p4{
+    margin-top: 5px;
 }
