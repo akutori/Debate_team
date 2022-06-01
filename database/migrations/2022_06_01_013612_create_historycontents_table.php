@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('historycontents', function (Blueprint $table) {
-            $table->id('hc_id')->primary();
+            $table->id('hc_id');
             $table->string('hc_contents')->nullable();
         });
     }

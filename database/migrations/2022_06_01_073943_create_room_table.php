@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('debater', function (Blueprint $table) {
-            //討論ID
-            $table->id('d_id')->primary();
+        Schema::create('room', function (Blueprint $table) {
             //ルームID
-            $table->foreign('r_id')->on('room')->references('r_id');
-            //ユーザーID
-            $table->foreign('u_id')->on('users')->references('u_id');
+            $table->id('r_id');
+            //お題ID IDを外部参照しているためunsignedBigIntegerとなっている
+            $table->unsignedBigInteger('t_id');
+            //日時
+            $table->date('r_day')->nullable();
+            //傍観者数
+            $table->integer('r_sum');
         });
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('debater');
+        Schema::dropIfExists('room');
     }
 };

@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bystander', function (Blueprint $table) {
-            //傍観者ID
-            $table->id('b_id')->primary();
-            //ユーザーID
-            $table->foreign('u_id')->on('users')->references('u_id');
-            //ルームID
-            $table->foreign('r_id')->on('room')->references('r_id');
+        Schema::create('roomhistory', function (Blueprint $table) {
+            $table->id('rh_id');
+            $table->unsignedBigInteger('t_id');
+            $table->unsignedBigInteger('r_id');
+            $table->date('rh_day');
+            $table->integer('rh_sum');
+            $table->boolean('rh_win');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bystander');
+        Schema::dropIfExists('roomhistory');
     }
 };

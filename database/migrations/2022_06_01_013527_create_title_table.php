@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('title', function (Blueprint $table) {
             //お題ID
-            $table->id('t_id')->primary();
+            $table->id('t_id');
             //お題名
             $table->string('t_name');
         });

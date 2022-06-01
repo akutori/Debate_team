@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             //ユーザーID
-            $table->id('u_id')->primary();
+            $table->id('u_id');
             //パスワード
             $table->string('u_pass',15);
             //名前
             $table->string('u_name',10);
             //ユーザー取得ポイント
-            $table->integer('u_point',5)->default(0)->nullable();
+            $table->integer('u_point')->default(0)->nullable();
             //管理者フラグ 1が管理者
             $table->boolean('u_op')->default(0)->nullable();
         });

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ng', function (Blueprint $table) {
-            $table->id('n_id')->primary();
+            $table->id('n_id');
             $table->string('n_words');
         });
     }
