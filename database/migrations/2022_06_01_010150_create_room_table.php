@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('room', function (Blueprint $table) {
             //ルームID
             $table->id('r_id')->primary();
-            //テーブルID
-            //todo 外部キー
-            $table->foreign('t_id')->on('')->references();
+            //お題ID
+            $table->foreign('t_id')->on('title')->references('t_id');
             //日時
             $table->date('r_day')->nullable();
             //傍観者数
