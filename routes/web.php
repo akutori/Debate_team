@@ -22,11 +22,14 @@ Route::get('/theme/{id}',function ($id){
 Route::get('/genre',function (){
     return view('genre');
 });
-*/
+
 Route::get('/chat',function (){
     return view('chat');
 });
+*/
 
 Route::get('/sgenre',[\App\Http\Controllers\genreController::class,'index']);
 
 Route::get('/stheme/{id}',[\App\Http\Controllers\themeController::class,'index']);
+
+Route::get('/schat/{rid}',[\App\Http\Controllers\chatController::class,'index']);
