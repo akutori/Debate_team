@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('debater', function (Blueprint $table) {
+        Schema::create('debaters', function (Blueprint $table) {
             //討論ID
             $table->id('d_id');
             //ルームID IDを外部参照しているためunsignedBigIntegerとなっている
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('debater');
+        Schema::dropIfExists('debaters');
     }
 };
