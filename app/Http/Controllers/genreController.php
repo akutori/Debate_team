@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class genreController extends Controller
 {
     public function index(){
-        $cate = DB::table('category')->get();
+        ;
         return view('genre',compact('cate'));
     }
 
