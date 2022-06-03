@@ -10,9 +10,9 @@
     </div>
 
     <div class="genres">
-        @for($i=0;$i<$val;$i++)
-            <a href="{{url('/stheme',compact('i'))}}" ><img class="genreimg" src="{{asset('images/ima.jpg')}}"></a>
-        @endfor
+        @foreach($cate as $category)
+            <a href="{{url('/stheme',compact($category->c_id))}}" ><img class="genreimg" src="{{asset('images/ima.jpg')}}"></a>
+        @endforeach
     </div>
     <!--
     <div class="test">

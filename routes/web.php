@@ -28,6 +28,7 @@ Route::get('/chat',function (){
 });
 */
 
+//メイン画面
 Route::get('/sgenre',[\App\Http\Controllers\genreController::class,'index']);
 
 Route::get('/stheme/{id}',[\App\Http\Controllers\themeController::class,'index']);
