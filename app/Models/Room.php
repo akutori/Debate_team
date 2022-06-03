@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     use HasFactory;
+
+    //ホワイトリスト。この中に入っているカラムは変更を許可させる
+    protected $fillable = ['r_day','r_sum','t_id'];
+    //ブラックリスト。この中に入っているカラムは変更や作成ができない
+    protected $guarded = ['r_id'];
 }
