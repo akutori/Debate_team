@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Debater extends Model
 {
     use HasFactory;
+    protected $fillable = ["r_id","u_id"];
 }

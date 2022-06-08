@@ -11,6 +11,4 @@ class Title extends Model
 
     //ホワイトリスト。この中に入っているカラムは変更を許可させる
     protected $fillable = ['t_name'];
-    //ブラックリスト。この中に入っているカラムは変更や作成ができない
-    protected $guarded = ['t_id'];
 }
