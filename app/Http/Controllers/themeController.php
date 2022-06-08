@@ -12,7 +12,7 @@ class themeController extends Controller
         //ダイアログを表示させるのに必要なコントローラー
         $room = Room::where('t_id','=',$id);
         //お題の情報を取得
-        $roomname = Title::where('t_id','=',$id);
+        $roomtitle = Title::where('t_id','=',$id);
         /*
         $rooms = 6;
         $title ='タイトル';
@@ -21,6 +21,6 @@ class themeController extends Controller
         $iid = $id;
         */
         $cont = '詳細の冒頭？';
-        return view('theme',compact('room','roomname','cont'));
+        return view('theme',compact('room','roomtitle','cont'));
     }
 }

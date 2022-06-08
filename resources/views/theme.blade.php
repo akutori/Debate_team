@@ -12,10 +12,10 @@
         </div>
 
         <div class="rooms">
-            <p class="test">{{$room['r_id']}}</p>
+            <p class="test">{{-- $room->r_id --}}</p>
             @foreach($room as $room_once)
 
-                <dialog id="dialog2{{$room_once['r_id']}}" class="dialog_style" >
+                <dialog id="dialog2{{$room_once->r_id}}" class="dialog_style" >
                     <div class="back2"></div>
                     <div class="nnn2">
                         <p class="p3">Choose Position</p>
@@ -46,7 +46,7 @@
                     </div>
                 </dialog>
                 {{-- ここに一覧を表示させる --}}
-                <p class="titles">{{$roomname->t_name}}{{$room_once->t_id}}</p>
+                <p class="titles">{{$roomtitle->t_name}}{{$room_once->t_id}}</p>
                 <p class="day">{{$room_once->r_day}}</p>
                 <input type="button" class="cont" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();" value="{{$cont}}">
 
