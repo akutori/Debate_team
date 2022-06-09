@@ -18,9 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+       'u_pass','u_name','u_point','u_op'
     ];
 
     /**
@@ -28,9 +26,10 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    //通常のクエリでは表示させたくないカラム。
+    //一時的に表示させたい場合は User::find(1)->makeVisible(['カラム'])->toArray(); と言った感じ
     protected $hidden = [
-        'password',
-        'remember_token',
+        'u_id',
     ];
 
     /**

@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Debater extends Model
+class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ["r_id","u_id"];
+    //編集可能なカラム
+    protected $fillable = ['c_name'];
 }

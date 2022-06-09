@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roomhistory', function (Blueprint $table) {
-            $table->id('rh_id');
-            $table->unsignedBigInteger('t_id');
-            $table->unsignedBigInteger('r_id');
-            $table->date('rh_day');
-            $table->integer('rh_sum');
-            $table->boolean('rh_win');
+        Schema::create('ngs', function (Blueprint $table) {
+            $table->id('n_id');
+            $table->string('n_words');
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roomhistory');
+        Schema::dropIfExists('ngs');
     }
 };

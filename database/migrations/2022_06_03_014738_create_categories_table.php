@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ng', function (Blueprint $table) {
-            $table->id('n_id');
-            $table->string('n_words');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id('c_id');
+            $table->string('c_name');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ng');
+        Schema::dropIfExists('categories');
     }
 };

@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Debater extends Model
+class Roomhistory extends Model
 {
     use HasFactory;
-    protected $fillable = ["r_id","u_id"];
+    protected $fillable = ["t_id","r_id","rh_day","rh_sum","rh_win"];
 }

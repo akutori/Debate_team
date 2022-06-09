@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('title', function (Blueprint $table) {
-            //お題ID
-            $table->id('t_id');
-            //お題名
-            $table->string('t_name');
+        Schema::create('roomhistories', function (Blueprint $table) {
+            $table->id('rh_id');
+            $table->unsignedBigInteger('t_id');
+            $table->unsignedBigInteger('r_id');
+            $table->date('rh_day');
+            $table->integer('rh_sum');
+            $table->boolean('rh_win');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('title');
+        Schema::dropIfExists('roomhistories');
     }
 };

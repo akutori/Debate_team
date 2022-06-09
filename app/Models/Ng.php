@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Debater extends Model
+class Ng extends Model
 {
     use HasFactory;
-    protected $fillable = ["r_id","u_id"];
+    protected $fillable = ["n_words"];
 }

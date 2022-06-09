@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bystander', function (Blueprint $table) {
+        Schema::create('bystanders', function (Blueprint $table) {
             //傍観者ID
             $table->id('b_id');
             //ユーザーID IDを外部参照しているためunsignedBigIntegerとなっている
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bystander');
+        Schema::dropIfExists('bystanders');
     }
 };
