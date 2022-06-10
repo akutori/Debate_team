@@ -11,4 +11,9 @@ class Room extends Model
 
     //ホワイトリスト。この中に入っているカラムは変更を許可させる
     protected $fillable = ['r_day','r_sum','t_id'];
+    protected $primaryKey = 'r_id';
+
+    public function getAllRoomuser(){
+        return Room::find(1);
+    }
 }

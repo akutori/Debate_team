@@ -13,6 +13,7 @@ class genreController extends Controller
 {
     public function index(){
         $cate = Category::all();
+
         return view('genre',compact('cate'));
     }
 

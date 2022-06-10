@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bystander;
+use App\Models\Debater;
 use App\Models\Room;
 use App\Models\Title;
 use Illuminate\Http\Request;
 
 class themeController extends Controller
 {
-    public function index($id){
+    public function index(Request $request,$id){
         //ダイアログを表示させるのに必要なコントローラー
+
+
         $room = Room::where('t_id','=',$id);
         //お題の情報を取得
         $roomtitle = Title::where('t_id','=',$id);
@@ -17,7 +21,6 @@ class themeController extends Controller
         $rooms = 6;
         $title ='タイトル';
         $day = '2022/01/21';
-
         $iid = $id;
         */
         $cont = '詳細の冒頭？';
