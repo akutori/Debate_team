@@ -33,22 +33,8 @@ class chatController extends Controller
         return view('chat',compact('rid'));
     }
 
-    //発言者と傍観者を登録 引数:発言者として登録したもの,傍観者として登録したもの
-    public function inputdebater($roomid,$debateuser,$bystander){
-        $debater = new Debater();
-        $debater->create([
-            'r_id'=>$roomid,
-            'u_id'=>$debateuser
-        ]);
-        $debater->save();
 
-        $bystand = new Bystander();
-        $bystand->create([
-            'r_id'=>$roomid,
-            'u_id'=>$bystander
-        ]);
-        $bystand->save();
-    }
+
     //傍観者にランダムに投票券を配布 引数:傍観者として投票したもの
     public function votingticket(Request $request,$bystander){
 

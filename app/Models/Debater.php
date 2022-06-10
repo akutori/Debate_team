@@ -9,4 +9,6 @@ class Debater extends Model
 {
     use HasFactory;
     protected $fillable = ["r_id","u_id"];
+    protected $primaryKey = 'd_id' ;
+
 }
