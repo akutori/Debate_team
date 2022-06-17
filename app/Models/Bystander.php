@@ -15,11 +15,11 @@ class Bystander extends Model
     //傍観者を登録 引数:発言者として登録したもの,傍観者として登録したもの
     public function insert($roomid,$bystander){
 
-        Bystander::create([
+        $insert = Bystander::create([
             'r_id'=>$roomid,
             'u_id'=>$bystander
         ]);
-        $bystander->save();
+        $insert->save();
     }
 
 }

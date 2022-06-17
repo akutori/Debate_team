@@ -15,5 +15,10 @@ class CategorySeeder extends Seeder
     public function run()
     {
         //
+        $param= ["政治"];
+        $param= ["プログラミング"];
+        $param= ["食品"];
+        $param= ["機械"];
+        $param= ["その他"];
     }
 }

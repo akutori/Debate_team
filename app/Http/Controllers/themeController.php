@@ -12,8 +12,6 @@ class themeController extends Controller
 {
     public function index(Request $request,$id){
         //ダイアログを表示させるのに必要なコントローラー
-
-
         $room = Room::where('t_id','=',$id);
         //お題の情報を取得
         $roomtitle = Title::where('t_id','=',$id);
