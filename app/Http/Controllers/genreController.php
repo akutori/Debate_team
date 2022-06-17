@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Category;
+use App\Models\Title;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 class genreController extends Controller
 {
     public function index(){
-        $cate = Category::all();
+        $title = Title::all();
 
-        return view('genre',compact('cate'));
+        return view('genre',compact('title'));
     }
 
 }

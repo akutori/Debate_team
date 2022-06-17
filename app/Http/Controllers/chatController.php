@@ -22,7 +22,7 @@ class chatController extends Controller
             $debater->insert($uid,$rid);
         }
 
-        return view('chat',compact('rid'));
+        return view('chat',compact('rid','uid','stateflag'));
     }
 
 

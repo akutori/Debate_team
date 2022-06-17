@@ -10,8 +10,8 @@
     </div>
 
     <div class="genres">
-        @foreach($cate as $category)
-            <a href="{{url('/stheme',compact($category->c_id))}}"><img class="genreimg" src="{{asset('images/ima.jpg')}}"></a>
+        @foreach($title as $title_once)
+            <a href="{{url('/stheme',compact($title_once->t_id))}}"><img class="genreimg" src="{{asset('images/ima.jpg')}}"></a>
         @endforeach
     </div>
     <!--

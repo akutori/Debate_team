@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +16,21 @@ class CategorySeeder extends Seeder
     public function run()
     {
         //
-        $param= ["政治"];
-        $param= ["プログラミング"];
-        $param= ["食品"];
-        $param= ["機械"];
-        $param= ["その他"];
+        Category::create([
+            'c_name'=>"政治"
+        ]);
+
+        Category::create([
+            'c_name'=>"プログラミング"
+        ]);
+        Category::create([
+            'c_name'=>"食品"
+        ]);
+        Category::create([
+            'c_name'=>"機械"
+        ]);
+        Category::create([
+            'c_name'=>"その他"
+        ]);
     }
 }
