@@ -10,6 +10,17 @@
     margin: 0 0 calc(100%/10) calc(100%/10);
     border: 4px black solid;
 }
+h1{
+    font-family: 'Gentium Plus', serif;
+}
+h2{
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+body{
+    background-color: #FFFFDD;
+}
+
 /*.test{
     height: 20px;
     width: 100%;
