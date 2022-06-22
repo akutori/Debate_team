@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{asset('css/head.css')}}">
     <title>{{config('app.name')}}</title>
+
     @yield('head')
 </head>
 <body>
