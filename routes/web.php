@@ -1,9 +1,16 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\http\Request;
+use Illuminate\Support\Facades\Auth;
 
-/*
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ChatController;
+
+/*;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -27,10 +34,21 @@ Route::get('/chat',function (){
     return view('chat');
 });
 */
-
 //メイン画面
-Route::get('/sgenre',[\App\Http\Controllers\genreController::class,'index']);
+Route::get('/',function(){return view('header');});
 
-Route::get('/stheme/{id}',[\App\Http\Controllers\themeController::class,'index']);
+//チャット機能
 
-Route::get('/schat/{rid}',[\App\Http\Controllers\chatController::class,'index']);
+Route::resource('/chat',ChatController::class);
+
+
+Route::get('/sgenre',[GenreController::class,'index']);
+
+Route::get('/stheme/{id}',[ThemeController::class,'index']);
+
+Route::get('/schat/{rid}',[ChatController::class,'index']);
+
+Auth::routes();
+
+//laravel のホーム画面
+Route::get('/home', [HomeController::class, 'index'])->name('home');

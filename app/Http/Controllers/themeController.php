@@ -8,7 +8,7 @@ use App\Models\Room;
 use App\Models\Title;
 use Illuminate\Http\Request;
 
-class themeController extends Controller
+class ThemeController extends Controller
 {
     public function index(Request $request,$id){
         //ダイアログを表示させるのに必要なコントローラー

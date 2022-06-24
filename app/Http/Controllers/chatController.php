@@ -6,46 +6,91 @@ use App\Models\Bystander;
 use App\Models\Debater;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Chat;
+use Illuminate\Support\Facades\Auth;
 
-class chatController extends Controller
+class ChatController extends Controller
 {
-    public function index($rid,$uid,$stateflag){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(){
 
-        //発表者DB操作インスタンス
-        $debater = new Debater();
-        //傍観者DB操作インスタンス
-        $bystander = new Bystander();
-        //傍観者と発表者を分けそれぞれを登録
-        if($stateflag==1){
-            $bystander->insert($rid,$uid);
-        }else{
-            $debater->insert($uid,$rid);
-        }
+        $chats= Chat::orderBY('created_at','asc')->paginate();
+        $user_name=Auth::user();
+        $name = $user_name['name'];
+   
+           return view('chat',compact('chats','name'));
+       }
+   
 
-        return view('chat',compact('rid','uid','stateflag'));
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request){
+        $chats=new Chat;
+        $form=$request->all();
+        $chats->fill($form)->save();
+        return redirect('/chat');
+    }
 
-
-    //傍観者にランダムに投票券を配布 引数:傍観者として投票したもの
-    //現在は使用しないが今後使用する予定がある
-    /*public function votingticket(Request $request,$bystander){
-
-        //傍観者の中から最大の投票者数を決める
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
         //
-        $bystandercoount=Bystander::where('r_id')->count();
-        //$b=;
-        foreach ($bystander as $item){
+    }
 
-        }
-
-        $session = $request->session()->all();
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
         //
+    }
 
-        if ($request->session()->missing('ticket')) {
-            //
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
-        }
-
-    }*/
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

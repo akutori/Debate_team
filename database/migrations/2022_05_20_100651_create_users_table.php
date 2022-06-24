@@ -14,12 +14,20 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+
+            $table->bigIncrements('id');
+            $table->string('name');
+            
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+
+
             //ユーザーID
-            $table->id('u_id');
-            //パスワード
-            $table->string('u_pass',15);
+           
+            
             //名前
-            $table->string('u_name',10);
+  
             //ユーザー取得ポイント
             $table->integer('u_point')->default(0)->nullable();
             //管理者フラグ 1が管理者
