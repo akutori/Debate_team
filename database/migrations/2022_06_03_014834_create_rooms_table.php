@@ -17,7 +17,7 @@ return new class extends Migration
             //ルームID
             $table->id('r_id');
             //お題ID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('t_id');
+            $table->unsignedBigInteger('title_t_id');
             //日時
             $table->date('r_day')->nullable();
             //傍観者数

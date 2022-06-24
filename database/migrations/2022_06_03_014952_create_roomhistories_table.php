@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('roomhistories', function (Blueprint $table) {
             $table->id('rh_id');
-            $table->unsignedBigInteger('t_id');
-            $table->unsignedBigInteger('r_id');
+            $table->unsignedBigInteger('title_t_id');
+            $table->unsignedBigInteger('room_r_id');
             $table->date('rh_day');
             $table->integer('rh_sum');
             $table->boolean('rh_win');

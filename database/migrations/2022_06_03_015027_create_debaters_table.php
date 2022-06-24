@@ -17,9 +17,9 @@ return new class extends Migration
             //討論ID
             $table->id('d_id');
             //ルームID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('r_id');
+            $table->unsignedBigInteger('room_r_id');
             //ユーザーID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('u_id');
+            $table->unsignedBigInteger('id');
         });
     }
 
