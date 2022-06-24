@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 
 class themeController extends Controller
 {
-    public function index(Request $request,$id){
-        //ダイアログを表示させるのに必要なコントローラー
-        $room = Room::where('t_id','=',$id);
+    public function index($id,Request $request){
+        //ダイアログを表示させるのに必要なコントローラ
+        $room = Room::where('t_id','=',$id)->get();
         //お題の情報を取得
-        $roomtitle = Title::where('t_id','=',$id);
+        $roomtitle = Title::where('t_id','=',$id)->first();
         /*
         $rooms = 6;
         $title ='タイトル';
