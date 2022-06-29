@@ -17,9 +17,9 @@ return new class extends Migration
             //傍観者ID
             $table->id('b_id');
             //ユーザーID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('u_id');
+            $table->unsignedBigInteger('user_id');
             //ルームID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('r_id');
+            $table->unsignedBigInteger('room_r_id');
         });
     }
 

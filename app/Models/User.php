@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-       'u_pass','u_name','u_point','u_op'
+       'id','password','name','u_point','u_op'
     ];
 
     /**
@@ -29,7 +29,7 @@ class User extends Authenticatable
     //通常のクエリでは表示させたくないカラム。
     //一時的に表示させたい場合は User::find(1)->makeVisible(['カラム'])->toArray(); と言った感じ
     protected $hidden = [
-        'u_id',
+        'id',
     ];
 
     /**
@@ -40,4 +40,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function chats(){
+        return $this->hasMany(Chat::class);
+    }
+
+
+    
 }

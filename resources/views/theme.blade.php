@@ -22,8 +22,10 @@
                         <p class="p4">あなたの立場を選んでください</p>
                         <p class="p5">※傍観者の中からランダムに投票権が付与されます。</p>
                         <div class="under">
-                        <input type="button" class="popb1" onclick="location.href='{{url('/schat',compact('r_id'))}}'" value="発言者">
-                        <input type="button" class="popb1" onclick="location.href='{{url('/schat',compact('r_id'))}}'" value="傍観者">
+                            {{-- 部屋IDとユーザーIDは前の画面から取得して状態のみこちらから指定する --}}
+                            {{-- 部屋IDとユーザーIDは前の画面から取得して状態のみこちらから指定する --}}
+                        <input type="button" class="popb1" onclick="location.href='{{url('/schat',compact($room_once->r_id,$userid,0))}}'" value="発言者">
+                        <input type="button" class="popb1" onclick="location.href='{{url('/schat',compact($room_once->r_id,$userid,1))}}'" value="傍観者">
                         </div>
 
                         <button class="popb1" onclick="document.getElementById('dialog2{{$room_once->t_id}}').close();">戻る</button>

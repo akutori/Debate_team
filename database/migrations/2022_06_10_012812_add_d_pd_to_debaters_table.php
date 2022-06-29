@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roomhistories', function (Blueprint $table) {
-            $table->id('rh_id');
-            $table->unsignedBigInteger('title_t_id');
-            $table->unsignedBigInteger('room_r_id');
-            $table->date('rh_day');
-            $table->integer('rh_sum');
-            $table->boolean('rh_win');
+        Schema::table('debaters', function (Blueprint $table) {
+            //
+            //賛否フラグ 0が賛成
+            $table->boolean('d_pd');
         });
     }
 
@@ -30,6 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roomhistories');
+        Schema::table('debaters', function (Blueprint $table) {
+            //
+        });
     }
 };

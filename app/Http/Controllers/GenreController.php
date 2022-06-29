@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class genreController extends Controller
+class GenreController extends Controller
 {
     public function index(){
         $cate = Category::all();
+
         return view('genre',compact('cate'));
     }
 

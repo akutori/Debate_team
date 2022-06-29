@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roomhistories', function (Blueprint $table) {
-            $table->id('rh_id');
-            $table->unsignedBigInteger('title_t_id');
-            $table->unsignedBigInteger('room_r_id');
-            $table->date('rh_day');
-            $table->integer('rh_sum');
-            $table->boolean('rh_win');
+        Schema::create('chats', function (Blueprint $table) {
+            $table->Id();
+
+            //外部キー
+            $table->foreignId('user_id')->constrained('users');
+
+
+            $table->string('message',500);
+            $table->timestamps();
+            
         });
     }
 
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roomhistories');
+        Schema::dropIfExists('chats');
     }
 };
