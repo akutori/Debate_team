@@ -19,7 +19,7 @@ return new class extends Migration
             //お題名
             $table->string('t_name')->comment('お題名');
             //foreignIdを使用してcategoryのIDを外部参照している
-            $table->foreignId('category_id')->constrained('category');
+            //$table->foreignId('category_id')->constrained('category');
         });
     }
 

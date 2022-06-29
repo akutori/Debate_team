@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('roomhistories', function (Blueprint $table) {
             //履歴ID
             $table->id('rh_id')->comment('履歴ID');
-            //タイトルID 外部参照(title)->column(t_id)
-            $table->foreignId('title_id')->constrained('title');
-            //ルームID 外部参照(room)->column(r_id)
-            $table->foreignId('room_id')->constrained('room');
+            //カラム名:title_id 参照カラム:t_id 参照テーブル:title
+            $table->unsignedBigInteger('title_id');
+            $table->foreign('title_id')->references('t_id')->on('titles');
+            //カラム名:room_id 参照カラム:r_id 参照テーブル:room
+            $table->unsignedBigInteger('room_id');
+            $table->foreign('room_id')->references('r_id')->on('rooms');
             //日付
             $table->date('rh_day')->comment('ディベートの日付');
             //人数

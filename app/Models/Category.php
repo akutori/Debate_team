@@ -10,4 +10,7 @@ class Category extends Model
     use HasFactory;
     //編集可能なカラム
     protected $fillable = ['c_name'];
+    protected $primaryKey='c_id';
+
+
 }
