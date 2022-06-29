@@ -7,6 +7,7 @@ use App\Models\Debater;
 use App\Models\Room;
 use App\Models\Title;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
@@ -15,13 +16,18 @@ class ThemeController extends Controller
         $room = Room::where('t_id','=',$id)->get();
         //お題の情報を取得(一つのみ)
         $roomtitle = Title::where('t_id','=',$id)->first();
+        $userinfo = Auth::user();
+        $userid= $userinfo['id'];
         /*
         $rooms = 6;
         $title ='タイトル';
         $day = '2022/01/21';
         $iid = $id;
         */
+
+
+
         $cont = '詳細の冒頭？';
-        return view('theme',compact('room','roomtitle','cont'));
+        return view('theme',compact('room','roomtitle','cont','userid'));
     }
 }
