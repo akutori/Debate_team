@@ -15,11 +15,16 @@ return new class extends Migration
     {
         Schema::create('bystanders', function (Blueprint $table) {
             //傍観者ID
-            $table->id('b_id');
-            //ユーザーID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('user_id');
+            $table->id('b_id')->comment('傍観者ID');
+            //foreignIdを使用してroomテーブルのIDを取得している
+            $table->foreignId('room_id')->constrained('room');
             //ルームID IDを外部参照しているためunsignedBigIntegerとなっている
-            $table->unsignedBigInteger('room_r_id');
+            //$table->unsignedBigInteger('room_r_id');
+
+            //foreignIdを使用してuserテーブルのIDを取得している
+            $table->foreignId('user_id')->constrained('user');
+            //ユーザーID IDを外部参照しているためunsignedBigIntegerとなっている
+            //$table->unsignedBigInteger('user_id');
         });
     }
 

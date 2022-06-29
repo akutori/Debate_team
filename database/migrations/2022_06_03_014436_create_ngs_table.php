@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ngs', function (Blueprint $table) {
+            //NG内容ID
             $table->id('n_id');
+            //NGワード
             $table->string('n_words');
         });
     }

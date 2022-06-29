@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id('c_id');
-            $table->string('c_name');
+            //討論内容カテゴリーID
+            $table->id('c_id')->comment('討論内容カテゴリーID');
+            //討論内容カテゴリー名
+            $table->string('c_name')->comment('討論内容カテゴリー名');
         });
     }
 

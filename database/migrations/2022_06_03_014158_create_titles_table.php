@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('titles', function (Blueprint $table) {
             //お題ID
-            $table->id('t_id');
+            $table->id('t_id')->comment('お題ID');
             //お題名
-            $table->string('t_name');
+            $table->string('t_name')->comment('お題名');
+            //foreignIdを使用してcategoryのIDを外部参照している
+            $table->foreignId('category_id')->constrained('category');
         });
     }
 

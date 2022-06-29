@@ -14,15 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('chats', function (Blueprint $table) {
+            //チャットID
             $table->Id();
-
-            //外部キー
+            //外部キー ユーザーID
             $table->foreignId('user_id')->constrained('users');
-
-
+            //メッセージ
             $table->string('message',500);
+            //作成と更新記録
             $table->timestamps();
-            
         });
     }
 

@@ -14,8 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('historycontents', function (Blueprint $table) {
-            $table->id('hc_id');
-            $table->string('hc_contents')->nullable();
+            //履歴ID
+            $table->id('hc_id')->comment('履歴ID');
+            //履歴内容
+            $table->string('hc_contents')->nullable()->comment('履歴内容');
+            //履歴内容ID
+            $table->integer('hc_co_id')->comment('履歴内容ID');
         });
     }
 

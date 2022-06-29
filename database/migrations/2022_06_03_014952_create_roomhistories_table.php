@@ -14,12 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('roomhistories', function (Blueprint $table) {
-            $table->id('rh_id');
-            $table->unsignedBigInteger('title_t_id');
-            $table->unsignedBigInteger('room_r_id');
-            $table->date('rh_day');
-            $table->integer('rh_sum');
-            $table->boolean('rh_win');
+            //履歴ID
+            $table->id('rh_id')->comment('履歴ID');
+            //タイトルID 外部参照(title)->column(t_id)
+            $table->foreignId('title_id')->constrained('title');
+            //ルームID 外部参照(room)->column(r_id)
+            $table->foreignId('room_id')->constrained('room');
+            //日付
+            $table->date('rh_day')->comment('ディベートの日付');
+            //人数
+            $table->integer('rh_sum')->comment('参加した人数');
+            //勝ち負けフラグ
+            $table->boolean('rh_win')->comment('勝敗');
         });
     }
 
