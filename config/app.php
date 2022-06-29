@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -156,6 +156,8 @@ return [
 
     'providers' => [
 
+        Barryvdh\Debugbar\ServiceProvider::class,
+
         /*
          * Laravel Framework Service Providers...
          */
@@ -210,6 +212,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ])->toArray(),
 
 ];

@@ -14,8 +14,6 @@
 
 @endsection
 @section('body')
-
-
         <div class="title">
             <h1>Choose Genre</h1>
             <h2>参加したいジャンルを選択してください</h2>
@@ -31,12 +29,6 @@
             </div>
 
         </div>
-
-
-
-
-
-
 
         <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
         <script src={{asset('js/genre.js')}}></script>
