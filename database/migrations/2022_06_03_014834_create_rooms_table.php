@@ -19,10 +19,6 @@ return new class extends Migration
             //カラム名:title_id 参照カラム:t_id 参照テーブル:title
             $table->unsignedBigInteger('title_id');
             $table->foreign('title_id')->references('t_id')->on('titles');
-            //forrignIDを使用してタイトルのIDを外部参照している
-            //$table->foreignId('title_id')->constrained('title');
-            //お題ID IDを外部参照しているためunsignedBigIntegerとなっている
-            //$table->unsignedBigInteger('title_t_id');
             //日時
             $table->date('r_day')->nullable()->comment('日時');
             //傍観者数

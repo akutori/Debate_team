@@ -4,27 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Bystander;
 use App\Models\Debater;
+use App\Models\Category;
 use App\Models\Room;
 use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ThemeController extends Controller
 {
-    public function index(Request $request,$tid){
+    public function index(Request $request,$cid){
         //ダイアログを表示させるのに必要なコントローラー(全て)
-        $room = Room::where('title_id','=',$tid)->get();
-        //お題の情報を取得(一つのみ)
-        $roomtitle = Title::where('t_id','=',$tid)->first();
+        $room = DB::table('rooms')
+            //->join('categories','rooms.category_id','=','c_id')
+            ->join('categories','rooms.category_id','=','c_id')
+            ->join('titles','rooms.title_id','=','t_id')
+            ->where('rooms.category_id','=',$cid)->get();
         $userinfo = Auth::user();
         $userid= $userinfo['id'];
-        /*
-        $rooms = 6;
-        $title ='タイトル';
-        $day = '2022/01/21';
-        $iid = $id;
-        */
-        $cont = '詳細の冒頭？';
-        return view('theme',compact('room','roomtitle','cont','userid'));
+
+        return view('theme',compact('room','userid','userid'));
     }
 }
