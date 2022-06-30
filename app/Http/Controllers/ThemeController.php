@@ -16,7 +16,6 @@ class ThemeController extends Controller
     public function index(Request $request,$cid){
         //ダイアログを表示させるのに必要なコントローラー(全て)
         $room = DB::table('rooms')
-            //->join('categories','rooms.category_id','=','c_id')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
             ->where('rooms.category_id','=',$cid)->get();
