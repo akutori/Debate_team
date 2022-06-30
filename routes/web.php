@@ -34,8 +34,8 @@ Route::get('/chat',function (){
     return view('chat');
 });
 */
-//メイン画面
-Route::get('/',function(){return view('header');});
+//ログインした後の画面。genreに飛ぶ
+Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
 Route::resource('/chat',ChatController::class);

@@ -18,6 +18,6 @@ class RoomSeeder extends Seeder
         //
 
         //タイトルIDは全て0のルーム
-        $param = ["0",Carbon::today(),"0"];
+        //$param = ["0",Carbon::today(),"0"];
     }
 }

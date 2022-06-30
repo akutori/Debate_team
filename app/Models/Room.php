@@ -16,6 +16,7 @@ class Room extends Model
     //ホワイトリスト。この中に入っているカラムは変更を許可させる
     protected $fillable = ['r_day','r_sum','t_id'];
     protected $primaryKey = 'r_id';
+    public $timestamps = false;
 
     //部屋を作成する roomsum=傍観者数
     protected function insert(Request $request,$tid)
