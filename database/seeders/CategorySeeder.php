@@ -21,13 +21,16 @@ class CategorySeeder extends Seeder
         ]);
 
         Category::create([
-            'c_name'=>"プログラミング"
+            'c_name'=>"芸能"
         ]);
         Category::create([
-            'c_name'=>"食品"
+            'c_name'=>"スポーツ"
         ]);
         Category::create([
-            'c_name'=>"機械"
+            'c_name'=>"恋愛"
+        ]);
+        Category::create([
+            'c_name'=>"食べ物"
         ]);
         Category::create([
             'c_name'=>"その他"

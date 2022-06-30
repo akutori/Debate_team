@@ -28,7 +28,7 @@
                         <input type="button" class="popb1" onclick="location.href='{{url('/schat',compact($room_once->r_id,$userid,1))}}'" value="傍観者">
                         </div>
 
-                        <button class="popb1" onclick="document.getElementById('dialog2{{$room_once->t_id}}').close();">戻る</button>
+                        <button class="popb1" onclick="document.getElementById('dialog2{{$room_once->title_id}}').close();">戻る</button>
 
                         <!-- <form action="" method="post">
                             <button class="popb2" type="submit" name="out" value="1">はい</button>
@@ -42,15 +42,15 @@
                         <p class="p1">参加しますか？</p>
                         <p class="p2">{{$roomname->t_name}}</p>
                         <div class="button1">
-                        <button class="popb1" onclick="document.getElementById('dialog2{{$room_once->t_id}}').show();">参加する</button>
-                        <button class="popb1" onclick="document.getElementById('dialog{{$room_once->t_id}}').close();">戻る</button>
+                        <button class="popb1" onclick="document.getElementById('dialog2{{$room_once->title_id}}').show();">参加する</button>
+                        <button class="popb1" onclick="document.getElementById('dialog{{$room_once->title_id}}').close();">戻る</button>
                         </div>
                     </div>
                 </dialog>
                 {{-- ここに一覧を表示させる --}}
-                <p class="titles">{{$roomtitle->t_name}}{{$room_once->t_id}}</p>
+                <p class="titles">{{$roomtitle->t_name}}{{$room_once->title_id}}</p>
                 <p class="day">{{$room_once->r_day}}</p>
-                <input type="button" class="cont" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();" value="{{$cont}}">
+                <input type="button" class="cont" onclick="document.getElementById('dialog{{$room_once->title_id}}').show();" value="{{$cont}}">
 
             @endforeach
         </div>

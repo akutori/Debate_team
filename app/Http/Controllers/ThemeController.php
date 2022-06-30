@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
-    public function index(Request $request,$id){
+    public function index(Request $request,$tid){
         //ダイアログを表示させるのに必要なコントローラー(全て)
-        $room = Room::where('t_id','=',$id)->get();
+        $room = Room::where('title_id','=',$tid)->get();
         //お題の情報を取得(一つのみ)
-        $roomtitle = Title::where('t_id','=',$id)->first();
+        $roomtitle = Title::where('t_id','=',$tid)->first();
         $userinfo = Auth::user();
         $userid= $userinfo['id'];
         /*
@@ -24,9 +24,6 @@ class ThemeController extends Controller
         $day = '2022/01/21';
         $iid = $id;
         */
-
-
-
         $cont = '詳細の冒頭？';
         return view('theme',compact('room','roomtitle','cont','userid'));
     }
