@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 @section('body')
     <div class="title">
         <h1>Chat 予定地</h1>
-        <p>のchat</p>
+        <p>{{$roomdata->t_name}}のchat</p>
 
         {{-- チャット欄 --}}
     @foreach($chats as $chat)
@@ -24,10 +24,10 @@ use Illuminate\Support\Facades\Auth;
                     {{--- web.phpの/chat ---}}
         <form action="{{url('/chat')}}" method="POST">
         @csrf
-        <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
-        <input type="text" name="message">
-        <input type="submit" value="送信">
-
+            <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
+            <input type="text" name="message">
+            <input type="submit" value="送信">
+        </form>
     </div>
 
 @endsection

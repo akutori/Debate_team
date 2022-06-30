@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -16,15 +17,21 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index($roomid){
 
         $chats= Chat::orderBY('created_at','asc')->paginate();
         $user_name=Auth::user();
         $name = $user_name['name'];
-   
-           return view('chat',compact('chats','name'));
+
+        //1ルームの情報全てを持ってくる
+        $roomdata = DB::table('rooms')
+            ->join('categories','rooms.category_id','=','c_id')
+            ->join('titles','rooms.title_id','=','t_id')
+            ->where('r_id','=',$roomid)->first();
+
+           return view('chat',compact('chats','name','roomdata'));
        }
-   
+
 
     /**
      * Show the form for creating a new resource.
