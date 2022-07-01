@@ -3,7 +3,11 @@
 <head>
     <link rel="stylesheet" href="{{asset('css/head.css')}}">
     <title>{{config('app.name')}}</title>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     @yield('head')
+    
 </head>
 <body>
     <div class="ht">
@@ -25,6 +29,6 @@
                     @endauth
                 </div>
             @endif
-
+            @yield('js')
 </body>
 </html>

@@ -51,3 +51,6 @@ Auth::routes();
 
 //laravel のホーム画面
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+//getData
+Route::get('/result/ajax', [ChatController::class,'getData']);
