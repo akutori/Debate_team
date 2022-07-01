@@ -10,7 +10,7 @@ class Chat extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','message',
+        'user_id','message','user_name'
      ];
     
     //外部キー

@@ -19,7 +19,10 @@ class ChatController extends Controller
      */
     public function index($roomid){
 
-        $chats= Chat::orderBY('created_at','asc')->paginate();
+        $chats= Chat::get();
+        
+        
+        
         $user_name=Auth::user();
         $name = $user_name['name'];
 
@@ -100,4 +103,10 @@ class ChatController extends Controller
     {
         //
     }
+    public function getData()
+{
+    $chats = Chat::orderBy('created_at', 'asc')->get();
+    $json = ["chats" => $chats];
+    return response()->json($json);
+}
 }
