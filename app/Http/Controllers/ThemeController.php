@@ -21,7 +21,9 @@ class ThemeController extends Controller
             ->where('rooms.category_id','=',$cid)->get();
         $userinfo = Auth::user();
         $userid= $userinfo['id'];
+        $debater_flag=0;
+        $bystander_flag=1;
 
-        return view('theme',compact('room','userid','userid'));
+        return view('theme',compact('room','userid','debater_flag','bystander_flag'));
     }
 }
