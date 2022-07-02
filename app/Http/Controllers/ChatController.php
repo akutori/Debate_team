@@ -39,7 +39,7 @@ class ChatController extends Controller
             ->join('titles','rooms.title_id','=','t_id')
             ->where('r_id','=',$roomid)->first();
 
-           return view('chat',compact('chats','name','roomdata'));
+           return view('chat',compact('chats','name','roomdata','state'));
        }
 
 

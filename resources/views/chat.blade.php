@@ -32,10 +32,10 @@ use Illuminate\Support\Facades\Auth;
 </div>
 
 
+@if($state==0)
 
-
-        {{---  チャット送信  ---}}
-                    {{--- web.phpの/chat ---}}
+    {{---  チャット送信  ---}}
+    {{--- web.phpの/chat ---}}
         <form action="{{url('/chat')}}" method="POST">
         @csrf
         <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
@@ -46,7 +46,9 @@ use Illuminate\Support\Facades\Auth;
         </div>
 
     @yield('js')
+@endif
 
+    {{-- 傍観者の場合コチラが表示される --}}
 
 @endsection
 @section('js')
