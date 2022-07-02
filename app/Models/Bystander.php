@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Bystander extends Model
 {
     use HasFactory;
-    protected $fillable = ["user_id","room_id"];
-    protected $primaryKey = 'd_id';
+    protected $guarded = ["b_id"];
+    protected $primaryKey = 'b_id';
+    public $timestamps=false;
 
     //傍観者を登録 引数:発言者として登録したもの,傍観者として登録したもの
     public function insert($roomid,$bystander){
 
-        $insert = Bystander::create([
+        $insert=Bystander::create([
             'room_id'=>$roomid,
             'user_id'=>$bystander
         ]);
