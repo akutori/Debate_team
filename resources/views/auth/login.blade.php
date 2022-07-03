@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+@extends('header')
+
+@section('head')
+    <link rel="stylesheet" href="{{asset('css/theme.css')}}">
+@endsection
+@section('body')
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

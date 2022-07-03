@@ -13,21 +13,44 @@ use Illuminate\Support\Facades\Auth;
         <h1>Chat 予定地</h1>
         <p>{{$roomdata->t_name}}のchat</p>
 
-        {{-- チャット欄 --}}
+        <div class="chat-container row justify-content-center">
+    <div class="chat-area">
+        <div class="card">
+            <div class="card-header">Comment</div>
+             {{-- チャット欄 --}}
     @foreach($chats as $chat)
-    <p1>{{$chat->created_at}}＠{{$chat->user_id}}:{{$name}}</p1>
-    <br>{{$chat->message}}
+    <span class="chat-body-id"></span>
+    <span class="chat-body-user"></span>
+    <span class="chat-body-time"></span>
+    <span class="chat-body-message"></span>
     @endforeach
+            <div class="card-body chat-card">
+                <div id="chat-data"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-        {{---  チャット送信  ---}}
-                    {{--- web.phpの/chat ---}}
+@if($state==0)
+
+    {{---  チャット送信  ---}}
+    {{--- web.phpの/chat ---}}
         <form action="{{url('/chat')}}" method="POST">
         @csrf
-            <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
-            <input type="text" name="message">
-            <input type="submit" value="送信">
+        <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
+        <input type="hidden" name="user_name" value="{{$name}}">
+        <input type="text" name="message">
+        <input type="submit" value="送信">
         </form>
-    </div>
+        </div>
 
+    @yield('js')
+@endif
+
+    {{-- 傍観者の場合コチラが表示される --}}
+
+@endsection
+@section('js')
+<script src="{{ asset('js/chat.js') }}"></script>
 @endsection

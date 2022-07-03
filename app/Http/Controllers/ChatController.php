@@ -17,11 +17,21 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($roomid){
+    public function index($roomid,$state){
 
-        $chats= Chat::orderBY('created_at','asc')->paginate();
-        $user_name=Auth::user();
-        $name = $user_name['name'];
+        $chats= Chat::get();
+        $debater = new Debater();
+        $bystander= new Bystander();
+        $user=Auth::user();
+        $name = $user['name'];
+        $userid= $user['id'];
+
+        //傍観者で選択した場合と発表者で選択された場合の処理
+        if($state == 0) {
+            $debater->insert($roomid,$userid);
+        }else{
+            $bystander->insert($roomid, $userid);
+        }
 
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
@@ -29,7 +39,7 @@ class ChatController extends Controller
             ->join('titles','rooms.title_id','=','t_id')
             ->where('r_id','=',$roomid)->first();
 
-           return view('chat',compact('chats','name','roomdata'));
+           return view('chat',compact('chats','name','roomdata','state'));
        }
 
 
@@ -100,4 +110,10 @@ class ChatController extends Controller
     {
         //
     }
+    public function getData()
+{
+    $chats = Chat::orderBy('created_at', 'asc')->get();
+    $json = ["chats" => $chats];
+    return response()->json($json);
+}
 }

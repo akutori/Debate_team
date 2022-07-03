@@ -45,9 +45,12 @@ Route::get('/sgenre',[GenreController::class,'index']);
 
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 
-Route::get('/schat/{rid}',[ChatController::class,'index']);
+Route::get('/schat/{rid}/{state}',[ChatController::class,'index']);
 
 Auth::routes();
 
 //laravel のホーム画面
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+//getData
+Route::get('/result/ajax', [ChatController::class,'getData']);
