@@ -38,7 +38,7 @@ Route::get('/chat',function (){
 Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
-Route::resource('/chat',ChatController::class);
+Route::post('/chat',[ChatController::class,'store']);
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);

@@ -11,7 +11,7 @@ function get_data() {
             $("#chat-data")
                 .find(".chat-visible")
                 .remove();
-        
+
             for (var i = 0; i < data.chats.length; i++) {
                 var html = `
                             <div class="media chat-visible">
@@ -25,12 +25,15 @@ function get_data() {
                                 </div>
                             </div>
                         `;
-        
+
                 $("#chat-data").append(html);
             }
         },
         error: () => {
             alert("ajax Error");
+            console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+            console.log("textStatus     : " + textStatus);
+            console.log("errorThrown    : " + errorThrown.message);
         }
     });
 

@@ -61,8 +61,7 @@ class ChatController extends Controller
      */
     public function store(Request $request){
         $chats=new Chat;
-        $form=$request->all();
-        $chats->fill($form)->save();
+        $chats->fill($request->all())->save();
         return redirect('/chat');
     }
 
