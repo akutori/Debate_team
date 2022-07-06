@@ -61,8 +61,24 @@ class ChatController extends Controller
      */
     public function store(Request $request){
         $chats=new Chat;
+        //チャットの内容を全て保存
         $chats->fill($request->all())->save();
-        return redirect('/chat');
+        $debater = new Debater();
+        $inputuser = $debater->where('user_id','=',$request->user_id)->where('room_id','=',$request->room_id)->first();
+        $name = $inputuser['user_id'];
+        //1ルームの情報全てを持ってくる
+        $roomdata = DB::table('rooms')
+            ->join('categories','rooms.category_id','=','c_id')
+            ->join('titles','rooms.title_id','=','t_id')
+            ->where('r_id','=',$request->room_id)->first();
+
+        $state=0;
+
+        return view('chat',compact('chats','roomdata','state','name'));
+
+
+
+        //return view('chat');
     }
 
     /**
