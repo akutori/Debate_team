@@ -10,6 +10,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
 
+
 /*;
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,7 +44,7 @@ Route::get('/sgenre',[GenreController::class,'index']);
 
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 
-Route::get('/schat/{rid}/{state}',[ChatController::class,'index']);
+Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
 
 Auth::routes();
 
@@ -52,3 +53,5 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData
 Route::get('/result/ajax', [ChatController::class,'getData']);
+Route::get('chat/{rid}/result/ajax',[ChatController::class,'getData']);
+

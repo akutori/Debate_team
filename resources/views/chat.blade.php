@@ -12,13 +12,14 @@ use Illuminate\Support\Facades\Auth;
     <div class="title">
         <h1>Chat 予定地</h1>
         <p>{{$roomdata->t_name}}のchat</p>
-
+        @
+        @foreach($chats as $chat)
         <div class="chat-container row justify-content-center">
     <div class="chat-area">
         <div class="card">
             <div class="card-header">Comment</div>
              {{-- チャット欄 --}}
-    @foreach($chats as $chat)
+
     <span class="chat-body-id"></span>
     <span class="chat-body-user"></span>
     <span class="chat-body-time"></span>

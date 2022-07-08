@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bystander;
 use App\Models\Debater;
-use App\Models\Title;
 use App\Models\User;
-use http\Url;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
@@ -40,8 +38,8 @@ class ChatController extends Controller
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
             ->where('r_id','=',$roomid)->first();
-        return view('chat',compact('chats','name','roomdata','state'));
-        //return redirect()->route('chat', compact('chats','name','roomdata','state'));
+
+           return view('/chat',compact('chats','name','roomdata','state'));
        }
 
 
@@ -59,7 +57,7 @@ class ChatController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function store(Request $request){
         $chats=new Chat;

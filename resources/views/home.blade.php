@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@extends('header')
+@section('head')
+    <link rel="stylesheet" href="{{asset('css/theme.css')}}">
 
 @section('content')
 <div class="container">
@@ -19,5 +22,6 @@
             </div>
         </div>
     </div>
-</div>
+
+@endsection
 @endsection
