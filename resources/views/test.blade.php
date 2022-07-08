@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{{asset('css/head.css')}}">
+    <link rel="stylesheet" href="{{asset('css/test.css')}}">
     <title>{{config('app.name')}}</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

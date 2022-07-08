@@ -1,0 +1,36 @@
+body{
+    margin: 15px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.ht{
+
+    display: flex;
+    height: 250px;
+    width: 100%;
+    justify-content: center;
+}
+.rogo{
+    margin-top: 40px;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+/*title*/
+.title{
+    text-align: center;
+}
+.title h1{
+    font-size: 40px;
+    margin-bottom: 0;
+}
+.title h2{
+    font-size: 20px;
+    margin-top: 0;
+}
+.regi{
+   margin: 70px 0 0 45%;
+}
