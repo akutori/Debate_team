@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('test')
+@section('head')
+    <link rel="stylesheet" href="{{asset('css/register.css')}}">
 
-@section('content')
+@section('body')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -25,7 +27,7 @@
                             </div>
                         </div>
 
-                       
+
 
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>

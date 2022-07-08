@@ -1,0 +1,11 @@
+.rogo{
+
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+body{
+    justify-content: center;
+    background-color: #BBBBBB;
+
+}
