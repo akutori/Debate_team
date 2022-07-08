@@ -19,11 +19,12 @@ class ThemeController extends Controller
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
             ->where('rooms.category_id','=',$cid)->get();
+        $category = Category::find($cid)->first();
         $userinfo = Auth::user();
         $userid= $userinfo['id'];
         $debater_flag=0;
         $bystander_flag=1;
 
-        return view('theme',compact('room','userid','debater_flag','bystander_flag'));
+        return view('theme',compact('room','userid','debater_flag','bystander_flag','category'));
     }
 }

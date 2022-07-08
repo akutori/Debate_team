@@ -2,6 +2,7 @@
 
 @section('head')
     <link rel="stylesheet" href="{{asset('css/theme.css')}}">
+    <link rel="stylesheet" href="{{asset('js/theme.js')}}">
 @endsection
 @section('body')
     <div class="color">
@@ -13,6 +14,7 @@
 
         <div class="rooms">
             <p class="test">{{-- $room->r_id --}}</p>
+            <p class="titles">{{$category->title_id}}{{$category->c_name}}</p>
             @foreach($room as $room_once)
 
                 <dialog id="dialog2{{$room_once->r_id}}" class="dialog_style" >
@@ -47,7 +49,7 @@
                     </div>
                 </dialog>
                 {{-- ここに一覧を表示させる --}}
-                <p class="titles">{{$room_once->t_id}}{{$room_once->c_name}}</p>
+
                 <p class="day">{{$room_once->r_day}}</p>
                 <input type="button" class="cont" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();" value="{{$room_once->t_name}}">
 
