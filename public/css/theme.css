@@ -2,11 +2,16 @@
     width: 80%;
     margin: 0 auto;
 }
+h1{
+    font-family: 'Gentium Plus', serif;
+}
+h2{
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
 .titles{
-    background-color: white;
-    border: 2px black solid;
-    border-radius: 10px 10px 0 0 ;
-    float: left;
+
+
+
     margin: 5px 0 3px 0;
     height: 30px;
     width: calc(100%/5);

@@ -1,16 +1,21 @@
 @extends('header')
 
 @section('head')
+    <link href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/theme.css')}}">
     <link rel="stylesheet" href="{{asset('js/theme.js')}}">
 @endsection
 @section('body')
+    <div id="particles-js"></div>
+    <div id="wrapper">
     <div class="color">
         <div class="title">
             <h1>Choose Theme</h1>
             <h2>参加したいテーマを選択してください</h2>
             <input type="button" class="popb1" value="戻る" onclick="location.href='{{url('/sgenre')}}'">
         </div>
+
 
         <div class="rooms">
             <p class="test">{{-- $room->r_id --}}</p>
@@ -54,6 +59,10 @@
                 <input type="button" class="cont" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();" value="{{$room_once->t_name}}">
 
             @endforeach
+
         </div>
     </div>
+    </div>
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src={{asset('js/theme.js')}}></script>
 @endsection
