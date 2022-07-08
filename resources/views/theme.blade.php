@@ -55,7 +55,7 @@
                 </dialog>
                 {{-- ここに一覧を表示させる --}}
 
-                <p class="day">{{$room_once->r_day}}</p>
+
                 <input type="button" class="cont" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();" value="{{$room_once->t_name}}">
 
             @endforeach
