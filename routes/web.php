@@ -20,8 +20,6 @@ use App\Http\Controllers\ChatController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 /*
 Route::get('/theme/{id}',function ($id){
     return view('theme',compact('id'));
@@ -38,7 +36,7 @@ Route::get('/chat',function (){
 Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
-Route::post('/chat',[ChatController::class,'store']);
+Route::post('/chat',[ChatController::class,'store'])->name('chat');
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);

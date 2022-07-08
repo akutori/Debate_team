@@ -21,7 +21,11 @@ class ThemeController extends Controller
             ->where('rooms.category_id','=',$cid)->get();
         $category = Category::find($cid)->first();
         $userinfo = Auth::user();
-        $userid= $userinfo['id'];
+
+//todo ログインしていない場合loginに移動
+            $userid= $userinfo['id'];
+
+
         $debater_flag=0;
         $bystander_flag=1;
 
