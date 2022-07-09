@@ -37,6 +37,7 @@ class ChatController extends Controller
         $roomdata = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
+
             ->where('r_id','=',$roomid)->first();
 
            return view('/chat',compact('chats','name','roomdata','state'));
@@ -59,24 +60,35 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(Request $request,$roomid,){
         $chats=new Chat;
         //チャットの内容を全て保存
         $chats->fill($request->all())->save();
         $debater = new Debater();
+
+
 
         //<input type="hidden" name="user_id" value="{{$id = auth()->id()}}">に入れるために「同じ部屋の同じユーザー」を「１つだけ」持ってくる
         $inputuser = $debater->where('user_id','=',$request->user_id)->where('room_id','=',$request->room_id)->first();
         //取得したタプルからuser_idだけを代入
         $name = $inputuser['user_id'];
 
+        $user=Auth::user();
+        $userid=$user['id'];
+
+
+        $debater->insert($roomid,$userid);
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
-            ->where('r_id','=',$request->room_id)->first();
-        //発表者のフラグ
+
+            ->where('r_id','=',$roomid)->first();
+
+
         $state=0;
+
+
 
         return view('chat',compact('chats','roomdata','state','name'));
     }
@@ -125,9 +137,11 @@ class ChatController extends Controller
     {
         //
     }
-    public function getData()
+    public function getData($rid)
 {
-    $chats = Chat::orderBy('created_at', 'asc')->get();
+
+    $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
+
     $json = ["chats" => $chats];
     return response()->json($json);
 }

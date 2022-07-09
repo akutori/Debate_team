@@ -37,7 +37,7 @@ Route::get('/chat',function (){
 Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
-Route::post('/chat',[ChatController::class,'store'])->name('chat');
+Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);
@@ -52,6 +52,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData
-Route::get('/result/ajax', [ChatController::class,'getData']);
-Route::get('chat/{rid}/result/ajax',[ChatController::class,'getData']);
+Route::get('/result/ajax/', [ChatController::class,'getData']);
+Route::get('chat/{rid}/result/ajax/',[ChatController::class,'getData']);
+
 
