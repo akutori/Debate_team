@@ -5,6 +5,16 @@ body{
 
 }
 
-.regi{
-
+.card-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    font-size: 40px;
 }
+.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
