@@ -25,7 +25,6 @@ class ThemeController extends Controller
 //todo ログインしていない場合loginに移動
             $userid= $userinfo['id'];
 
-
         $debater_flag=0;
         $bystander_flag=1;
 
