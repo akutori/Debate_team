@@ -24,8 +24,8 @@
 
             <div class="genres">
                 @foreach($cate as $category)
-                    
-                    <a href="{{url('/stheme/'.$category->c_id,compact($category->c_id))}}"><img class="genreimg" src="{{asset('images/ima.jpg')}}"></a>compo
+
+                    <a href="{{url('/stheme/'.$category->c_id)}}"><img class="genreimg" src="{{asset('images/ima.jpg')}}"></a>
                 @endforeach
             </div>
 

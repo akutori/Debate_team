@@ -10,6 +10,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
 
+
 /*;
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,8 +21,6 @@ use App\Http\Controllers\ChatController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 /*
 Route::get('/theme/{id}',function ($id){
     return view('theme',compact('id'));
@@ -38,14 +37,14 @@ Route::get('/chat',function (){
 Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
-Route::post('/chat',[ChatController::class,'store']);
+Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);
 
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 
-Route::get('/schat/{rid}/{state}',[ChatController::class,'index']);
+Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
 
 Auth::routes();
 
@@ -53,4 +52,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData
-Route::get('/result/ajax', [ChatController::class,'getData']);
+Route::get('/result/ajax/', [ChatController::class,'getData']);
+Route::get('chat/{rid}/result/ajax/',[ChatController::class,'getData']);
+
+

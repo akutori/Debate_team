@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
+
 @extends('header')
+
+
 
 @section('head')
     <link rel="stylesheet" href="{{asset('css/theme.css')}}">
 @endsection
 @section('body')
+
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
