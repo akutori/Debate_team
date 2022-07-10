@@ -2,12 +2,17 @@
 @section('head')
     <link rel="stylesheet" href="{{asset('css/register.css')}}">
     <link rel="stylesheet" href="{{asset('js/register.js')}}">
+    <link rel="stylesheet" href="{{asset('js/genre.js')}}">
+
 
 @section('body')
+    <div id="particles-js"></div>
 <div class="container">
 
+    <div id="wrapper">
         <div class="col-md-8">
             <div class="card">
+
                 <div class="card-header">{{ __('Register your information') }}</div>
 
                 <div class="card-body">
@@ -75,9 +80,13 @@
                      </div>
                 </div>
             </div>
+         </div>
         </div>
-
+    </div>
 </div>
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src={{asset('js/genre.js')}}></script>
 
 @endsection
+
 

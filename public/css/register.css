@@ -35,7 +35,7 @@ label{
 body {
     font-family: Helvetica;
     background: #BBBBBB;
-    -webkit-font-smoothing: antialiased;
+
 }
 
 hgroup {
@@ -45,15 +45,15 @@ hgroup {
 
 h1, h3 { font-weight: 300; }
 
-h1 { color: #636363; }
+h1 { color: #ffffff; }
 
-h3 { color: #4a89dc; }
+h3 { color: #ffffff; }
 
 form {
     width: 380px;
-    margin: 4em auto;
+    margin:  auto;
     padding: 3em 2em 2em 2em;
-    background: #bbbbbb;
+
 
 }
 
@@ -102,7 +102,7 @@ input:focus ~ label, input.used ~ label {
     top: -20px;
     transform: scale(.75); left: -2px;
     /* font-size: 14px; */
-    color: #4a89dc;
+    color: #000000;
 }
 
 
@@ -120,7 +120,7 @@ input:focus ~ label, input.used ~ label {
     width: 0;
     bottom: 1px;
     position: absolute;
-    background: #4a89dc;
+    background: #000000;
     transition: all 0.2s ease;
 }
 
@@ -157,21 +157,21 @@ input:focus ~ .highlight {
 /* Animations */
 
 @keyframes inputHighlighter {
-    from { background: #4a89dc; }
+    from { background: #000000; }
     to  { width: 0; background: transparent; }
 }
 
 
 /* Button */
 
-.button {
+.ripples buttonRipples {
     position: relative;
     display: inline-block;
     padding: 12px 24px;
     margin: .3em 0 1em 0;
     width: 100%;
     vertical-align: middle;
-    color: #fff;
+    color: #000000;
     font-size: 16px;
     line-height: 20px;
     -webkit-font-smoothing: antialiased;
@@ -183,17 +183,17 @@ input:focus ~ .highlight {
     cursor: pointer;
     transition: all 0.15s ease;
 }
-.button:focus { outline: 0; }
+.ripples buttonRipples:focus { outline: 0; }
 
 
 /* Button modifiers */
 
-.buttonBlue {
+.ripples buttonRipples {
     background: #4a89dc;
     text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
 }
 
-.buttonBlue:hover { background: #357bd8; }
+.ripples buttonRipples:hover { background: #357bd8; }
 
 
 /* Ripples container */
@@ -243,3 +243,36 @@ input:focus ~ .highlight {
 }
 
 
+
+#wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    color: #000000;
+}
+
+a{
+    color: #000000;
+}
+
+/*========= particle js を描画するエリア設定 ===============*/
+
+html,body{
+    height: 100%;/*高さを100%にして描画エリアをとる*/
+}
+
+#particles-js{
+    position:fixed;/*描画固定*/
+    z-index:-1;/*描画を一番下に*/
+    width: 100%;
+    height: 100%;
+
+}
+
+#wrapper{
+    position: relative;/*描画を#particles-jsよりも上にするためposition:relative;を指定*/
+    z-index: 1;/*z-indexの数字を大きくすることで描画を#particles-jsよりも上に*/
+    width:100%;
+    height: 100%;
+}
