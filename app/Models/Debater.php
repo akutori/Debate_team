@@ -22,7 +22,6 @@ class Debater extends Model
             $flag=true;
         }
 
-
         //値が含まれていない場合
         //ディベーターテーブルのroomidと引数のroomidが同じものが入っていない
         //そしてd_pdの値も入っていない場合の値を取得する
@@ -35,7 +34,7 @@ class Debater extends Model
         }
         //0の値が含まれている場合(賛成)
         //roomidも同じカラムが1件登録されていた場合
-        else if(Debater::where('d_pd','=','0')->where('debaters.room_id','=',$room_id)->get()==1){
+        else if(Debater::where('d_pd','=','false')->where('debaters.room_id','=',$room_id)->exist()){
             $insert = Debater::create([
                 'user_id'=>$user_id,
                 'room_id'=>$room_id,
@@ -43,15 +42,15 @@ class Debater extends Model
             ]);
         //0の値が含まれている場合(反対)
         //roomidも同じカラムが1件登録されていた場合
-        }else if(Debater::where('d_pd','=','1')->where('debaters.room_id','=',$room_id)->get()==1){
+        }else if(Debater::where('d_pd','=','true')->where('debaters.room_id','=',$room_id)->exist()){
             $insert = Debater::create([
                 'room_id'=>$room_id,
                 'user_id'=>$user_id,
                 'd_pd'=>false
             ]);
         //同じroomidを持つユーザーが2人存在していた場合
-        }else if(Debater::where('room_id','=',$room_id)->get()==2){
-            return;
+        }else if(Debater::where('room_id','=',$room_id)->count()>2){
+            return false;
         }
         $insert->save();
     }

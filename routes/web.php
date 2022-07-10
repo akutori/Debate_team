@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,4 +56,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/result/ajax/', [ChatController::class,'getData']);
 Route::get('chat/{rid}/result/ajax/',[ChatController::class,'getData']);
 
-
+//待機画面ルート
+Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
+//規定人数がいるかどうかを聞く
+Route::get('standby/{rid}/check',[RoomController::class,'confirmation']);
