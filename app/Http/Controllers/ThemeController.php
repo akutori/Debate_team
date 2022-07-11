@@ -19,7 +19,7 @@ class ThemeController extends Controller
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
             ->where('rooms.category_id','=',$cid)->get();
-        $category = Category::find($cid)->first();
+        $category = Category::where('c_id','=',$cid)->first();
         $userinfo = Auth::user();
 
 //todo ログインしていない場合loginに移動
