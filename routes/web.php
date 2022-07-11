@@ -59,4 +59,5 @@ Route::get('chat/{rid}/result/ajax/',[ChatController::class,'getData']);
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
 //規定人数がいるかどうかを聞く
-Route::get('standby/{rid}/check',[RoomController::class,'confirmation']);
+//todo この状態だと500エラーになるのと引数エラーが来る
+Route::get('/check',[RoomController::class,'confirmation']);

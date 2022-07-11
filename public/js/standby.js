@@ -20,12 +20,13 @@ function get_data() {
                             <div class="bystander">現在の傍観者:${data.bystander}人</div>
                         `;
 
-                $("#chat-data").append(html);
+                $("#state-data").append(html);
             }else{
                 //条件が揃った処理
                 /*
                     リダイレクト(チャットページ)
                 */
+                return window.location.href="/chat/"+data.room_id+"/"+data.state;
             }
         },
         error: () => {
