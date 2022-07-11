@@ -64,32 +64,17 @@ class ChatController extends Controller
         $chats=new Chat;
         //チャットの内容を全て保存
         $chats->fill($request->all())->save();
-        $debater = new Debater();
-
-
-
-        //<input type="hidden" name="user_id" value="{{$id = auth()->id()}}">に入れるために「同じ部屋の同じユーザー」を「１つだけ」持ってくる
-        $inputuser = $debater->where('user_id','=',$request->user_id)->where('room_id','=',$request->room_id)->first();
-        //取得したタプルからuser_idだけを代入
-        $name = $inputuser['user_id'];
 
         $user=Auth::user();
-        $userid=$user['id'];
+        $name = $user['name'];
 
-
-        $debater->insert($roomid,$userid);
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
-
             ->where('r_id','=',$roomid)->first();
 
-
         $state=0;
-
-
-
         return view('chat',compact('chats','roomdata','state','name'));
     }
 
