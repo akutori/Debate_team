@@ -4,13 +4,19 @@ use Illuminate\Support\Facades\Auth;
 
 ?>
 @extends('test')
-
+<link rel="stylesheet" href="{{asset('css/chat.css')}}">
+<link rel="stylesheet" href="{{asset('js/genre.js')}}">
+<div id="particles-js"></div>
 @section('head')
 
 @endsection
 @section('body')
-    <div class="title">
-        <h1>Chat 予定地</h1>
+    <div id="wrapper">
+
+        <div class="title">
+        <h1>Chat</h1>
+
+
         <p>{{$roomdata->t_name}}のchat</p>
 
 
@@ -29,9 +35,10 @@ use Illuminate\Support\Facades\Auth;
                 <div id="chat-data"></div>
             </div>
         </div>
+     </div>
     </div>
-</div>
-
+    </div>
+    </div>
 
 @if($state==0)
 
@@ -57,4 +64,6 @@ use Illuminate\Support\Facades\Auth;
 @endsection
 @section('js')
 <script src="{{ asset('js/chat.js') }}"></script>
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src={{asset('js/genre.js')}}></script>
 @endsection
