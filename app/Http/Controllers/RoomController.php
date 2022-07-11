@@ -17,12 +17,12 @@ class RoomController extends Controller
         $bystander= new Bystander();
         $user=Auth::user();
         $userid= $user['id'];
-        //todo 発表者にすでに三人いたら叩き出す
         //傍観者で選択した場合と発表者で選択された場合の処理
         if($state == 0) {
-            $d = $debater->insert($roomid,$userid);
-            //todo まず人数確認をする
-            if(!$d){
+            //同じroom_idの発表者が2人未満の場合insert2人以上いた場合はsgenreにリダイレクトさせる
+            if($debater->countdebater($roomid) <2){
+                $debater->insert($roomid,$userid);
+            }else{
                 redirect('/sgenre');
             }
         }else{
@@ -35,10 +35,10 @@ class RoomController extends Controller
 
     //発表者が2人かつ傍観者が1人以上いるかを聞き続ける
     //Ajaxで使う
-    public function confirmation($rid){
+    public function confirmation($rid,$state){
         $debater = Debater::where('room_id','=',$rid)->count();
         $bystander = Bystander::where('room_id','=',$rid)->count();
-        $json = ["debater"=>$debater,"bystander"=>$bystander];
+        $json = ["debater"=>$debater,"bystander"=>$bystander,"room_id"=>$rid,"state"=>$state];
 
         return response()->json($json);
     }

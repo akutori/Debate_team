@@ -25,8 +25,6 @@ class ChatController extends Controller
         $name = $user['name'];
         $userid= $user['id'];
 
-
-
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
