@@ -1,10 +1,14 @@
 $(function() {
-    get_data($("#roomid").val(),$("#state").val(),$("#userid").val());
+    get_data();
 });
 
-function get_data($roomid,$state,$userid) {
+function get_data() {
+    var roomid = $("#roomid").val();
+    var state = $("#state").val();
+    var userid = $("#userid").val();
     $.ajax({
-        url: "/check/"+$roomid+"/"+$state+"/",
+
+        url: "/check/"+roomid+"/"+state+"/",
         dataType: "json",
 
         success: data => {
@@ -14,8 +18,6 @@ function get_data($roomid,$state,$userid) {
                 $(".message").text("条件を満たしていません。人が来るまで待っててね");
                 $(".debater").text("現在の発表者:"+data.debater+"人");
                 $(".bystander").text("現在の傍観者:"+data.bystander+"人");
-
-                //$("#state-data").append(html);
             }else{
                 //条件が揃った処理
                 /*
