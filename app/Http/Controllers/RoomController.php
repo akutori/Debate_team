@@ -29,7 +29,7 @@ class RoomController extends Controller
             $bystander->insert($roomid, $userid);
         }
 
-        return view('standby');
+        return view('standby',compact('roomid','state','userid'));
 
     }
 
