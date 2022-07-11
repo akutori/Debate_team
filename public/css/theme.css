@@ -18,7 +18,7 @@ h2{
 
 }
 .cont{
-    background: rgba(213, 213, 213, 0.56);
+    background: rgba(243, 243, 243, 0.46);
     border: 2px black solid;
     border-radius: 20px 20px 20px 20px ;
     float: left;
@@ -31,15 +31,7 @@ h2{
     color: black;
     line-height:250%;
 }
-.day{
-    float: left;
-    margin: 7px 0 3px 5px;
-    height: 30px;
-    font-size: 20px;
-}
-.test{
-    margin: 5px;
-}
+
 
 .dialog_style{
     background:none;
@@ -55,7 +47,7 @@ h2{
     height: 100%;
     left:0;
     top:0;
-    background: rgba(221, 221, 221, .4);
+    background: rgba(0, 0, 0, 0.55);
     /*position: absolute;*/
     position: fixed;
     min-height:100vh;
@@ -66,17 +58,17 @@ h2{
     height: 100%;
     left:0;
     top:0;
-    background: rgba(221, 221, 221, .4);
+    background: rgb(239, 239, 239);
     /*position: absolute;*/
     position: fixed;
     z-index: 1;
     min-height:100vh;
 }
 .nnn{
-    background:white;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    background: #eaeaea;
+    box-shadow: 0 5px 9px rgba(0, 0, 0, 0.5);
     text-align:center;
-    height:200px;
+    height:auto;
     margin-top:auto;
     margin-bottom:auto;
     margin:0 auto;
@@ -87,7 +79,7 @@ h2{
 }
 
 .nnn2{
-    background:white;
+    background: #efefef;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
     text-align:center;
     height:200px;

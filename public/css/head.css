@@ -13,7 +13,7 @@ body{
     justify-content: center;
 }
 .rogo{
-    margin-top: 60px;
+    margin-top: 85px;
     height: 100%;
     width: 100%;
     justify-content: center;
@@ -22,6 +22,7 @@ body{
 /*title*/
 .title{
     text-align: center;
+    margin-top: 40px;
 }
 .title h1{
     font-size: 40px;

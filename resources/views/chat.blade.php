@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 
 ?>
-@extends('header')
+@extends('test')
 
 @section('head')
 
