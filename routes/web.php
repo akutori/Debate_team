@@ -53,8 +53,8 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData
-Route::get('/result/ajax/', [ChatController::class,'getData']);
-Route::get('chat/{rid}/result/ajax/',[ChatController::class,'getData']);
+Route::get('/3reedman3/public/check/chat/{rid}/result/ajax/', [ChatController::class,'getData']);
+Route::get('/check/chat/{rid}/result/ajax/',[ChatController::class,'getData']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
