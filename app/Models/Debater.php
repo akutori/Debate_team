@@ -12,6 +12,11 @@ class Debater extends Model
     protected $primaryKey = 'd_id' ;
     public $timestamps=false;
 
+    public function countdebater($room_id){
+        $debatercount = Debater::where('room_id','=',$room_id)->count();
+        return $debatercount;
+    }
+
     public function insert($room_id,$user_id){
         //賛成か反対かのフラグを生成
         //0が賛成1が反対
@@ -21,37 +26,36 @@ class Debater extends Model
         }else{
             $flag=true;
         }
+        //0の値が含まれている場合(反対)
+        //roomidも同じカラムが1件登録されていた場合
 
-
-        //値が含まれていない場合
-        //ディベーターテーブルのroomidと引数のroomidが同じものが入っていない
-        //そしてd_pdの値も入っていない場合の値を取得する
-        if(Debater::select()->join('rooms','r_id','=','debaters.room_id')->where('debaters.room_id','=',$room_id)->where('d_pd')->doesntExist()){
+        if(Debater::where('d_pd','=','true')->where('debaters.room_id','=',$room_id)->exists()){
             $insert = Debater::create([
                 'user_id'=>$user_id,
                 'room_id'=>$room_id,
-                'd_pd'=>$flag
+                'd_pd'=>false
             ]);
         }
         //0の値が含まれている場合(賛成)
         //roomidも同じカラムが1件登録されていた場合
-        else if(Debater::where('d_pd','=','0')->where('debaters.room_id','=',$room_id)->get()==1){
+        else if(Debater::where('d_pd','=','false')->where('debaters.room_id','=',$room_id)->exists()){
             $insert = Debater::create([
                 'user_id'=>$user_id,
                 'room_id'=>$room_id,
                 'd_pd'=>true
             ]);
-        //0の値が含まれている場合(反対)
-        //roomidも同じカラムが1件登録されていた場合
-        }else if(Debater::where('d_pd','=','1')->where('debaters.room_id','=',$room_id)->get()==1){
+        //値が含まれていない場合
+        //ディベーターテーブルのroomidと引数のroomidが同じものが入っていない
+        //そしてd_pdの値も入っていない場合の値を取得する
+        }else if(Debater::select()->join('rooms','r_id','=','debaters.room_id')->where('debaters.room_id','=',$room_id)->where('d_pd')->doesntExist()){
             $insert = Debater::create([
                 'room_id'=>$room_id,
                 'user_id'=>$user_id,
-                'd_pd'=>false
+                'd_pd'=>$flag
             ]);
         //同じroomidを持つユーザーが2人存在していた場合
-        }else if(Debater::where('room_id','=',$room_id)->get()==2){
-            return;
+        }else if(Debater::where('room_id','=',$room_id)->count()>2){
+            return false;
         }
         $insert->save();
     }

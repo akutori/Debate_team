@@ -20,18 +20,10 @@ class ChatController extends Controller
     public function index($roomid,$state){
 
         $chats= Chat::get();
-        $debater = new Debater();
-        $bystander= new Bystander();
+
         $user=Auth::user();
         $name = $user['name'];
         $userid= $user['id'];
-
-        //傍観者で選択した場合と発表者で選択された場合の処理
-        if($state == 0) {
-            $debater->insert($roomid,$userid);
-        }else{
-            $bystander->insert($roomid, $userid);
-        }
 
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')

@@ -4,7 +4,7 @@ $(function() {
 
 function get_data() {
     $.ajax({
-        url: "result/ajax/",
+        url: "result/ajax",
         dataType: "json",
 
         success: data => {
@@ -13,6 +13,7 @@ function get_data() {
                 .remove();
 
             for (var i = 0; i < data.chats.length; i++) {
+
                 var html = `
                             <div class="media chat-visible">
                                 <div class="media-body chat-body">
