@@ -70,6 +70,23 @@ class ChatController extends Controller
         //チャットの内容を全て保存
         $chats->fill($request->all())->save();
 
+        /*タイムスタンプ保存*/
+        $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+        $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
+
+
+        $stt = new Carbon($st->Starting_time);
+        $stb = $stt->second;
+        $stmm = $stt->minute;
+        $stm = (int)$stmm*60;
+        $stsum=(int)$stb+$stm;
+
+        $chats= Chat::get();
+
+        $user=Auth::user();
+        $name = $user['name'];
+        $userid= $user['id'];
+
         $user=Auth::user();
         $name = $user['name'];
 
@@ -80,7 +97,7 @@ class ChatController extends Controller
             ->where('r_id','=',$roomid)->first();
 
         $state=0;
-        return view('chat',compact('chats','roomdata','state','name'));
+        return view('chat',compact('chats','roomdata','state','name','st'));
     }
 
     /**
