@@ -4,7 +4,7 @@ $(function() {
 
 function get_data() {
     $.ajax({
-        url: "/result/ajax",
+        url: "/3reedman3/public/result/ajax",
         dataType: "json",
 
         success: data => {
