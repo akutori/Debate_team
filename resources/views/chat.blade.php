@@ -77,10 +77,10 @@ use Illuminate\Support\Facades\Auth;
         </div>
 
     @yield('js')
-@endif
-
+@else
+    <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
     {{-- 傍観者の場合コチラが表示される --}}
-
+@endif
 @endsection
 @section('js')
 <script src="{{ asset('js/chat.js') }}"></script>
