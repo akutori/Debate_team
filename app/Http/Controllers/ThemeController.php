@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bystander;
-use App\Models\Debater;
 use App\Models\Category;
-use App\Models\Room;
-use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
