@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 @section('head')
     {{--タイマー--}}
-    <p>{{$tim}}</p>
+    <p>{{$st}}</p>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/jquery.simple.timer.js')}}"></script>
@@ -29,12 +29,12 @@ use Illuminate\Support\Facades\Auth;
 
         setTimeout(function(){
             window.location.href = '{{url('/vote2',compact('rid'))}}';
-        }, {{$tim}}*1000);
+        }, 10*1000);
     </script>
 @endsection
 @section('body')
     {{--タイマー--}}
-    <div class='timer' data-seconds-left="{{$tim}}"></div>
+    <div class='timer' data-seconds-left="10"></div>
 
     <div class="title">
         <h1>Chat 予定地</h1>
