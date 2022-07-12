@@ -45,7 +45,7 @@ Route::get('/sgenre',[GenreController::class,'index']);
 
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 
-Route::get('/3reedman3/public//chat/{rid}/{state}',[ChatController::class,'index']);
+Route::get('/3reedman3/public/chat/{rid}/{state}',[ChatController::class,'index']);
 
 Auth::routes();
 
