@@ -3,7 +3,7 @@ $(function() {
 });
 
 function get_data() {
-    var roomid = $("#roomid").val();
+    var roomid = $("#room_id").val();
     $.ajax({
         url: "/3reedman3/public"+roomid+"/result/ajax",
         dataType: "json",
