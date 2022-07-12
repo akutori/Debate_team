@@ -8,7 +8,7 @@ function get_data() {
     var userid = $("#userid").val();
     $.ajax({
 
-        url: "/check/"+roomid+"/"+state+"/",
+        url: "/3reedman3/public/check/"+roomid+"/"+state+"/",
         dataType: "json",
 
         success: data => {
