@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Bystander;
 use App\Models\Debater;
+use App\Models\Room;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +21,17 @@ class ChatController extends Controller
      */
     public function index($roomid,$state){
 
+        /*タイムスタンプ保存*/
+        $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+        $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
+
+        $test = '2002-05-06 20:33:33';
+        $stt = new Carbon($test);
+        $stb = $stt->second;
+        $stmm = $stt->minute;
+        $stm = (int)$stmm*60;
+        $stsum=(int)$stb+$stm;
+
         $chats= Chat::get();
 
         $user=Auth::user();
@@ -32,7 +45,7 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('chats','name','roomdata','state'));
+           return view('/chat',compact('chats','name','roomdata','state','st'));
        }
 
 
