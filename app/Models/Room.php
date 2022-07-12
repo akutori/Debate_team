@@ -13,8 +13,7 @@ class Room extends Model
 {
     use HasFactory;
 
-    //ホワイトリスト。この中に入っているカラムは変更を許可させる
-    protected $fillable = ['r_day','r_sum','t_id'];
+    protected $guarded='r_id';
     protected $primaryKey = 'r_id';
     public $timestamps = false;
 
