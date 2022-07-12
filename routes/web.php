@@ -38,14 +38,14 @@ Route::get('/chat',function (){
 Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
-Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
+Route::post('/3reedman3/public//chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);
 
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 
-Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
+Route::get('/3reedman3/public//chat/{rid}/{state}',[ChatController::class,'index']);
 
 Auth::routes();
 
