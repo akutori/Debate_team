@@ -7,37 +7,49 @@ use Illuminate\Support\Facades\Auth;
 <link rel="stylesheet" href="{{asset('css/chat.css')}}">
 <link rel="stylesheet" href="{{asset('js/genre.js')}}">
 <div id="particles-js"></div>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+      integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+      crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous">
 @section('head')
 
 @endsection
 @section('body')
     <div id="wrapper">
+    <div class="all">
 
-        <div class="title">
-        <h1>Chat</h1>
+            <h1>Chat</h1>
+            <p>{{$roomdata->t_name}}のchat</p>
+        <div class="container">
+
+            <div class="chat bg-light p-4">
+                <div class="message d-flex flex-row align-items-start mb-4">
 
 
-        <p>{{$roomdata->t_name}}のchat</p>
 
+                    <div class="card-body chat-card">
+                        <div id="chat-data"></div>
+                        <span class="chat-body-id"></span>
+                        <span class="chat-body-user"></span>
+                        <span class="chat-body-time"></span>
+                        <span class="chat-body-message"></span>
+                    </div>
 
-        <div class="chat-container row justify-content-center">
-    <div class="chat-area">
-        <div class="card">
-            <div class="card-header">Comment</div>
-             {{-- チャット欄 --}}
-
-                <span class="chat-body-id"></span>
-                <span class="chat-body-user"></span>
-                <span class="chat-body-time"></span>
-                <span class="chat-body-message"></span>
-
-            <div class="card-body chat-card">
-                <div id="chat-data"></div>
-            </div>
+                </div><!-- .message -->
         </div>
-     </div>
-    </div>
-    </div>
+        </div>
+
+
+
+
+                        {{-- チャット欄 --}}
+
+
+
+        </div>
     </div>
 
 @if($state==0)

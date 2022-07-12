@@ -2,6 +2,7 @@
     width: 75%;
     margin: 0 auto;
     text-align: center;
+
 }
 .genreimg{
     height: auto;
@@ -58,4 +59,75 @@ html,body{
     z-index: 1;/*z-indexの数字を大きくすることで描画を#particles-jsよりも上に*/
     width:100%;
     height: 100%;
+}
+
+@charset "utf-8";
+
+/*========= レイアウトのためのCSS ===============*/
+
+
+.flex{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.box{
+    width: 220px;
+    padding: 20px;
+    margin: 0 20px 20px 20px;
+    background: #666;
+    color: #fff;
+    box-sizing:border-box;
+}
+
+/*==================================================
+スタート時は要素自体を透過0にするためのopacity:0;を指定する
+===================================*/
+
+.genre{
+    opacity: 0;
+}
+
+/*==================================================
+ふわっ
+===================================*/
+
+.fadeUp {
+    animation-name:fadeUpAnime;
+    animation-duration:2s;
+    animation-fill-mode:forwards;
+    opacity: 0;
+}
+@keyframes fadeUpAnime{
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(10000px);
+    }
+}
+
+/* アニメーションスタートの遅延時間を決めるCSS*/
+
+.delay-time0{
+    animation-delay: 0.5s;
+}
+.delay-time1{
+    animation-delay: 1s;
+}
+.delay-time2{
+    animation-delay: 1.5s;
+}
+.delay-time3{
+    animation-delay: 2s;
+}
+
+.delay-time4{
+    animation-delay: 2.5s;
+}
+.delay-time5{
+    animation-delay: 3s;
 }
