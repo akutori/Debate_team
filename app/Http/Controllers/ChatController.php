@@ -83,13 +83,21 @@ class ChatController extends Controller
         /*タイムスタンプ保存*/
         $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-
+        $max=60;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
         $stm = (int)$stmm*60;
         $stsum=(int)$stb+$stm;
+
+        $now = Carbon::now();
+        $nowb = $now->second;
+        $nowmm = $now->minute;
+        $nowm = (int)$nowmm*60;
+        $nowsum = (int)$nowb+ $nowm;
+
+        $tim = $max-($nowsum-$stsum);
 
         $chats= Chat::get();
 
@@ -107,7 +115,7 @@ class ChatController extends Controller
             ->where('r_id','=',$roomid)->first();
 
         $state=0;
-        return view('chat',compact('chats','roomdata','state','name','st'));
+        return view('chat',compact('chats','roomdata','state','name','st','tim'));
     }
 
     /**
