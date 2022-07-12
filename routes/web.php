@@ -38,7 +38,7 @@ Route::get('/chat',function (){
 Route::get('/',[GenreController::class,'index']);
 
 //チャット機能
-Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
+Route::post('/3reedman3/public/check/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);
