@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Auth;
     {{---  チャット送信  ---}}
     {{--- web.phpの/chat ---}}
 
-        <form action="{{url('/3reedman3/public/check/chat/'.$roomdata->r_id.'/'.$state)}}" method="post">
+        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post">
 
         @csrf
         <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
