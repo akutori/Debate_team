@@ -18,7 +18,7 @@ function get_data() {
                 /*
                     リダイレクト(チャットページ)
                 */
-                return window.location.href="/chat/"+data.room_id+"/"+data.state;
+                return window.location.href="/3reedman3/public/check/chat/"+data.room_id+"/"+data.state;
             }else{
                 //待ってほしいメッセージ
                 $(".message").text("条件を満たしていません。人が来るまで待っててね");
