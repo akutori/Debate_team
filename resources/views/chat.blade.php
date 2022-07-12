@@ -70,7 +70,7 @@ use Illuminate\Support\Facades\Auth;
         @csrf
         <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
         <input type="hidden" name="user_name" value="{{$name}}">
-        <input type="hidden" name="room_id" value="{{$roomdata->r_id}}">
+        <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
         <input type="text" name="message">
         <input type="submit" value="送信">
         </form>
