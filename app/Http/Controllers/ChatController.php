@@ -25,8 +25,8 @@ class ChatController extends Controller
         $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
 
-        $test = '2002-05-06 20:33:33';
-        $stt = new Carbon($test);
+
+        $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
         $stm = (int)$stmm*60;
