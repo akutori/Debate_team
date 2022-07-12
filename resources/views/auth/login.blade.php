@@ -19,7 +19,7 @@
                             <label for="id" class="col-md-4 col-form-label text-md-end">ユーザーID</label>
 
                             <div class="col-md-6">
-                                <input id="id" type="id" class="form-control @error('id') is-invalid @enderror" name="id" value="{{ old('id') }}" required autocomplete="email" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('id')
                                     <span class="invalid-feedback" role="alert">
