@@ -23,4 +23,10 @@ class Bystander extends Model
         $insert->save();
     }
 
+    public function remove_debater_by_id($user_id,$room_id,$state){
+        //同じルームIDかつ同じユーザIDなのに状態が発表者だった場合
+        if((Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->get()->exists())&& $state==0){
+            Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
+        }
+    }
 }

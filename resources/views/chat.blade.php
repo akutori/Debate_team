@@ -3,54 +3,62 @@
 use Illuminate\Support\Facades\Auth;
 
 ?>
-@extends('test')
-<link rel="stylesheet" href="{{asset('css/chat.css')}}">
-<link rel="stylesheet" href="{{asset('js/genre.js')}}">
-<div id="particles-js"></div>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
-      integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
-      crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-      crossorigin="anonymous">
-@section('head')
+@extends('header')
 
+@section('head')
+    {{--タイマー--}}
+    <p>{{$tim}}</p>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/jquery.simple.timer.js')}}"></script>
+
+    <input type="hidden" name="room_id" value="{{$rid=$roomdata->r_id}}">
+    <script>
+        $(function(){
+            $('.timer').startTimer({
+                onComplete:function(element){
+                    //カウントダウン終了時にdiv class="timer"をcompleteへ変更する
+                    element.addClass('complete');
+                }
+            });
+
+        });
+
+
+        //10秒後に指定したリンクへ飛ぶ
+
+        setTimeout(function(){
+            window.location.href = '{{url('/vote2',compact('rid'))}}';
+        }, {{$tim}}*1000);
+    </script>
 @endsection
 @section('body')
-    <div id="wrapper">
-    <div class="all">
+    {{--タイマー--}}
+    <div class='timer' data-seconds-left="{{$tim}}"></div>
 
-            <h1>Chat</h1>
-            <p>{{$roomdata->t_name}}のchat</p>
-        <div class="container">
-
-            <div class="chat bg-light p-4">
-                <div class="message d-flex flex-row align-items-start mb-4">
+    <div class="title">
+        <h1>Chat 予定地</h1>
+        <p>{{$roomdata->t_name}}のchat</p>
 
 
+        <div class="chat-container row justify-content-center">
+    <div class="chat-area">
+        <div class="card">
+            <div class="card-header">Comment</div>
+             {{-- チャット欄 --}}
 
-                    <div class="card-body chat-card">
-                        <div id="chat-data"></div>
-                        <span class="chat-body-id"></span>
-                        <span class="chat-body-user"></span>
-                        <span class="chat-body-time"></span>
-                        <span class="chat-body-message"></span>
-                    </div>
+                <span class="chat-body-id"></span>
+                <span class="chat-body-user"></span>
+                <span class="chat-body-time"></span>
+                <span class="chat-body-message"></span>
 
-                </div><!-- .message -->
-        </div>
-        </div>
-
-
-
-
-                        {{-- チャット欄 --}}
-
-
-
+            <div class="card-body chat-card">
+                <div id="chat-data"></div>
+            </div>
         </div>
     </div>
+</div>
+
 
 @if($state==0)
 
@@ -62,20 +70,18 @@ use Illuminate\Support\Facades\Auth;
         @csrf
         <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
         <input type="hidden" name="user_name" value="{{$name}}">
-        <input type="hidden" name="room_id" value="{{$roomdata->r_id}}">
+        <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
         <input type="text" name="message">
         <input type="submit" value="送信">
         </form>
         </div>
 
     @yield('js')
-@endif
-
+@else
+    <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
     {{-- 傍観者の場合コチラが表示される --}}
-
+@endif
 @endsection
 @section('js')
 <script src="{{ asset('js/chat.js') }}"></script>
-<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src={{asset('js/genre.js')}}></script>
 @endsection

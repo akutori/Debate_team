@@ -53,13 +53,19 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData
-Route::get('/result/ajax/', [ChatController::class,'getData']);
-Route::get('chat/{rid}/result/ajax/',[ChatController::class,'getData']);
+Route::get('/result/ajax', [ChatController::class,'getData']);
+Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
 //規定人数がいるかどうかを聞く
 //デプロイ用ルート
-Route::get('/3reedman3/public/check/{rid}/{state}',[RoomController::class,'confirmation']);
+Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
 Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
 
+//投票機能
+Route::get('/vote2/{rid}',[\App\Http\Controllers\vote2Controller::class,'index']);
+Route::get('/vote3',[\App\Http\Controllers\voteController::class,'index']);
+Route::get('/voteko',[\App\Http\Controllers\votesumController::class,'ko']);
+Route::get('/votesan',[\App\Http\Controllers\votesumController::class,'san']);
+Route::get('/vote',[\App\Http\Controllers\votesumController::class,'index']);
