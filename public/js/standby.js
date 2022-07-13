@@ -8,7 +8,7 @@ function get_data() {
     var userid = $("#userid").val();
     $.ajax({
 
-        url: "/3reedman3/public/check/"+roomid+"/"+state+"/",
+        url: "/check/"+roomid+"/"+state+"/",
         dataType: "json",
 
         success: data => {
@@ -18,7 +18,7 @@ function get_data() {
                 /*
                     リダイレクト(チャットページ)
                 */
-                return window.location.href="/3reedman3/public/chat/"+data.room_id+"/"+data.state;
+                return window.location.href="/chat/"+data.room_id+"/"+data.state;
             }else{
                 //待ってほしいメッセージ
                 $(".message").text("条件を満たしていません。人が来るまで待っててね");
