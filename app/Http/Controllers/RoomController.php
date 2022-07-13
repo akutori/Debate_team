@@ -23,7 +23,7 @@ class RoomController extends Controller
             if($debater->countdebater($roomid) <2){
                 $debater->insert($roomid,$userid);
             }else if($debater->countdebater($roomid) >=2){
-                redirect('/sgenre');
+                return redirect('/sgenre');
             }
         }else{
             $bystander->insert($roomid, $userid);
