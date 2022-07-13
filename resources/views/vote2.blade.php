@@ -39,7 +39,7 @@
             if(!alert("集計しています")) {
                 // OKが押された際に実行する処理
                 setTimeout(function () {
-                    window.location.href = "{{url('/votesan')}}";
+                    window.location.href = "{{url('/votesan',compact('rid'))}}";
                 }, 15 * 1000);
             }
 
@@ -47,7 +47,7 @@
         } else if(num === 2){
             if(!alert("集計しています")) {
                 setTimeout(function () {
-                    window.location.href = "{{url('/voteko')}}";
+                    window.location.href = "{{url('/voteko',compact('rid'))}}";
                 }, 15 * 1000);
             }
         }
@@ -56,9 +56,10 @@
 
 <!--チャットの制限時間、時間終了し20秒後結果画面に遷移-->
 <div class="timer" data-seconds-left=5></div>
-<p>{{$vote}}</p>
+<p>{{$rid}}</p>
 <script src="{{asset('js/jquery.js')}}"></script>
 <script src="{{asset('js/jquery.simple.timer.js')}}"></script>
+
 <script>
     $(function(){
         $('.timer').startTimer({
@@ -67,7 +68,7 @@
                     document.getElementById('dialog').show();
                 @endif
                 setTimeout(function () {
-                    window.location.href = '{{url('/vote')}}';
+                    window.location.href = '{{url('/vote',compact('rid'))}}';
                 }, 15 * 1000);
 
             }

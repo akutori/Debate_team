@@ -18,6 +18,6 @@ class vote2Controller extends Controller
         if ($vote == 1){
             $flg = 1;
         }
-        return view('vote2',compact('bydb','vote','flg'));
+        return view('vote2',compact('bydb','vote','flg','rid'));
     }
 }

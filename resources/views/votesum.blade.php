@@ -17,7 +17,7 @@
 
         //10秒後に指定したリンクへ飛ぶ
         setTimeout(function(){
-            window.location.href = '{{url('/vote3')}}';
+            window.location.href = '{{url('/vote3',compact('rid'))}}';
         }, 5*1000);
     </script>
 </head>

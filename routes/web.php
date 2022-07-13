@@ -65,7 +65,7 @@ Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
 
 //投票機能
 Route::get('/vote2/{rid}',[\App\Http\Controllers\vote2Controller::class,'index']);
-Route::get('/vote3',[\App\Http\Controllers\voteController::class,'index']);
-Route::get('/voteko',[\App\Http\Controllers\votesumController::class,'ko']);
-Route::get('/votesan',[\App\Http\Controllers\votesumController::class,'san']);
-Route::get('/vote',[\App\Http\Controllers\votesumController::class,'index']);
+Route::get('/vote3/{rid}',[\App\Http\Controllers\voteController::class,'index']);
+Route::get('/voteko/{rid}',[\App\Http\Controllers\votesumController::class,'san']);
+Route::get('/votesan/{rid}',[\App\Http\Controllers\votesumController::class,'ko']);
+Route::get('/vote/{rid}',[\App\Http\Controllers\votesumController::class,'index']);

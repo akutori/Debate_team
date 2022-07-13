@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class voteController extends Controller
 {
-    public function index(){
-        $rodb = DB::select('SELECT * FROM rooms WHERE r_id = 1');
-        return view('vote',compact('rodb'));
+    public function index($rid){
+        $rodb = DB::table('rooms')->where('r_id', $rid)->get();
+        return view('vote',compact('rodb','rid'));
     }
 }
