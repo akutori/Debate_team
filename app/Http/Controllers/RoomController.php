@@ -22,8 +22,8 @@ class RoomController extends Controller
             //同じroom_idの発表者が2人未満の場合insert2人以上いた場合はsgenreにリダイレクトさせる
             if($debater->countdebater($roomid) <2){
                 $debater->insert($roomid,$userid);
-            }else{
-                redirect('/sgenre');
+            }else if($debater->countdebater($roomid) >=2){
+                return redirect('/sgenre');
             }
         }else{
             $bystander->insert($roomid, $userid);
