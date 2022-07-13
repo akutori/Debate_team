@@ -53,7 +53,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData
-Route::get('/result/ajax', [ChatController::class,'getData']);
+Route::get('/result/ajax/', [ChatController::class,'getData']);
 Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
 
 //待機画面ルート

@@ -5,7 +5,7 @@ $(function() {
 function get_data() {
     var roomid = $("#room_id").val();
     $.ajax({
-        url: "/result/ajax/",
+        url: "result/ajax",
         dataType: "json",
 
         success: data => {

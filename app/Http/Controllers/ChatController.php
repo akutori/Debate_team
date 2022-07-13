@@ -22,9 +22,15 @@ class ChatController extends Controller
     public function index($roomid,$state){
 
         /*タイムスタンプ保存*/
-        $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+        $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
+        if ($stflg->timestartflg == 0){
+            $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+            $bydb1 = DB::table('rooms')->where('r_id', $roomid)->update(['timestartflg'=>1]);
+
+        }
+
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=60;
+        $max=1200;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
@@ -55,7 +61,7 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('chats','name','roomdata','state','st','tim'));
+           return view('/chat',compact('chats','name','roomdata','state','st','tim','stflg'));
        }
 
 
