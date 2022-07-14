@@ -78,9 +78,13 @@
 </script>
 @if($flg == 0)
     <h2 class="now">voting now</h2>
+    <div  id="tit2" class="timer" data-seconds-left=25></div>
+    <p class="mu">...</p>
+@else
     <p class="muc">無効票まで</p>
     <div  id="tit2" class="timer" data-seconds-left=25></div>
     <p class="mu">秒</p>
 @endif
+
 </body>
 </html>
