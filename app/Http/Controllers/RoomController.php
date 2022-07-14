@@ -45,6 +45,10 @@ class RoomController extends Controller
             $debaterstate="";
         }
 
+        //賛成と反対票をリセット
+        Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
+        Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
+
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
     }
 

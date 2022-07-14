@@ -24,10 +24,6 @@ class voteController extends Controller
         $debater->remove_debater_by_id($userid,$rid);
         $bystander->remove_bystander_by_id($userid,$rid);
 
-        //賛成と反対票をリセット
-        Room::where("r_id",$rid)->where("r_positive",">",0)->update(["r_positive"=>0]);
-        Room::where("r_id",$rid)->where("r_denial",">",0)->update(["r_denial"=>0]);
-
         //部屋のスタートフラグを0にする
         Room::where("r_id",$rid)->where("timestartflg","=",1)->update(["timestartflg"=>0]);
         return view('vote',compact('rodb','rid'));
