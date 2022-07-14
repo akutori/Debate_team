@@ -34,11 +34,15 @@ class RoomController extends Controller
         }
 
         //発表者の賛成・反対の状態を表示させる
-        $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
-        if($debaterstate->d_pd == 0){
-            $debaterstate="賛成";
-        }else{
-            $debaterstate="反対";
+        if($state == 0){
+            $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
+            if(($debaterstate->d_pd == 0) && $state==0){
+                $debaterstate="賛成";
+            }else{
+                $debaterstate="反対";
+            }
+        }else if ($state==1){
+            $debaterstate="";
         }
 
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
