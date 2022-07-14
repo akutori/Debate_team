@@ -9,15 +9,11 @@ use Illuminate\Support\Facades\DB;
 class votesumController extends Controller
 {
     public function ko($rid){
-        $bynum = DB::table('rooms')->where('r_id', $rid)->select('r_denial')->get();
-        $bynum2= $bynum->r_denial + 1;
-        $bydb = DB::table('rooms')->where('r_id', $rid)->update(['r_denial'=>$bynum2]);
+        $bydb = DB::table('rooms')->where('r_id', $rid)->increment('r_positive');
         return view('votesum',compact('rid'));
     }
     public function san($rid){
-        $bynum = DB::table('rooms')->where('r_id', $rid)->select('r_positive')->get();
-        $bynum2= $bynum->r_positive + 1;
-        $bydb = DB::table('rooms')->where('r_id', $rid)->update(['r_positive'=>5]);
+        $bydb = DB::table('rooms')->where('r_id', $rid)->increment('r_denial');
         return view('votesum',compact('rid'));
     }
     public function index($rid){

@@ -39,7 +39,7 @@
             if(!alert("集計しています")) {
                 // OKが押された際に実行する処理
                 setTimeout(function () {
-                    window.location.href = "{{url('/votesan',compact('rid'))}}";
+                    window.location.href = "{{url('/voteko',compact('rid'))}}";
                 }, 15 * 1000);
             }
 
@@ -47,7 +47,7 @@
         } else if(num === 2){
             if(!alert("集計しています")) {
                 setTimeout(function () {
-                    window.location.href = "{{url('/voteko',compact('rid'))}}";
+                    window.location.href = "{{url('/votesan',compact('rid'))}}";
                 }, 15 * 1000);
             }
         }
@@ -69,7 +69,7 @@
                 @endif
                 setTimeout(function () {
                     window.location.href = '{{url('/vote',compact('rid'))}}';
-                }, 15 * 1000);
+                }, 20 * 1000);
 
             }
         });
