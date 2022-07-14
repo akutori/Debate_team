@@ -126,7 +126,7 @@ class ChatController extends Controller
             ->where('r_id','=',$roomid)->first();
 
         $state=0;
-        return view('chat',compact('chats','roomdata','state','name','st','tim'));
+        return view('chat',compact('chats','roomdata','state','name','st','tim','stflg'));
     }
 
     /**
