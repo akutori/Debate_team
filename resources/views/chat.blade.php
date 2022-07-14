@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/jquery.simple.timer.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('css/chat.css')}}">
+
 
     <input type="hidden" name="room_id" value="{{$rid=$roomdata->r_id}}">
     <script>
@@ -33,8 +35,8 @@ use Illuminate\Support\Facades\Auth;
 @endsection
 @section('body')
     {{--タイマー--}}
-    <div class='timer' data-seconds-left="{{$tim}}"></div>
 
+    <div class='timer' data-seconds-left="{{$tim}}"></div>
     <div class="title">
         <h1>{{$roomdata->t_name}}のchat</h1>
         @if($state==0)
@@ -83,6 +85,7 @@ use Illuminate\Support\Facades\Auth;
     <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
     {{-- 傍観者の場合コチラが表示される --}}
 @endif
+
 @endsection
 @section('js')
 <script src="{{ asset('js/chat.js') }}"></script>

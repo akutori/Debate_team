@@ -62,3 +62,12 @@ body {
     max-width: 70%;
     border-radius: 1rem;
 }
+.jst-hours{
+    display: none;
+}
+.jst-minutes{
+    float: left;
+}
+.tit{
+
+}
