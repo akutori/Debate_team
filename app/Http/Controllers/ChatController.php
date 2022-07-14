@@ -26,7 +26,6 @@ class ChatController extends Controller
         if ($stflg->timestartflg == 0){
             $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
             $bydb1 = DB::table('rooms')->where('r_id', $roomid)->update(['timestartflg'=>1]);
-
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();

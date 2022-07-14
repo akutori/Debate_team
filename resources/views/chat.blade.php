@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 @section('head')
     {{--タイマー--}}
-    <p>{{$tim}}</p>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/jquery.simple.timer.js')}}"></script>
@@ -37,7 +36,6 @@ use Illuminate\Support\Facades\Auth;
     <div class='timer' data-seconds-left="{{$tim}}"></div>
 
     <div class="title">
-        <h1>Chat 予定地</h1>
         <p>{{$roomdata->t_name}}のchat</p>
 
 
