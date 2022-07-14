@@ -178,8 +178,15 @@ class ChatController extends Controller
 {
 
     $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
+    //発表者の賛成・反対の状態を表示させる
+    $debaterstate = Debater::where('room_id',$rid)->where('user_id',Auth::id())->first();
+    if($debaterstate->d_pd == 0){
+        $debaterstate="賛成";
+    }else{
+        $debaterstate="反対";
+    }
 
-    $json = ["chats" => $chats];
+    $json = ["chats" => $chats,"state"=>$debaterstate];
     return response()->json($json);
 }
 }
