@@ -20,7 +20,6 @@ class ChatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($roomid,$state){
-
         /*タイムスタンプ保存*/
         $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
         if ($stflg->timestartflg == 0){
@@ -52,6 +51,16 @@ class ChatController extends Controller
         $user=Auth::user();
         $name = $user['name'];
         $userid= $user['id'];
+        $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
+        //賛成のときはチャットのusers_positionに賛成を入れる
+        if(!isset($usersposition)){
+            $usersposition="";
+        }else if(isset($usersposition) && $usersposition->d_pd==0){
+            $usersposition="賛成";
+        }elseif (isset($usersposition) && $usersposition->d_pd==1){
+            $usersposition="反対";
+        }
+
 
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
@@ -60,7 +69,7 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('chats','name','roomdata','state','st','tim','stflg'));
+           return view('/chat',compact('chats','name','roomdata','state','st','tim','stflg','usersposition'));
        }
 
 
@@ -116,17 +125,22 @@ class ChatController extends Controller
         $name = $user['name'];
         $userid= $user['id'];
 
-        $user=Auth::user();
-        $name = $user['name'];
-
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
             ->where('r_id','=',$roomid)->first();
 
+        $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
+        //賛成のときはチャットのusers_positionに賛成を入れる
+        if($usersposition->d_pd==0){
+            $usersposition="賛成";
+        }elseif ($usersposition->d_pd==1){
+            $usersposition="反対";
+        }
+
         $state=0;
-        return view('chat',compact('chats','roomdata','state','name','st','tim','stflg'));
+        return view('chat',compact('chats','roomdata','state','name','st','tim','stflg','usersposition'));
     }
 
     /**
@@ -175,9 +189,8 @@ class ChatController extends Controller
     }
     public function getData($rid)
 {
-
+    //チャットの履歴を全て取得
     $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
-
     $json = ["chats" => $chats];
     return response()->json($json);
 }

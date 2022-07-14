@@ -17,6 +17,10 @@ class RoomController extends Controller
         $bystander= new Bystander();
         $user=Auth::user();
         $userid= $user['id'];
+
+        //ディベートのタイトルを表示させる。
+        $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
+
         //傍観者で選択した場合と発表者で選択された場合の処理
         if($state == 0) {
             //同じroom_idの発表者が2人未満の場合insert2人以上いた場合はsgenreにリダイレクトさせる
@@ -29,8 +33,19 @@ class RoomController extends Controller
             $bystander->insert($roomid, $userid);
         }
 
-        return view('standby',compact('roomid','state','userid'));
+        //発表者の賛成・反対の状態を表示させる
+        if($state == 0){
+            $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
+            if(($debaterstate->d_pd == 0) && $state==0){
+                $debaterstate="賛成";
+            }else{
+                $debaterstate="反対";
+            }
+        }else if ($state==1){
+            $debaterstate="";
+        }
 
+        return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
     }
 
     //発表者が2人かつ傍観者が1人以上いるかを聞き続ける

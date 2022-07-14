@@ -22,6 +22,7 @@ function get_data() {
                                         <span class="chat-body-id" id="user_id">ID：${data.chats[i].user_id}</span>
                                         <span class="chat-body-user" id="user_name">＠${data.chats[i].user_name}</span>
                                         <span class="chat-body-time" id="created_at">${data.chats[i].created_at}</span>
+                                        <span class="chat-body-state" id="users_positon">立場:${data.chats[i].users_position}</span>
                                     </div>
                                     <span class="chat-body-message" id="message">${data.chats[i].message}</span>
                                 </div>
