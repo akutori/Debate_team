@@ -18,8 +18,12 @@ class ThemeController extends Controller
         $category = Category::where('c_id','=',$cid)->first();
         $userinfo = Auth::user();
 
-//todo ログインしていない場合loginに移動
+        //ログインしていない場合
+        if(Auth::check()){
             $userid= $userinfo['id'];
+        }else{
+            return redirect('/register');
+        }
 
         $debater_flag=0;
         $bystander_flag=1;
