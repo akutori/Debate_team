@@ -7,6 +7,15 @@ body{
     font-size: 50px;
 }
 
+.ct{
+    margin-left: 0;
+    padding-left: 0;
+}
+#tit{
+    margin-left: 49%;
+    margin-right: 0;
+}
+
 
 /*vote.blade*/
 .dai{
@@ -32,4 +41,33 @@ body{
     text-align:center;
     font-size: 50px;
     color: rgba(255,0,0,0.7);
+}
+
+
+/*vote2.blade*/
+.now{
+    text-align: center;
+    font-size: 50px;
+}
+
+.jst-hours{
+    float: left;
+    display: none;
+}
+.jst-minutes{
+    float: left;
+    display: none;
+}
+#ti{
+    display: none;
+}
+.jst-seconds{
+    float: left;
+}
+#tit2{
+    margin-left: 49%;
+    margin-right: 0;
+}
+.muc{
+    text-align: center;
 }

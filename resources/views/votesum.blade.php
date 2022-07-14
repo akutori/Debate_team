@@ -19,11 +19,15 @@
         //10秒後に指定したリンクへ飛ぶ
         setTimeout(function(){
             window.location.href = '{{url('/vote3',compact('rid'))}}';
-        }, 5*1000);
+        }, 30*1000);
     </script>
 </head>
 <body>
+<div class="cent">
     <h2 class="syuukei">counting now</h2>
+    <div id="tit" class="timer" data-seconds-left=30></div>
+    <p class="ct">...</p>
+</div>
 </body>
 </html>
 
