@@ -30,7 +30,12 @@ class RoomController extends Controller
                 return redirect('/sgenre');
             }
         }else{
-            $bystander->insert($roomid, $userid);
+            // 部屋に入ったことがあるかを確認
+            if($bystander->roomedBystander($roomid, $userid)){
+                return ;
+            }else{
+                $bystander->insert($roomid, $userid);
+            }
         }
 
         //発表者の賛成・反対の状態を表示させる

@@ -27,4 +27,10 @@ class Bystander extends Model
     public function remove_bystander_by_id($user_id,$room_id){
         Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
     }
+
+    //傍観者を強制的にディベート会場に移動
+    public function roomedBystander($user_id,$room_id){
+        Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exits();
+
+    }
 }
