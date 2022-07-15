@@ -31,6 +31,8 @@
 @endif
 </div>
 
+<button type="button" onclick="location.href='{{url('/sgenre')}}'">トップに戻る</button>
+
 @endforeach
 </body>
 </html>

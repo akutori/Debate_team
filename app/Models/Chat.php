@@ -18,5 +18,10 @@ class Chat extends Model
 
      public function user(){
         return $this->belongsTo(User::class);
-      }
+     }
+
+    //ディベートが終わった際にルームIDを元に削除する
+     public function remove_chat_by_id($room_id){
+         Chat::where("room_id","=",$room_id)->delete();
+     }
 }
