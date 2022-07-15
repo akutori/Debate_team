@@ -60,8 +60,21 @@ class Debater extends Model
         $insert->save();
     }
 
+    public function first_check_debater($roomid,$userid){
+        return $check =['countdebater'=>$this->countdebater($roomid),'roomeddebater'=>$this->roomedDebater($roomid, $userid)];
+    }
+
     //ディベートが終わった際にルームIDを元に削除する
-    public function remove_debater_by_id($user_id,$room_id){
+    public function remove_debater_by_id($user_id, $room_id){
         Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
+    }
+
+    //すでに発表者として登録されているかを確認。
+    public function roomedDebater($user_id,$room_id){
+       if(Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
+           return 1;
+       }else{
+           return 0;
+       }
     }
 }

@@ -35,4 +35,9 @@ class Room extends Model
     public function Select_Specific_Users(){
         return Room::find();
     }
+
+    //すでにディベートが開始されているか
+    public function is_debate_start($room_id):bool{
+       return Room::where("r_id",$room_id)->where("timestartflg","=",1)->exists();
+    }
 }

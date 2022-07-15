@@ -24,13 +24,16 @@ class Bystander extends Model
     }
 
     //ディベートが終わった際にルームIDを元に削除する
-    public function remove_bystander_by_id($user_id,$room_id){
+    public function remove_bystander_by_id($user_id, $room_id){
         Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
     }
 
-    //傍観者を強制的にディベート会場に移動
+    //すでに傍観者として登録されているかを確認。
     public function roomedBystander($user_id,$room_id){
-        Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exits();
-
+        if(Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }
