@@ -51,35 +51,29 @@ use Illuminate\Support\Facades\Auth;
             <div class="card-header">Comment</div>
              {{-- チャット欄 --}}
 
-                <span class="chat-body-id"></span>
-                <span class="chat-body-user"></span>
-                <span class="chat-body-time"></span>
-                <span class="chat-body-message"></span>
-
             <div class="card-body chat-card">
-                <div id="chat-data"></div>
+                <div id="chat-data">
+                    {{-- チャット履歴を表示させる --}}
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-
 @if($state==0)
 
     {{---  チャット送信  ---}}
     {{--- web.phpの/chat ---}}
-        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post">
-
+        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post" id="chatform">
         @csrf
         <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
         <input type="hidden" name="user_name" value="{{$name}}">
         <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
         <input type="hidden" name="users_position" value="{{$usersposition}}">
-        <input type="text" name="message">
-        <input type="submit" value="送信">
+        <input id="message" type="text" name="message">
+        <input id="submit" type="submit" value="送信">
         </form>
         </div>
-
     @yield('js')
 @else
     <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">

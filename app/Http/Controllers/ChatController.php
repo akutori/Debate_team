@@ -45,8 +45,8 @@ class ChatController extends Controller
         $tim = $max-($nowsum-$stsum);
 
 
-
-        $chats= Chat::get();
+        //チャット履歴を取得
+        //$chats= Chat::where("room_id",$roomid)->get();
 
         $user=Auth::user();
         $name = $user['name'];
@@ -69,7 +69,7 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('chats','name','roomdata','state','st','tim','stflg','usersposition'));
+           return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
        }
 
 
@@ -119,7 +119,8 @@ class ChatController extends Controller
 
         $tim = $max-($nowsum-$stsum);
 
-        $chats= Chat::get();
+        //チャット履歴を取得
+        //$chats= Chat::where("room_id",$roomid)->get();
 
         $user=Auth::user();
         $name = $user['name'];
@@ -140,7 +141,7 @@ class ChatController extends Controller
         }
 
         $state=0;
-        return view('chat',compact('chats','roomdata','state','name','st','tim','stflg','usersposition'));
+        return view('chat',compact('roomdata','state','name','st','tim','stflg','usersposition'));
     }
 
     /**
