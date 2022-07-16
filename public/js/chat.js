@@ -1,7 +1,6 @@
 $(function() {
     sendtext();
     get_data();
-    $('#submit').onclick($('#message').val(''));
 });
 
 function get_data() {
@@ -14,21 +13,6 @@ function get_data() {
             $("#chat-data")
                 .find(".chat-visible")
                 .remove();
-
-                /*var html = `
-                            <div class="media chat-visible">
-                                <div class="media-body chat-body">
-                                    <div class="row">
-                                        <span class="chat-body-id" id="user_id">ID：${data.user_id}</span>
-                                        <span class="chat-body-user" id="user_name">＠${data.user_name}</span>
-                                        <span class="chat-body-time" id="created_at">${data.created_at}</span>
-                                        <span class="chat-body-state" id="users_positon">立場:${data.users_position}</span>
-                                    </div>
-                                    <span class="chat-body-message" id="message">${data.message}</span>
-                                </div>
-                            </div>
-                        `;
-                $("#chat-data").append(html);*/
 
 /*<span class="chat-body-time" id="created_at">${data.chats[i].created_at}</span>*/
             for (var i = 0; i < data.chats.length; i++) {
@@ -71,7 +55,9 @@ function get_data() {
 
         // 送信ボタンを取得
         // （後で使う: 二重送信を防止する。）
-        var $button = $form.find('input');
+        var $button = $form.find('#submit');
+        //テキスト欄を取得
+        var $text = $form.find('#message');
 
         // 送信
         $.ajax({
@@ -79,19 +65,20 @@ function get_data() {
             type: $form.attr('method'),
             //data形式を自動で認識、設定してくれる
             data: $form.serialize(),
-            timeout: 700,
+            timeout: 400,
 
             // 送信前
             beforeSend: function(xhr, settings) {
                 // ボタンを無効化し、二重送信を防止
                 $button.attr('disabled', true);
-                $('#message').val('');
+
             },
             // 応答後
             complete: function(xhr, textStatus) {
                 // ボタンを有効化し、再送信を許可
                 $button.attr('disabled', false);
-                //todo 送信が終わった際にコメント欄を消す処理の追加
+                //テキストの内容を削除し再度チャットが打てるように
+                $text.val('');
             },
             // 通信成功時の処理
             success: function(){
@@ -102,5 +89,6 @@ function get_data() {
 
             }
         });
+
     });
 }
