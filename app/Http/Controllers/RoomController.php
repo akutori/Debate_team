@@ -41,8 +41,9 @@ class RoomController extends Controller
                     //入室前にあった傍観者の登録を削除
                     $bystander->remove_bystander_by_id($userid,$roomid);
                 }
-                //発表者に登録
-                $debater->insert($roomid,$userid);
+                //違う部屋ですでに登録されていた場合現在のルームに再設定する
+                //そうでない場合普通に登録
+                $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
                 //発表者にすでに2人入っていた場合(新規で)
             }else if($debater->countdebater($roomid) >=2){
                 return redirect('/sgenre');
@@ -64,11 +65,11 @@ class RoomController extends Controller
                     //入室前にあった発表者の登録を削除
                     $debater->remove_debater_by_id($userid,$roomid);
                 }
-                //発表者に登録
-                $bystander->insert($roomid,$userid);
+                //違う部屋ですでに登録されていた場合現在のルームに再設定する
+                //重複がない場合普通に登録
+                $bystander->remove_duplicates_and_reconfigure_bystander($userid, $roomid);
             }
         }
-
         //発表者の賛成・反対の状態を表示させる
         $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
 
@@ -90,8 +91,8 @@ class RoomController extends Controller
     }
 
     //発表者の賛成・反対の状態を表示させる
-    public function set_debaterstate($state,$userid,$roomid){
-
+    public function set_debaterstate($state,$userid,$roomid): string
+    {
         if($state == 0){
             $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
             if(($debaterstate->d_pd == 0) && $state==0){

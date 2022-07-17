@@ -60,10 +60,6 @@ class Debater extends Model
         $insert->save();
     }
 
-    public function first_check_debater($roomid,$userid){
-        return $check =['countdebater'=>$this->countdebater($roomid),'roomeddebater'=>$this->roomedDebater($roomid, $userid)];
-    }
-
     //ディベートが終わった際にルームIDを元に削除する
     public function remove_debater_by_id($user_id, $room_id){
         Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
@@ -76,5 +72,14 @@ class Debater extends Model
        }else{
            return 0;
        }
+    }
+
+    //違う部屋ですでに登録されていた場合現在のルームに再設定する
+    public function remove_duplicates_and_reconfigure_debater($user_id,$room_id){
+        if (Debater::where("user_id","=",$user_id)->exists() || Bystander::where("user_id","=",$user_id)->exists()){
+            Debater::where("user_id",$user_id)->delete();
+            Bystander::where("user_id",$user_id)->delete();
+        }
+        $this->insert($room_id,$user_id);
     }
 }

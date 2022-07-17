@@ -36,4 +36,13 @@ class Bystander extends Model
             return 0;
         }
     }
+
+    //違う部屋ですでに登録されていた場合現在のルームに再設定する
+    public function remove_duplicates_and_reconfigure_bystander($user_id,$room_id){
+        if (Bystander::where("user_id","=",$user_id)->exists() || Debater::where("user_id","=",$user_id)->exists()){
+            Bystander::where("user_id",$user_id)->delete();
+            Debater::where("user_id",$user_id)->delete();
+        }
+        $this->insert($room_id,$user_id);
+    }
 }
