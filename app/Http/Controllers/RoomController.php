@@ -15,6 +15,7 @@ class RoomController extends Controller
     public function waituser($roomid,$state){
         $debater = new Debater();
         $bystander= new Bystander();
+        $chat = new Chat();
         $room = new Room();
         $user=Auth::user();
         $userid= $user['id'];
@@ -22,7 +23,24 @@ class RoomController extends Controller
         $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
 
         //todo 全員が途中離脱してディベート時間が来てしまった場合新しい状態として再度ディベート待機画面に移動させる処理を追加する
+/*
+        //現在時間がディベート終了時間よりも超過しているか
+        if($room->this_room_debate_time_end($roomid)){
+            //各ユーザーの登録を削除
+            $debater->remove_debater_by_id($userid,$roomid);
+            $bystander->remove_bystander_by_id($userid,$roomid);
 
+            //チャットの履歴を削除
+            $chat->remove_chat_by_id($roomid);
+
+            //部屋のスタートフラグを0にする
+            Room::where("r_id",$roomid)->where("timestartflg","=",1)->update(["timestartflg"=>0]);
+
+            //賛成と反対票をリセット
+            Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
+            Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
+        }
+*/
         //傍観者で選択した場合と発表者で選択された場合の処理
         if($state == 0) {
             //すでに発表者として登録されているか
@@ -73,9 +91,6 @@ class RoomController extends Controller
         //発表者の賛成・反対の状態を表示させる
         $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
 
-        //賛成と反対票をリセット
-        Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
-        Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
 
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
     }

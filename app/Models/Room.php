@@ -40,4 +40,26 @@ class Room extends Model
     public function is_debate_start($room_id):bool{
        return Room::where("r_id",$room_id)->where("timestartflg","=",1)->exists();
     }
+
+    //今いるルームのディベート時間がすでに終了時間を超過しているか
+    public function this_room_debate_time_end($roomid){
+        //現在時間を取得
+        $nowtime = Carbon::now();
+
+        //現在いる部屋を取得
+        $room = Room::where("r_id",$roomid)->first();
+
+        //Carbonインスタンスを生成。時間はルームのディベート開始時刻
+        $debateendtime = new Carbon($room->Starting_time);
+
+        //ディベートの終了時刻を設定
+        $debateendtime->addMinutes(10);
+
+        //現在時刻がディベート終了時刻よりも大きい場合
+        if($nowtime > $debateendtime && $room->timestartflg == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
