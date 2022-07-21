@@ -44,6 +44,38 @@ class Room extends Model
        return Room::where("r_id",$room_id)->where("timestartflg","=",1)->exists();
     }
 
+    //今いるルームのディベート時間がすでに終了時間を超過しているか
+    public function this_room_debate_time_end($roomid,$userid){
+
+        //発表者クラス
+        $debater = new Debater();
+        //傍観者クラス
+        $bystander = new Bystander();
+        //チャットクラス
+        $chat = new Chat();
+        //現在時間を取得
+        $nowtime = new Carbon();
+
+        //現在いる部屋を取得
+        $room = Room::where("r_id",$roomid)->first();
+
+        //Carbonインスタンスを生成。時間はルームのディベート開始時刻
+        $debateendtime = new Carbon($room->Starting_time);
+        //ディベートの終了時刻を設定
+        //$debateendtime->addMinutes(10);
+        $debateendtime->addSeconds(30);
+        //現在時刻がディベート終了時刻よりも大きい場合
+        if($nowtime->lt($debateendtime)){
+            /*//各ユーザーの登録を削除
+            $debater->remove_debater_by_id($userid,$roomid);
+            $bystander->remove_bystander_by_id($userid,$roomid);
+
+            //チャットの履歴を削除
+            $chat->remove_chat_by_id($roomid);*/
+            return true;
+        }else{
+            return false;
+        }
     //そのユーザーが作成したルーム数が規定以上だった場合trueを返す
     //todo 作成限度数は未定
     public function Is_the_users_room_creation_limit($userid):bool{
