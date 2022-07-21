@@ -34,8 +34,8 @@ Route::get('/chat',function (){
     return view('chat');
 });
 */
-//ログインした後の画面。genreに飛ぶ
-Route::get('/',[GenreController::class,'index']);
+//ログインした後の画面。りどみに飛ぶ
+Route::get('/',[GenreController::class,'readme']);
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');

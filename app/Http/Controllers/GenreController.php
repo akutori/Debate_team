@@ -17,5 +17,7 @@ class GenreController extends Controller
         return view('genre',compact('cate','ctn'));
     }
 
-
+    public function readme(){
+        return view('readme');
+    }
 }
