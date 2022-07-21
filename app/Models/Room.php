@@ -47,6 +47,64 @@ class Room extends Model
         return Room::where("r_id", $room_id)->where("timestartflg", "=", 1)->exists();
     }
 
+    //今いるルームのディベート時間がすでに終了時間を超過しているかを判定
+    public function this_room_debate_time_end($roomid){
+        //チャットクラス
+        $chat = new Chat();
+        //現在時間を取得
+        $now = Carbon::parse('now');
+
+        //現在いる部屋を取得
+        $room = Room::where("r_id",$roomid)->first();
+
+        //Carbonインスタンスを生成。時間はルームのディベート開始時刻
+        $debateendtime = new Carbon($room->Starting_time);
+
+        //同じ日か
+        if($now == $debateendtime){
+
+            //ディベートの終了時刻を設定
+            $debateendtime->addMinutes(10);
+
+            //現在の「時」を取得
+            $nowhour = $now->hour;
+            //ディベートの終了「時」を取得
+            $debatehour = $debateendtime->hour;
+
+            //$debateendtime->addSeconds(30);
+
+            //現在時間がディベート終了の「時間」内にいるか
+            if($nowhour < $debatehour){
+
+                //現在の「分」を取得
+                //$nowminute = $now->minute;
+                //ディベート時間の「分」を取得
+                //$debateminute = $debateendtime->minute;
+
+                //現在時間とディベート終了予定時間の差が10分以内か
+                if($now->diffInMinutes($debateendtime) < 10 ){
+                    //現在の秒を取得
+                    //$nowsecond= $now->second;
+                    //$debatesecond= $debateendtime->second;
+                    /*if($now->diffInSeconds($debateendtime) < 30){
+                        return false;
+                    }*/
+
+                    //ディベートはまだ続いている
+                    return false;
+                }else{
+                    //終了分を超過しているのでディベートは終了している
+                    return true;
+                }
+            }else{
+                //すでにディベート終了予定時刻を過ぎている
+                //まだ時間内なのでディベート続いている可能性がある
+                return true;
+            }
+        }else{
+            //違う日なのでディベートは終了している
+            return true;
+        }
     //そのユーザーが作成したルーム数が規定以上だった場合trueを返す
     public function Is_the_users_room_creation_limit($userid): bool
     {
@@ -86,5 +144,65 @@ class Room extends Model
         }
         //違う日なのでディベートは終了している
         return true;
+    }
+
+    //今いるルームのディベート時間がすでに終了時間を超過しているかを判定
+    public function this_room_debate_time_end($roomid){
+        //チャットクラス
+        $chat = new Chat();
+        //現在時間を取得
+        $now = Carbon::parse('now');
+
+        //現在いる部屋を取得
+        $room = Room::where("r_id",$roomid)->first();
+
+        //Carbonインスタンスを生成。時間はルームのディベート開始時刻
+        $debateendtime = new Carbon($room->Starting_time);
+
+        //同じ日か
+        if($now == $debateendtime){
+
+            //ディベートの終了時刻を設定
+            $debateendtime->addMinutes(10);
+
+            //現在の「時」を取得
+            $nowhour = $now->hour;
+            //ディベートの終了「時」を取得
+            $debatehour = $debateendtime->hour;
+
+            //$debateendtime->addSeconds(30);
+
+            //現在時間がディベート終了の「時間」内にいるか
+            if($nowhour < $debatehour){
+
+                //現在の「分」を取得
+                //$nowminute = $now->minute;
+                //ディベート時間の「分」を取得
+                //$debateminute = $debateendtime->minute;
+
+                //現在時間とディベート終了予定時間の差が10分以内か
+                if($now->diffInMinutes($debateendtime) < 10 ){
+                    //現在の秒を取得
+                    //$nowsecond= $now->second;
+                    //$debatesecond= $debateendtime->second;
+                    /*if($now->diffInSeconds($debateendtime) < 30){
+                        return false;
+                    }*/
+
+                    //ディベートはまだ続いている
+                    return false;
+                }else{
+                    //終了分を超過しているのでディベートは終了している
+                    return true;
+                }
+            }else{
+                //すでにディベート終了予定時刻を過ぎている
+                //まだ時間内なのでディベート続いている可能性がある
+                return true;
+            }
+        }else{
+            //違う日なのでディベートは終了している
+            return true;
+        }
     }
 }
