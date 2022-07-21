@@ -1,22 +1,18 @@
 @extends('header')
 
 @section('head')
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital@1&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">　
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('css/genre.css')}}">
-    <link rel="stylesheet" href="{{asset('js/genre.js')}}">
+
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
 @endsection
-<h1>始めにお読みください</h1>
+
+<div class="m-lg-5">
+<h1 class="alert-danger display-5">始めにお読みください</h1>
+<div class="mb-lg-4 mt-lg-4">
+<div style="font-size: 1.1em" class="mb-xxl-5">
 アプリを遊んでいただきありがとうございます。<br/>
 <br/>
-このアプリの作成チームのTomoya’sDebaterです。<br/>
+このアプリの作成チームの<b>Tomoya’sDebater</b>です。<br/>
 おかしいチーム名ですが、メンバー全員のネーミングセンスが無さすぎて、リーダーの名前とディベートを合わせて作りました。<br/>
 <br/>
 さて、ここではこのアプリを作ったプログラム言語とそのフレームワークについて少し話させてください。<br/>
@@ -32,11 +28,19 @@ LaravelはPHPよりも、難しく複雑ですが、その分やりたいこと�
 <br/>
 長い文章失礼しました。このアプリで遊んでいただく上での注意事項もありますので、読んでいただけると嬉しいです。<br/>
 では、どうぞ皆さんでディベートを楽しんでください。<br/>
+</div>
+<hr>
 
-<h1>注意事項</h1>
-・朝8時30分〜9時30分の間はプレイしないでください
+<div class="mb-lg-4 mt-lg-4 mt-xxl-5">
+<h1 class="alert-danger mb-5">注意事項</h1>
+<div style="font-size: 1.5em" class="mb-5">
+    <b>・朝8時30分〜9時30分の間はプレイしないでください</b>
+</div>
+</div>
 
-<h1>遊び方</h1>
+<div class="mb-lg-4 mt-lg-4">
+<h1 class="alert-info">遊び方</h1>
+<div style="font-size: 1.2em">
 １、まず新規登録（Registerから）でアカウントを作ってください<br/>
 ２、登録した情報からログインしてください<br/>
 ３、カテゴリー画面からジャンルを選んでください<br/>
@@ -46,3 +50,11 @@ LaravelはPHPよりも、難しく複雑ですが、その分やりたいこと�
 ６、発表者が２人、傍観者１人の計３人集まったらディベートが開始されます<br/>
 ７、タイマが終われば傍観者のみにどちらの意見に納得したか投票できます<br/>
 ８、結果がでて、試合終了です。トップページに戻ります<br/>
+</div>
+</div>
+<div class="text-lg-center">
+    <button type="submit" onclick="location.href='{{url('/sgenre')}}'" class="btn btn-outline-primary btn-light p-xxl-5 m-lg-5 shadow-lg fs-4">ジャンル選択</button>
+    <button type="submit" onclick="location.href='{{url('/register')}}'" class="btn btn-outline-success btn-light p-xxl-5 m-lg-5 shadow-lg fs-4">アカウント作成</button>
+</div>
+@section('body')
+@endsection
