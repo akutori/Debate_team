@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\allController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\http\Request;
@@ -71,3 +72,6 @@ Route::get('/vote3/{rid}',[\App\Http\Controllers\voteController::class,'index'])
 Route::get('/voteko/{rid}',[\App\Http\Controllers\votesumController::class,'ko']);
 Route::get('/votesan/{rid}',[\App\Http\Controllers\votesumController::class,'san']);
 Route::get('/vote/{rid}',[\App\Http\Controllers\votesumController::class,'index']);
+
+//all機能
+Route::get('/all',[allController::class,'index']);
