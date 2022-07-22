@@ -33,17 +33,26 @@ class ChatController extends Controller
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
+        $sthh = $stt->hour;
+        (int)$stday = $stt->day;
+        $sth = (int)$sthh*3600;
         $stm = (int)$stmm*60;
-        $stsum=(int)$stb+$stm;
+        $stsum=(int)$stb+$stm+$sth;
 
 
         $now = Carbon::now();
         $nowb = $now->second;
         $nowmm = $now->minute;
-
+        $nowhh = $now->hour;
+        (int)$nowday = $now->day;
+        $nowh = (int)$nowhh*3600;
         $nowm = (int)$nowmm*60;
 
-        $nowsum = (int)$nowb+ $nowm;
+        $oneday = 0;
+        if ($stday+1 == $nowday){
+            $oneday = 86400;
+        }
+        $nowsum = (int)$nowb+ $nowm+$nowh+$oneday;
 
         $tim = $max-($nowsum-$stsum);
 
