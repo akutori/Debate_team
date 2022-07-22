@@ -29,7 +29,7 @@ class ChatController extends Controller
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
         //ディベート時間(秒)
-        $max=300;
+        $max=600;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
