@@ -28,32 +28,19 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        //ディベート時間(秒)
         $max=600;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
-        $sthh = $stt->hour;
-        (int)$stday = $stt->day;
-        $sth = (int)$sthh*3600;
         $stm = (int)$stmm*60;
-        $stsum=(int)$stb+$stm+$sth;
-
+        $stsum=(int)$stb+$stm;
 
         $now = Carbon::now();
         $nowb = $now->second;
         $nowmm = $now->minute;
-        $nowhh = $now->hour;
-        (int)$nowday = $now->day;
-        $nowh = (int)$nowhh*3600;
         $nowm = (int)$nowmm*60;
-
-        $oneday = 0;
-        if ($stday+1 == $nowday){
-            $oneday = 86400;
-        }
-        $nowsum = (int)$nowb+ $nowm+$nowh+$oneday;
+        $nowsum = (int)$nowb+ $nowm;
 
         $tim = $max-($nowsum-$stsum);
 
@@ -82,8 +69,8 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
-       }
+        return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
+    }
 
 
     /**
@@ -116,7 +103,7 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=600;
+        $max=30;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
@@ -202,10 +189,10 @@ class ChatController extends Controller
         //
     }
     public function getData($rid)
-{
-    //チャットの履歴を全て取得
-    $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
-    $json = ["chats" => $chats];
-    return response()->json($json);
-}
+    {
+        //チャットの履歴を全て取得
+        $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
+        $json = ["chats" => $chats];
+        return response()->json($json);
+    }
 }
