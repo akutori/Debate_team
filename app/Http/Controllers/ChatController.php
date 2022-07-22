@@ -103,7 +103,8 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=30;
+        //制限時間(秒)
+        $max=600;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;

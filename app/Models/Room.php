@@ -63,12 +63,6 @@ class Room extends Model
         $debateendtime->addSeconds(30);
         //現在時刻がディベート終了時刻よりも大きい場合
         if($nowtime->lt($debateendtime)){
-            /*//各ユーザーの登録を削除
-            $debater->remove_debater_by_id($userid,$roomid);
-            $bystander->remove_bystander_by_id($userid,$roomid);
-
-            //チャットの履歴を削除
-            $chat->remove_chat_by_id($roomid);*/
             return true;
         }else{
             return false;
