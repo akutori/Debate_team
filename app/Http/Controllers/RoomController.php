@@ -33,6 +33,8 @@ class RoomController extends Controller
             if($debater->roomedDebater($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid,$userid)){
+                    //発表者の賛成・反対の状態を取得
+                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //todo 場所の変更
                     if($room->this_room_debate_time_end($roomid,$userid)){
                         //各ユーザーの登録を削除
@@ -48,8 +50,7 @@ class RoomController extends Controller
                     }else{
                         return view('readme');
                     }
-                    //発表者の賛成・反対の状態を取得
-                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
+
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                 }
@@ -73,7 +74,10 @@ class RoomController extends Controller
             if($bystander->roomedBystander($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
+                    //発表者の賛成・反対の状態を取得
+                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //todo 場所の変更
+                    //ディベート時間が終了しているか
                     if($room->this_room_debate_time_end($roomid,$userid)){
                         //各ユーザーの登録を削除
                         $debater->remove_debater_by_id($userid,$roomid);
@@ -88,8 +92,6 @@ class RoomController extends Controller
                     }else{
                         return view('readme');
                     }
-                    //発表者の賛成・反対の状態を取得
-                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                 }
@@ -106,8 +108,6 @@ class RoomController extends Controller
         }
         //発表者の賛成・反対の状態を表示させる
         $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-
-
 
         //賛成と反対票をリセット
         Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
