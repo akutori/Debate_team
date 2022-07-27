@@ -28,25 +28,28 @@ class RoomController extends Controller
         //傍観者で選択した場合と発表者で選択された場合の処理
         if($state == 0) {
             //すでに発表者として登録されているか
-            if($debater->roomedDebater($userid,$roomid)==1){
+            if($debater->roomedDebater($userid, $roomid)==1){
                 //すでにディベートは開始されているか
-                if($room->is_debate_start($roomid,$userid)){
+                if($room->is_debate_start($roomid)){
                     //発表者の賛成・反対の状態を取得
                     $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-                    //todo 場所の変更
-                    if($room->this_room_debate_time_end($roomid,$userid)){
-                        //各ユーザーの登録を削除
-                        $debater->remove_debater_by_id($userid,$roomid);
-                        $bystander->remove_bystander_by_id($userid,$roomid);
-
+                    //すでにディベートは終了時刻を過ぎているか
+                    if(!$room->this_room_debate_time_end($roomid)){
+                        //ディベート開始フラグを0に戻す
+                        Room::where("r_id",$roomid)->where("timestartflg","=",1)->update(["timestartflg"=>0]);
+                        //すでにディベート開始フラグが0の場合登録を削除する
+                        if(!$room->is_debate_start($roomid)){
+                            //各ユーザーの登録を削除
+                            $debater->remove_debater_by_id($userid,$roomid);
+                            //傍観者は全て削除する
+                            $bystander->remove_all_bystander_by_id($roomid);
+                        }
                         //チャットの履歴を削除
                         $chat->remove_chat_by_id($roomid);
 
                         //賛成と反対票をリセット
                         Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
                         Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
-                    }else{
-                        return view('readme');
                     }
 
                     //途中参加
@@ -69,18 +72,22 @@ class RoomController extends Controller
         //傍観者として参加した場合
         }else if($state==1){
             //傍観者として登録されているか
-            if($bystander->roomedBystander($userid,$roomid)==1){
+            if($bystander->roomedBystander($userid, $roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
                     //発表者の賛成・反対の状態を取得
                     $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-                    //todo 場所の変更
                     //ディベート時間が終了しているか
-                    if($room->this_room_debate_time_end($roomid,$userid)){
-                        //各ユーザーの登録を削除
-                        $debater->remove_debater_by_id($userid,$roomid);
-                        $bystander->remove_bystander_by_id($userid,$roomid);
-
+                    if(!$room->this_room_debate_time_end($roomid)){
+                        //ディベート開始フラグを0に戻す
+                        Room::where("r_id",$roomid)->update(["timestartflg"=>0]);
+                        //すでにディベート開始フラグが0の場合登録を削除する
+                        if(!$room->is_debate_start($roomid)){
+                            //各ユーザーの登録を削除
+                            $debater->remove_debater_by_id($userid,$roomid);
+                            //発表者を完全に削除する
+                            $bystander->remove_all_bystander_by_id($roomid);
+                        }
                         //チャットの履歴を削除
                         $chat->remove_chat_by_id($roomid);
 
@@ -88,7 +95,8 @@ class RoomController extends Controller
                         Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
                         Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
                     }else{
-                        return view('readme');
+                        //途中参加
+                        return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                     }
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
@@ -215,4 +223,64 @@ class RoomController extends Controller
     {
         //
     }
+
+    //今いるルームのディベート時間がすでに終了時間を超過しているか
+    public function this_room_debate_time_end($roomid){
+        //チャットクラス
+        $chat = new Chat();
+        //現在時間を取得
+        $now = Carbon::parse('now');
+
+        //現在いる部屋を取得
+        $room = Room::where("r_id",$roomid)->first();
+
+        //Carbonインスタンスを生成。時間はルームのディベート開始時刻
+        $debateendtime = new Carbon($room->Starting_time);
+
+        //同じ日か
+        if($now == $debateendtime){
+
+            //ディベートの終了時刻を設定
+            $debateendtime->addMinutes(10);
+
+            //現在の「時」を取得
+            $nowhour = $now->hour;
+            //ディベートの終了「時」を取得
+            $debatehour = $debateendtime->hour;
+
+            $debateendtime->addSeconds(30);
+
+            //現在時間がディベート終了の「時間」内にいるか
+            if($nowhour < $debatehour){
+
+                //現在の「分」を取得
+                $nowminute = $now->minute;
+                //ディベート時間の「分」を取得
+                $debateminute = $debateendtime->minute;
+
+                //ディベート終了時刻が10分(ディベート予定分)を超過しているか
+                if($now->diffInMinutes($debateendtime) < 10 ){
+                    //現在の秒を取得
+                    $nowsecond= $now->second;
+                    $debatesecond= $debateendtime->second;
+                    if($now->diffInSeconds($debateendtime) < 30){
+                        return false;
+                    }
+                    //ディベートはまだ続いている
+                    //return false;
+                }else{
+                    //終了分を超過しているのでディベートは終了している
+                    return true;
+                }
+            }else{
+                //すでにディベート終了予定時刻を過ぎている
+                //まだ時間内なのでディベート続いている可能性がある
+                return true;
+            }
+        }else{
+            //違う日なのでディベートは終了している
+            return true;
+        }
+    }
+
 }
