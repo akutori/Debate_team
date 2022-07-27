@@ -1,5 +1,13 @@
 $(function() {
     get_data();
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
+    });
 });
 
 function get_data() {

@@ -1,6 +1,14 @@
 $(function() {
     sendtext();
     get_data();
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
+    });
 });
 
 function get_data() {
@@ -37,7 +45,7 @@ function get_data() {
         error: () => {
             //alert("ajax Error");
             console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-            console.log("textStatus     : " + textStatus);
+            //console.log("textStatus     : " + textStatus);
             console.log("errorThrown    : " + errorThrown.message);
         }
     });

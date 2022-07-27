@@ -28,6 +28,11 @@ class Bystander extends Model
         Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
     }
 
+    //同一ルームの全ての傍観者を削除
+    public function remove_all_bystander_by_id($room_id){
+        Bystander::where("room_id","=",$room_id)->delete();
+    }
+
     //すでに傍観者として登録されているかを確認。
     public function roomedBystander($user_id,$room_id){
         if(Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
