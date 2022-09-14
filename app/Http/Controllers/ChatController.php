@@ -20,39 +20,59 @@ class ChatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($roomid,$state){
-
         /*タイムスタンプ保存*/
         $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
         if ($stflg->timestartflg == 0){
             $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
             $bydb1 = DB::table('rooms')->where('r_id', $roomid)->update(['timestartflg'=>1]);
-
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=1200;
+        $max=600;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
+        $sthh = $stt->hour;
+        (int)$stday = $stt->day;
+        $sth = (int)$sthh*3600;
         $stm = (int)$stmm*60;
-        $stsum=(int)$stb+$stm;
+        $stsum=(int)$stb+$stm+$sth;
+
 
         $now = Carbon::now();
         $nowb = $now->second;
         $nowmm = $now->minute;
+        $nowhh = $now->hour;
+        (int)$nowday = $now->day;
+        $nowh = (int)$nowhh*3600;
         $nowm = (int)$nowmm*60;
-        $nowsum = (int)$nowb+ $nowm;
+
+        $oneday = 0;
+        if ($stday+1 == $nowday){
+            $oneday = 86400;
+        }
+        $nowsum = (int)$nowb+ $nowm+$nowh+$oneday;
 
         $tim = $max-($nowsum-$stsum);
 
 
-
-        $chats= Chat::get();
+        //チャット履歴を取得
+        //$chats= Chat::where("room_id",$roomid)->get();
 
         $user=Auth::user();
         $name = $user['name'];
         $userid= $user['id'];
+        $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
+        //賛成のときはチャットのusers_positionに賛成を入れる
+        if(!isset($usersposition)){
+            $usersposition="";
+        }else if(isset($usersposition) && $usersposition->d_pd==0){
+            $usersposition="賛成";
+        }elseif (isset($usersposition) && $usersposition->d_pd==1){
+            $usersposition="反対";
+        }
+
 
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
@@ -61,7 +81,7 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('chats','name','roomdata','state','st','tim','stflg'));
+           return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
        }
 
 
@@ -87,9 +107,15 @@ class ChatController extends Controller
         $chats->fill($request->all())->save();
 
         /*タイムスタンプ保存*/
-        $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+        $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
+        if ($stflg->timestartflg == 0){
+            $bydb = DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+            $bydb1 = DB::table('rooms')->where('r_id', $roomid)->update(['timestartflg'=>1]);
+
+        }
+
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=60;
+        $max=600;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
@@ -105,14 +131,12 @@ class ChatController extends Controller
 
         $tim = $max-($nowsum-$stsum);
 
-        $chats= Chat::get();
+        //チャット履歴を取得
+        //$chats= Chat::where("room_id",$roomid)->get();
 
         $user=Auth::user();
         $name = $user['name'];
         $userid= $user['id'];
-
-        $user=Auth::user();
-        $name = $user['name'];
 
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
@@ -120,8 +144,16 @@ class ChatController extends Controller
             ->join('titles','rooms.title_id','=','t_id')
             ->where('r_id','=',$roomid)->first();
 
+        $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
+        //賛成のときはチャットのusers_positionに賛成を入れる
+        if($usersposition->d_pd==0){
+            $usersposition="賛成";
+        }elseif ($usersposition->d_pd==1){
+            $usersposition="反対";
+        }
+
         $state=0;
-        return view('chat',compact('chats','roomdata','state','name','st','tim'));
+        return view('chat',compact('roomdata','state','name','st','tim','stflg','usersposition'));
     }
 
     /**
@@ -170,9 +202,8 @@ class ChatController extends Controller
     }
     public function getData($rid)
 {
-
+    //チャットの履歴を全て取得
     $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
-
     $json = ["chats" => $chats];
     return response()->json($json);
 }

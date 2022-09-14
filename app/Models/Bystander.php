@@ -23,10 +23,26 @@ class Bystander extends Model
         $insert->save();
     }
 
-    public function remove_debater_by_id($user_id,$room_id,$state){
-        //同じルームIDかつ同じユーザIDなのに状態が発表者だった場合
-        if((Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->get()->exists())&& $state==0){
-            Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
+    //ディベートが終わった際にルームIDを元に削除する
+    public function remove_bystander_by_id($user_id, $room_id){
+        Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
+    }
+
+    //すでに傍観者として登録されているかを確認。
+    public function roomedBystander($user_id,$room_id){
+        if(Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
+            return 1;
+        }else{
+            return 0;
         }
+    }
+
+    //違う部屋ですでに登録されていた場合現在のルームに再設定する
+    public function remove_duplicates_and_reconfigure_bystander($user_id,$room_id){
+        if (Bystander::where("user_id","=",$user_id)->exists() || Debater::where("user_id","=",$user_id)->exists()){
+            Bystander::where("user_id",$user_id)->delete();
+            Debater::where("user_id",$user_id)->delete();
+        }
+        $this->insert($room_id,$user_id);
     }
 }

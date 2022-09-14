@@ -22,32 +22,32 @@ class Debater extends Model
         //0が賛成1が反対
         $flag=mt_rand(0,1);
         if($flag==0){
-            $flag=false;
+            $flag=0;
         }else{
-            $flag=true;
+            $flag=1;
         }
         //0の値が含まれている場合(反対)
         //roomidも同じカラムが1件登録されていた場合
 
-        if(Debater::where('d_pd','=','true')->where('debaters.room_id','=',$room_id)->exists()){
+        if(Debater::where('d_pd','=',1)->where('debaters.room_id','=',$room_id)->exists()){
             $insert = Debater::create([
                 'user_id'=>$user_id,
                 'room_id'=>$room_id,
-                'd_pd'=>false
+                'd_pd'=>0
             ]);
         }
         //0の値が含まれている場合(賛成)
         //roomidも同じカラムが1件登録されていた場合
-        else if(Debater::where('d_pd','=','false')->where('debaters.room_id','=',$room_id)->exists()){
+        else if(Debater::where('d_pd','=',0)->where('debaters.room_id','=',$room_id)->exists()){
             $insert = Debater::create([
                 'user_id'=>$user_id,
                 'room_id'=>$room_id,
-                'd_pd'=>true
+                'd_pd'=>1
             ]);
         //値が含まれていない場合
         //ディベーターテーブルのroomidと引数のroomidが同じものが入っていない
         //そしてd_pdの値も入っていない場合の値を取得する
-        }else if(Debater::select()->join('rooms','r_id','=','debaters.room_id')->where('debaters.room_id','=',$room_id)->where('d_pd')->doesntExist()){
+        }else if(Debater::where('room_id','=',$room_id)->doesntExist()){
             $insert = Debater::create([
                 'room_id'=>$room_id,
                 'user_id'=>$user_id,
@@ -58,5 +58,28 @@ class Debater extends Model
             return false;
         }
         $insert->save();
+    }
+
+    //ディベートが終わった際にルームIDを元に削除する
+    public function remove_debater_by_id($user_id, $room_id){
+        Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
+    }
+
+    //すでに発表者として登録されているかを確認。
+    public function roomedDebater($user_id,$room_id){
+       if(Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
+           return 1;
+       }else{
+           return 0;
+       }
+    }
+
+    //違う部屋ですでに登録されていた場合現在のルームに再設定する
+    public function remove_duplicates_and_reconfigure_debater($user_id,$room_id){
+        if (Debater::where("user_id","=",$user_id)->exists() || Bystander::where("user_id","=",$user_id)->exists()){
+            Debater::where("user_id",$user_id)->delete();
+            Bystander::where("user_id",$user_id)->delete();
+        }
+        $this->insert($room_id,$user_id);
     }
 }

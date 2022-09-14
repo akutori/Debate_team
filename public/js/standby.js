@@ -12,7 +12,7 @@ function get_data() {
         dataType: "json",
 
         success: data => {
-            //発表者が2人以下で傍観者が誰もいない時
+            //発表者が2人以上で傍観者が1人入ってきた時
             if((data.debater >=2)&& data.bystander >= 1) {
                 //条件が揃った処理
                 /*
@@ -34,5 +34,5 @@ function get_data() {
         }
     });
 
-    setTimeout("get_data()", 500);
+    setTimeout("get_data()", 2000);
 }
