@@ -113,7 +113,9 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        $user=Auth::user();
+        $userid= $user['id'];
+        return view("makeroom",compact('userid'));
     }
 
     /**

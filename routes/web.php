@@ -44,6 +44,8 @@ Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat')
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);
 
+Route::get('/makeroom',[RoomController::class,'index']);
+
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 //待機室から抜ける(部屋から離脱する)
 Route::get('/stheme/{roomid}/{state}/{userid}',[ThemeController::class,'exit_from_waiting_room'])->name('exitwaitroom');
