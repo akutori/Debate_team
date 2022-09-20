@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bystander;
+use App\Models\Category;
 use App\Models\Chat;
 use App\Models\Debater;
 use App\Models\Room;
+use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -120,12 +122,56 @@ class RoomController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * 新規リソースの作成フォームを表示します。
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        //同じビューにもどってくるためもう一度useridを取得する必要がある
+        $user=Auth::user();
+        $userid= $user['id'];
+        //フォームからすべてのinput要素から値を取り出す
+        $formdata = $request->only(['userid','title','categoryid']);
+        //お題から登録する。そうしないとroomから作成した場合に無いものを入れることになる
+        Title::insert($formdata['title'],$formdata['categoryid']);
+        Room::insert($formdata['categoryid'],$formdata['userid']);
+        //アラート用にcategoryIDからcategory名を取得
+        $catgory = Category::find($formdata['categoryid'])->first();
+        //ユーザーが作成したルームが上限を超過しているか
+        $isRoomCreateLimit = Room::Is_the_users_room_creation_limit($formdata['userid']);
+        if($isRoomCreateLimit){
+            $alerttext = '
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" role="alert" id="createalert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 15">
+                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+            </svg>
+            <div class="container">
+                <button type="button" class="btn-close float-end border-0 bg-transparent" data-bs-dismiss="alert" aria-label="Close"></button>
+                <h4 class="alert-heading m-3">ルームの作成上限に達しました!!</h4>
+                <hr>
+                <p class="m-3">新たにルーム作成を行う場合は「マイページ」から部屋の削除を行ってください</p>
+            </div>
+        </div>
+            ';
+        }else{
+            $alerttext='
+                <div class="alert alert-success alert-dismissible d-flex align-items-center fade show alert-heading" role="alert" id="alertclose">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check2-circle flex-shrink-0 me-2" viewBox="0 0 16 15">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                </svg>
+                <div class="container">
+                    <button type="button" class="btn-close float-end border-0 bg-transparent" data-bs-dismiss="alert" aria-label="Close" ></button>
+                    <h4 class="alert-heading m-3">新規作成が完了しました!!</h4>
+                    <hr>
+                    <p class="m-3">カテゴリー : 「'.$formdata['categoryid'].'」</p>
+                    <p class="m-3">お題 : 「'.$catgory.'」</p>
+                </div>
+            </div>
+            ';
+        }
+        return view("makeroom",compact('userid','alerttext'));
     }
 
     /**
