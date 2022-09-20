@@ -102,6 +102,7 @@ class Room extends Model
             //違う日なのでディベートは終了している
             return true;
         }
+    }
     //そのユーザーが作成したルーム数が規定以上だった場合trueを返す
     //todo 作成限度数は未定
     public function Is_the_users_room_creation_limit($userid):bool{
