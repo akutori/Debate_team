@@ -37,7 +37,7 @@ class RoomController extends Controller
                     if(!$room->this_room_debate_time_end($roomid)){
                         //ディベート開始フラグを0に戻す
                         Room::where("r_id",$roomid)->where("timestartflg","=",1)->update(["timestartflg"=>0]);
-                        //すでにディベート開始フラグが0の場合登録を削除する
+                        //すでにディベート開始フラグが0の場合登録を削除する 重複あり
                         if(!$room->is_debate_start($roomid)){
                             //各ユーザーの登録を削除
                             $debater->remove_debater_by_id($userid,$roomid);
@@ -50,6 +50,7 @@ class RoomController extends Controller
                         //賛成と反対票をリセット
                         Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
                         Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
+                        //重複ここまで
                     }
 
                     //途中参加
@@ -94,6 +95,7 @@ class RoomController extends Controller
                         //賛成と反対票をリセット
                         Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
                         Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
+                        //重複ここまで
                     }else{
                         //途中参加
                         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
