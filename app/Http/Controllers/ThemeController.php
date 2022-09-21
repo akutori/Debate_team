@@ -17,7 +17,8 @@ class ThemeController extends Controller
         $room = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
-            ->where('rooms.category_id','=',$cid)->get();
+                                                                        //user_idがnull(公式が作成したもの)のものを抽出
+            ->where('rooms.category_id','=',$cid)->where('user_id',null)->get();
         $category = Category::where('c_id','=',$cid)->first();
         $userinfo = Auth::user();
 
@@ -67,5 +68,43 @@ class ThemeController extends Controller
 
         return view('theme',compact('room','userid','debater_flag','bystander_flag','category'));
 
+    }
+
+    //ユーザー作成のルーム一覧を表示させる
+    public function userindex(){
+        //ダイアログを表示させるのに必要なコントローラー(全て)
+        $room = DB::table('rooms')
+            ->join('categories','rooms.category_id','=','categories.c_id')
+            ->join('titles','rooms.title_id','=','titles.t_id')
+            //user_idがnull(公式が作成したもの)のものを抽出
+            ->where('user_id','!=',null)->get();
+
+        $returnvalue = $this->de_duplication();
+        $userid = $returnvalue['userid'];
+        $debater_flag = $returnvalue['debater_flag'];
+        $bystander_flag = $returnvalue['bystander_flag'];
+        $category = $returnvalue['category'];
+
+        return view('userrooms',compact('room','userid','debater_flag','bystander_flag','category'));
+    }
+
+    private function de_duplication(): array|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
+        $category = Category::get();
+        $userinfo = Auth::user();
+
+        //ログインしていない場合
+        if(Auth::check()){
+            $userid= $userinfo['id'];
+        }else{
+            return redirect('/register');
+        }
+
+        return [
+            'category'=>$category,
+            'userid'=>$userid,
+            'debater_flag'=>0,
+            'bystander_flag'=>1
+        ];
     }
 }
