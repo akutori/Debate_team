@@ -11,20 +11,20 @@
         <form action="" method="post" class="form-horizontal">
             <div class="form-group mb-5">
                 <p class="form-floating">
-                    <select class="form-select mt-2" id="category-select">
+                    <select class="form-select mt-2" id="category-select" name="categoryid">
                         <option disabled selected>カテゴリーを選択してください</option>
-                        <option>政治</option>
-                        <option>芸能</option>
-                        <option>スポーツ</option>
-                        <option>恋愛</option>
-                        <option>食べ物</option>
+                        <option value="7">政治</option>
+                        <option value="8">芸能</option>
+                        <option value="9">スポーツ</option>
+                        <option value="10">恋愛</option>
+                        <option value="11">食べ物</option>
                         <option>その他</option>
                     </select>
                     <label for="category-select">Category</label>
                 </p>
             </div>
             <p class="form-floating mt-4">
-                <textarea placeholder="題名を入力" class="form-control mt-2" rows="3" id="content"></textarea>
+                <textarea placeholder="題名を入力" class="form-control mt-2" rows="3" id="content" name="titel"></textarea>
                 <label for="content">Title</label>
             </p>
             <input type="submit" class="btn btn-outline-primary btn-lg mt-3 p-lg-3 shadow" id="createroom" value="ルームの新規作成" >
