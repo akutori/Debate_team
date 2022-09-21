@@ -117,7 +117,8 @@ class RoomController extends Controller
     {
         $user=Auth::user();
         $userid= $user['id'];
-        return view("makeroom",compact('userid'));
+        $categorys = Category::all();
+        return view("makeroom",compact('userid','categorys'));
     }
 
     /**
@@ -127,18 +128,18 @@ class RoomController extends Controller
      */
     public function create(Request $request)
     {
-        //同じビューにもどってくるためもう一度useridを取得する必要がある
-        $user=Auth::user();
-        $userid= $user['id'];
+        $room = new Room();
+        $title = new Title();
+        $categorys = Category::all();
         //フォームからすべてのinput要素から値を取り出す
-        $formdata = $request->only(['userid','title','categoryid']);
-        //お題から登録する。そうしないとroomから作成した場合に無いものを入れることになる
-        Title::insert($formdata['title'],$formdata['categoryid']);
-        Room::insert($formdata['categoryid'],$formdata['userid']);
+        $formdata = $request->all();
+        //同じビューにもどってくるためもう一度useridを取得する必要がある
+        $userid = $formdata['userid'];
         //アラート用にcategoryIDからcategory名を取得
-        $catgory = Category::find($formdata['categoryid'])->first();
+        $catgory = Category::where('c_id',$formdata['categoryid'])->first();
         //ユーザーが作成したルームが上限を超過しているか
-        $isRoomCreateLimit = Room::Is_the_users_room_creation_limit($formdata['userid']);
+        $isRoomCreateLimit = $room->Is_the_users_room_creation_limit($formdata['userid']);
+        //超過していなければ登録する
         if($isRoomCreateLimit){
             $alerttext = '
                 <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" role="alert" id="createalert">
@@ -155,6 +156,10 @@ class RoomController extends Controller
         </div>
             ';
         }else{
+            //お題から登録する。そうしないとroomから作成した場合に無いものを入れることになる
+            $title->insert($formdata['title'],(int)$formdata['categoryid']);
+            $room->insert((int)$formdata['categoryid'],(int)$formdata['userid']);
+
             $alerttext='
                 <div class="alert alert-success alert-dismissible d-flex align-items-center fade show alert-heading" role="alert" id="alertclose">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check2-circle flex-shrink-0 me-2" viewBox="0 0 16 15">
@@ -165,13 +170,13 @@ class RoomController extends Controller
                     <button type="button" class="btn-close float-end border-0 bg-transparent" data-bs-dismiss="alert" aria-label="Close" ></button>
                     <h4 class="alert-heading m-3">新規作成が完了しました!!</h4>
                     <hr>
-                    <p class="m-3">カテゴリー : 「'.$formdata['categoryid'].'」</p>
-                    <p class="m-3">お題 : 「'.$catgory.'」</p>
+                    <p class="m-3">カテゴリー : 「'.$catgory->c_name.'」</p>
+                    <p class="m-3">お題 : 「'.$formdata['title'].'」</p>
                 </div>
             </div>
             ';
         }
-        return view("makeroom",compact('userid','alerttext'));
+        return view("makeroom",compact('userid','alerttext','categorys'));
     }
 
     /**
