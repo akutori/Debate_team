@@ -28,8 +28,9 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=600;
 
+        /*
+        $max=600;
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
@@ -55,7 +56,7 @@ class ChatController extends Controller
         $nowsum = (int)$nowb+ $nowm+$nowh+$oneday;
 
         $tim = $max-($nowsum-$stsum);
-
+*/
 
         //チャット履歴を取得
         //$chats= Chat::where("room_id",$roomid)->get();
@@ -81,7 +82,7 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
+           return view('/chat',compact('name','roomdata','state','st'/*,'tim'*/,'stflg','usersposition'));
        }
 
 
@@ -115,8 +116,8 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
+        /*
         $max=600;
-
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
         $stmm = $stt->minute;
@@ -128,9 +129,8 @@ class ChatController extends Controller
         $nowmm = $now->minute;
         $nowm = (int)$nowmm*60;
         $nowsum = (int)$nowb+ $nowm;
-
         $tim = $max-($nowsum-$stsum);
-
+        */
         //チャット履歴を取得
         //$chats= Chat::where("room_id",$roomid)->get();
 
@@ -153,7 +153,7 @@ class ChatController extends Controller
         }
 
         $state=0;
-        return view('chat',compact('roomdata','state','name','st','tim','stflg','usersposition'));
+        return view('chat',compact('roomdata','state','name','st'/*,'tim'*/,'stflg','usersposition'));
     }
 
     /**
