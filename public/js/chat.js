@@ -18,17 +18,11 @@ function get_data() {
             for (var i = 0; i < data.chats.length; i++) {
 
                 var html = `
-                            <div class="media chat-visible">
-                                <div class="media-body chat-body">
-                                    <div class="row">
-                                        <span class="chat-body-id" id="user_id">ID：${data.chats[i].user_id}</span>
-                                        <span class="chat-body-user" id="user_name">＠${data.chats[i].user_name}</span>
+                    <span class="chat-body-id" id="user_id">ID：${data.chats[i].user_id}</span>
+                    <span class="chat-body-user" id="user_name">＠${data.chats[i].user_name}</span>
 
-                                        <span class="chat-body-state" id="users_positon">立場:${data.chats[i].users_position}</span>
-                                    </div>
-                                    <span class="chat-body-message" id="message">${data.chats[i].message}</span>
-                                </div>
-                            </div>
+                    <span class="chat-body-state" id="users_positon">立場:${data.chats[i].users_position}</span>
+                    <span class="chat-body-message" id="message">${data.chats[i].message}</span>
                         `;
 
                 $("#chat-data").append(html).fadeIn();
