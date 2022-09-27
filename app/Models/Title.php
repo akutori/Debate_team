@@ -10,7 +10,7 @@ class Title extends Model
     use HasFactory;
 
     //ホワイトリスト。この中に入っているカラムは変更を許可させる
-    protected $fillable = ['t_name'];
+    protected $guarded = ['t_id'];
     protected $primaryKey='t_id';
     public $timestamps = false;
 
@@ -20,7 +20,7 @@ class Title extends Model
         return Title::create([
             't_name'=>$title,
             'category_id'=>$cateid
-        ]);
+            ]);
     }
     //一番最後に入れたデータを取得
     public function getLastTitleData(){
