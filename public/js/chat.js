@@ -17,14 +17,32 @@ function get_data() {
 /*<span class="chat-body-time" id="created_at">${data.chats[i].created_at}</span>*/
             for (var i = 0; i < data.chats.length; i++) {
 
+                //時間の時と分を抽出
+                const time = new Date(data.chats[i].created_at);
+                const create_at = time.getHours() + ':' + time.getMinutes();
+                let position = ''
+                if(data.chats[i].users_position==="賛成"){
+                    position = 'text-danger'
+                }else{
+                    position ='text-primary'
+                }
+
                 var html = `
-                    <span class="chat-body-id" id="user_id">ID：${data.chats[i].user_id}</span>
-                    <span class="chat-body-user" id="user_name">＠${data.chats[i].user_name}</span>
-
-                    <span class="chat-body-state" id="users_positon">立場:${data.chats[i].users_position}</span>
-                    <span class="chat-body-message" id="message">${data.chats[i].message}</span>
+                    <div class="row">
+                        <div class="col-auto">
+                            <span class="chat-body-user text-black fs-5 me-5" id="user_name">${data.chats[i].user_name}</span>
+                            <span class="chat-body-state fs-5 ${position}" id="users_positon">${data.chats[i].users_position}</span>
+                        </div>
+                        <div class="col-auto d-flex align-items-end">
+                            <span class="chat-body-time text-secondary" id="created_at">${create_at}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
+                        </div>
+                    </div>
                         `;
-
                 $("#chat-data").append(html).fadeIn();
             }
         },
@@ -36,7 +54,7 @@ function get_data() {
         }
     });
 
-    setTimeout("get_data()", 300);
+    //setTimeout("get_data()", 300);
 }
 
 //送信ボタンが押された際リロードを挟まずにチャットを登録

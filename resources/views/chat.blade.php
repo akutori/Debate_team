@@ -31,27 +31,30 @@ use Illuminate\Support\Facades\Auth;
     </script>
 @endsection
 @section('body')
-    {{--タイマー--}}
-    <div class='timer' data-seconds-left="{{--$tim--}}"></div>
-    <div class="">
-        <h1>{{$roomdata->t_name}}のchat</h1>
+    <div class="container mt-5 shadow-lg ">
+        <h1 class="text-center mt-5 mb-3">{{$roomdata->t_name}}のchat</h1>
+        <div class="row">
         @if($state==0)
             @if($usersposition="賛成")
-                <p class="bg-denger">あなたは{{$usersposition}}派です</p>
+                <p class="fs-2 text-center col-11">あなたは<span class="fs-1 text-danger">{{$usersposition}}派</span>です</p>
             @else
-                <p class="bg-info">あなたは{{$usersposition}}派です</p>
+                <p class="fs-2 text-center col-11">あなたは<span class="fs-1 text-primary">{{$usersposition}}派</span>です</p>
             @endif
         @elseif($state==1)
             <p>あなたの立場は傍観者です</p>
         @endif
-        <div id="chat-data">
-            {{-- チャット履歴を表示させる --}}
+            {{--タイマー--}}
+            <div class='timer text-danger fs-3 text-end col-1' data-seconds-left="{{--$tim--}}">10:00</div>
         </div>
-    </div>
+        <div class="row overflow-auto h-50 w-100">
+            <div id="chat-data">
+                {{-- チャット履歴を表示させる --}}
+            </div>
+        </div>
 @if($state==0)
     {{---  チャット送信  ---}}
     {{--- web.phpの/chat ---}}
-        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post" id="chatform" class="">
+        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post" id="chatform" class="mt-5">
             @csrf
             <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">
             <input type="hidden" name="user_name" value="{{$name}}">
@@ -65,10 +68,11 @@ use Illuminate\Support\Facades\Auth;
                 name="message"
                 placeholder="メッセージを入力"
                 class="form-control"></textarea>
-            <input id="submit" type="submit" value="送信" class="btn btn-outline-primary btn-lg">
+            <input id="submit" type="submit" value="送信" class="btn btn-outline-primary btn-lg mt-3 mb-4">
         </form>
         </div>
     @yield('js')
+    </div>
 @else
     <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
     {{-- 傍観者の場合コチラが表示される --}}

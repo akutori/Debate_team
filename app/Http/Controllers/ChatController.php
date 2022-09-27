@@ -79,7 +79,6 @@ class ChatController extends Controller
         $roomdata = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
-
             ->where('r_id','=',$roomid)->first();
 
            return view('/chat',compact('name','roomdata','state','st'/*,'tim'*/,'stflg','usersposition'));
