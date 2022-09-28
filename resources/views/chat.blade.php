@@ -31,9 +31,9 @@ use Illuminate\Support\Facades\Auth;
     </script>
 @endsection
 @section('body')
-    <div class="container mt-5 shadow-lg ">
-        <h1 class="text-center mt-5 mb-3">{{$roomdata->t_name}}のchat</h1>
-        <div class="row">
+    <div class="container mt-5 shadow-lg">
+        <div class="row shadow">
+        <h1 class="text-center mt-5 mb-3">{{$roomdata->t_name}}</h1>
         @if($state==0)
             @if($usersposition="賛成")
                 <p class="fs-2 text-center col-11">あなたは<span class="fs-1 text-danger">{{$usersposition}}派</span>です</p>
@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Auth;
             {{--タイマー--}}
             <div class='timer text-danger fs-3 text-end col-1' data-seconds-left="{{--$tim--}}">10:00</div>
         </div>
-        <div class="row overflow-auto h-50 w-100">
+        <div class="row  h-50 w-100 overflow-auto mt-4 mx-auto" id="chatzone">
             <div id="chat-data">
                 {{-- チャット履歴を表示させる --}}
             </div>

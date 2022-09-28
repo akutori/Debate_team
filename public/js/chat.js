@@ -14,31 +14,47 @@ function get_data() {
                 .find(".chat-visible")
                 .remove();
 
-/*<span class="chat-body-time" id="created_at">${data.chats[i].created_at}</span>*/
             for (var i = 0; i < data.chats.length; i++) {
 
                 //時間の時と分を抽出
                 const time = new Date(data.chats[i].created_at);
                 const create_at = time.getHours() + ':' + time.getMinutes();
+                //ポジションごとに文字の色を変更する
                 let position = ''
+                let positoncolor=''
+                let svgicon = ''
+                let chatcolor=''
                 if(data.chats[i].users_position==="賛成"){
                     position = 'text-danger'
+                    positoncolor = ''
+                    svgicon =
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-emoji-smile-fill" viewBox="0 0 16 16">\n' +
+                        '  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zM4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>\n' +
+                        '</svg>'
+                    chatcolor = 'chatcolor-agree'
                 }else{
                     position ='text-primary'
+                    positoncolor = ''
+                    svgicon =
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-emoji-frown-fill" viewBox="0 0 16 16">\n' +
+                        '  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>\n' +
+                        '</svg>'
+                    chatcolor = 'chatcolor-denial'
                 }
 
                 var html = `
-                    <div class="row">
+                    <div class="row ${positoncolor} mt-2 mb-2">
                         <div class="col-auto">
-                            <span class="chat-body-user text-black fs-5 me-5" id="user_name">${data.chats[i].user_name}</span>
+                            ${svgicon}
+                            <span class="chat-body-user text-black fs-5 me-5 ms-2" id="user_name">${data.chats[i].user_name}</span>
                             <span class="chat-body-state fs-5 ${position}" id="users_positon">${data.chats[i].users_position}</span>
                         </div>
                         <div class="col-auto d-flex align-items-end">
                             <span class="chat-body-time text-secondary" id="created_at">${create_at}</span>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-12">
+                    <div class="row mb-4 ms-3 ${positoncolor}">
+                        <div class="col-auto py-2" id="${chatcolor}">
                             <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
                         </div>
                     </div>
