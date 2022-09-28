@@ -9,3 +9,7 @@
 #chatcolor-denial{
     background-color: rgba(0,255,249,0.22);
 }
+
+#message{
+    font-size: 1.2em;
+}
