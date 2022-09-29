@@ -1,8 +1,12 @@
 $(function() {
-    timer();
-    sendtext();
-    get_data();
+    //ブラウザバックを禁止する
     not_back();
+    //タイマーの関数
+    timer();
+    //ajaxでチャット内容を送信する
+    sendtext();
+    //チャットを受信するajax
+    get_data();
 });
 
 function get_data() {
@@ -17,18 +21,17 @@ function get_data() {
                 .remove();
 
             for (var i = 0; i < data.chats.length; i++) {
-
                 //時間の時と分を抽出
                 const time = new Date(data.chats[i].created_at);
                 const create_at = time.getHours() + ':' + time.getMinutes();
                 //ポジションごとに文字の色を変更する
                 let position = ''
-                let positoncolor=''
+                //SVGアイコンと色をポジションごとに設定する
                 let svgicon = ''
+                //チャットの吹き出しの色を変更する
                 let chatcolor=''
                 if(data.chats[i].users_position==="賛成"){
                     position = 'text-danger'
-                    positoncolor = ''
                     svgicon =
                         '<span class="text-danger">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-emoji-smile-fill" viewBox="0 0 16 16">\n' +
@@ -38,7 +41,6 @@ function get_data() {
                     chatcolor = 'chatcolor-agree'
                 }else{
                     position ='text-primary'
-                    positoncolor = ''
                     svgicon =
                         '<span class="text-primary">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-emoji-frown-fill" viewBox="0 0 16 16">\n' +
@@ -50,21 +52,21 @@ function get_data() {
 
                 var html = `
                     <div class="chat-visible">
-                    <div class="row ${positoncolor} mt-2 mb-2" id="chatalldata">
-                        <div class="col-auto">
-                            ${svgicon}
-                            <span class="chat-body-user text-black fs-5 me-5 ms-2" id="user_name">${data.chats[i].user_name}</span>
-                            <span class="chat-body-state fs-5 ${position}" id="users_positon">${data.chats[i].users_position}</span>
+                        <div class="row mt-2 mb-2" id="chatalldata">
+                            <div class="col-auto">
+                                ${svgicon}
+                                <span class="chat-body-user text-black fs-5 me-5 ms-2" id="user_name">${data.chats[i].user_name}</span>
+                                <span class="chat-body-state fs-5 ${position}" id="users_positon">${data.chats[i].users_position}</span>
+                            </div>
+                            <div class="col-auto d-flex align-items-end">
+                                <span class="chat-body-time text-secondary" id="created_at">${create_at}</span>
+                            </div>
                         </div>
-                        <div class="col-auto d-flex align-items-end">
-                            <span class="chat-body-time text-secondary" id="created_at">${create_at}</span>
+                        <div class="row mb-4 ms-3">
+                            <div class="col-12 py-2" id="${chatcolor}">
+                                <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-4 ms-3 ${positoncolor}">
-                        <div class="col-12 py-2" id="${chatcolor}">
-                            <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
-                        </div>
-                    </div>
                     </div>
                         `;
                 $("#chat-data").append(html).fadeIn();
@@ -77,8 +79,7 @@ function get_data() {
             console.log("errorThrown    : " + errorThrown.message);
         }
     });
-
-    setTimeout("get_data()", 300);
+    setTimeout("get_data()", 500);
 }
 
 //送信ボタンが押された際リロードを挟まずにチャットを登録
@@ -130,29 +131,34 @@ function get_data() {
 }
 
 function timer(){
+    //ルームIDを取得
     const ROOMID = $('#room_id').val()
     //ルームの開始時間を取得
     var RoomTime = new Date($('#starttime').val())
     //現在の時間を取得
     let NowTime = new Date()
-    //分に+20を加えて終了時間を設定
-    RoomTime.setMinutes(RoomTime.getMinutes()+20)
-
+    //分に+14を加えて終了時間を設定(14で15分ちょうどとなる)
+    RoomTime.setMinutes(RoomTime.getMinutes()+14)
+    //日時を取得比較用
     var d = Math.floor((NowTime - RoomTime)/(24*60*60*1000))
+    //時間を取得比較用
     var h =Math.floor(((NowTime - RoomTime)%(24*60*60*1000))/(60*60*1000))
     //分を計算してマイナスを取り除く
     const m = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60);
     //秒を計算してマイナスを取り除く
     const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
     //タイマー部分に表示させる
-    $("#timer").text('残り '+d+'日'+h+'時間'+m+'分'+s+'秒');
+    $("#timer").text('残り '+m+'分'+s+'秒');
+
+    //指定の時間に達しているかの比較
     if(d<0&&h<0){
         if(m===59&&s===0){
+            //投票画面に遷移
             window.location.href = '/vote2/'+ROOMID+'/';
         }
     }
     //1秒間隔でタイマーを実行
-    setTimeout('timer()', 1000);
+    setInterval('timer()', 1000);
 }
 
 function not_back() {

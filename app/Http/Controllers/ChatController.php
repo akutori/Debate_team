@@ -27,8 +27,11 @@ class ChatController extends Controller
             $bydb1 = DB::table('rooms')->where('r_id', $roomid)->update(['timestartflg'=>1]);
         }
 
+        //該当ルームの開始時間を取得
         $RoomStartTime = Room::where('r_id', $roomid)->select('Starting_time')->first();
+        //取得した時間をカーボンにかける
         $StartTime = new Carbon($RoomStartTime->Starting_time);
+        //Iso8601形式の文字列で代入
         $StartTime = $StartTime->toIso8601String();
 
         $user=Auth::user();
@@ -43,7 +46,6 @@ class ChatController extends Controller
         }elseif (isset($usersposition) && $usersposition->d_pd==1){
             $usersposition="反対";
         }
-
 
         //1ルームの情報全てを持ってくる
         $roomdata = DB::table('rooms')
@@ -84,35 +86,16 @@ class ChatController extends Controller
 
         }
 
-        $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-
-        $max=600;
-        $stt = new Carbon($st->Starting_time);
-        $stb = $stt->second;
-        $stmm = $stt->minute;
-        $stm = (int)$stmm*60;
-        $stsum=(int)$stb+$stm;
-
-        $now = Carbon::now();
-        $nowb = $now->second;
-        $nowmm = $now->minute;
-        $nowm = (int)$nowmm*60;
-        $nowsum = (int)$nowb+ $nowm;
-        $tim = $max-($nowsum-$stsum);
-
-        //チャット履歴を取得
-        //$chats= Chat::where("room_id",$roomid)->get();
+        //該当ルームの開始時間を取得
+        $RoomStartTime = Room::where('r_id', $roomid)->select('Starting_time')->first();
+        //取得した時間をカーボンにかける
+        $StartTime = new Carbon($RoomStartTime->Starting_time);
+        //Iso8601形式の文字列で代入
+        $StartTime = $StartTime->toIso8601String();
 
         $user=Auth::user();
         $name = $user['name'];
         $userid= $user['id'];
-
-        //1ルームの情報全てを持ってくる
-        $roomdata = DB::table('rooms')
-            ->join('categories','rooms.category_id','=','c_id')
-            ->join('titles','rooms.title_id','=','t_id')
-            ->where('r_id','=',$roomid)->first();
-
         $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
         //賛成のときはチャットのusers_positionに賛成を入れる
         if($usersposition->d_pd==0){
@@ -121,8 +104,13 @@ class ChatController extends Controller
             $usersposition="反対";
         }
 
+        //1ルームの情報全てを持ってくる
+        $roomdata = DB::table('rooms')
+            ->join('categories','rooms.category_id','=','c_id')
+            ->join('titles','rooms.title_id','=','t_id')
+            ->where('r_id','=',$roomid)->first();
         $state=0;
-        return view('chat',compact('roomdata','state','name','st','tim','stflg','usersposition'));
+        return view('chat',compact('roomdata','state','name','StartTime','stflg','usersposition'));
     }
 
     /**
