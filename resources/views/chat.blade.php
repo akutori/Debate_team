@@ -3,9 +3,12 @@
 use Illuminate\Support\Facades\Auth;
 
 ?>
-@extends('header')
 
-@section('head')
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>{{config('app.name')}}</title>
+    <link rel="stylesheet" href="{{asset('css/head.css')}}">
     {{--タイマー--}}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     <script src="{{asset('js/jquery.js')}}"></script>
@@ -29,22 +32,23 @@ use Illuminate\Support\Facades\Auth;
             window.location.href = '{{url('/vote2',compact('rid'))}}';
         }, {{$tim}}*1000);
     </script>
-@endsection
-@section('body')
-    <div class="container mt-5 shadow-lg">
+
+</head>
+<body>
+    <div class="container mt-3 shadow-lg">
         <div class="row shadow">
         <h1 class="text-center mt-5 mb-3">{{$roomdata->t_name}}</h1>
         @if($state==0)
             @if($usersposition="賛成")
-                <p class="fs-2 text-center col-11">あなたは<span class="fs-1 text-danger">{{$usersposition}}派</span>です</p>
+                <p class="fs-2 text-center col-10">あなたは<span class="fs-1 text-danger">{{$usersposition}}派</span>です</p>
             @else
-                <p class="fs-2 text-center col-11">あなたは<span class="fs-1 text-primary">{{$usersposition}}派</span>です</p>
+                <p class="fs-2 text-center col-10">あなたは<span class="fs-1 text-primary">{{$usersposition}}派</span>です</p>
             @endif
         @elseif($state==1)
             <p>あなたの立場は傍観者です</p>
         @endif
             {{--タイマー--}}
-            <div class='timer text-danger fs-3 text-end col-2 col-lg-1' data-seconds-left="{{$tim}}"></div>
+            <div class='timer text-danger fs-3 text-end col-3 col-lg-1' data-seconds-left="{{$tim}}"></div>
         </div>
         <div class="row overflow-auto mt-4 mx-auto" id="chatzone">
             <div id="chat-data">
@@ -81,14 +85,10 @@ use Illuminate\Support\Facades\Auth;
             </div>
         </form>
         </div>
-    @yield('js')
-    </div>
+    <script src="{{ asset('js/chat.js') }}"></script>
 @else
     <input id="room_id" type="hidden" name="room_id" value="{{$roomdata->r_id}}">
     {{-- 傍観者の場合コチラが表示される --}}
 @endif
-
-@endsection
-@section('js')
-<script src="{{ asset('js/chat.js') }}"></script>
-@endsection
+</body>
+</html>
