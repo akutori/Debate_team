@@ -1,4 +1,5 @@
 $(function() {
+    timer();
     sendtext();
     get_data();
 });
@@ -125,4 +126,28 @@ function get_data() {
         });
 
     });
+}
+
+function timer(){
+    const ROOMID = $('#roomid').val()
+    //ルームの開始時間を取得
+    var RoomTime = new Date($('#starttime').val())
+    //現在の時間を取得
+    let NowTime = new Date()
+    //分に+20を加えて終了時間を設定
+    RoomTime.setMinutes(RoomTime.getMinutes()+20)
+
+    var d = Math.floor((NowTime - RoomTime)/(24*60*60*1000))
+    var h =Math.floor(((NowTime - RoomTime)%(24*60*60*1000))/(60*60*1000))
+    //分を計算してマイナスを取り除く
+    const m = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60);
+    //秒を計算してマイナスを取り除く
+    const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
+    //タイマー部分に表示させる
+    $("#timer").text(m+'分'+s+'秒');
+    if(m===59&&s===0){
+        window.location.href = '/vote2/'+ROOMID+'/';
+    }
+    //1秒間隔でタイマーを実行
+    setTimeout('timer()', 1000);
 }

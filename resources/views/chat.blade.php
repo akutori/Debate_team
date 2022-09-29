@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Auth;
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
 
-    <input type="hidden" name="room_id" value="{{$rid=$roomdata->r_id}}">
+    <input type="hidden" name="room_id" value="{{$rid=$roomdata->r_id}}" id="roomid">
+
     <script>
         $(function(){
             $('.timer').startTimer({
@@ -30,11 +31,12 @@ use Illuminate\Support\Facades\Auth;
         //10秒後に指定したリンクへ飛ぶ
         setTimeout(function(){
             window.location.href = '{{url('/vote2',compact('rid'))}}';
-        }, {{$tim}}*1000);
+        }, {{--$tim--}}*1000);
     </script>
 
 </head>
 <body>
+<input type="hidden" id="starttime" value="{{$StartTime}}" class="bg-danger">
     <div class="container mt-3 shadow-lg">
         <div class="row shadow">
         <h1 class="text-center mt-5 mb-3">{{$roomdata->t_name}}</h1>
@@ -48,7 +50,9 @@ use Illuminate\Support\Facades\Auth;
             <p>あなたの立場は傍観者です</p>
         @endif
             {{--タイマー--}}
-            <div class='timer text-danger fs-3 text-end col-3 col-lg-1' data-seconds-left="{{$tim}}"></div>
+            <div class="col-3 col-lg-2 justify-content-start">
+                <span class='timer text-danger fs-3' id="timer"></span>
+            </div>
         </div>
         <div class="row overflow-auto mt-4 mx-auto" id="chatzone">
             <div id="chat-data">
@@ -76,7 +80,7 @@ use Illuminate\Support\Facades\Auth;
                 class="form-control py-3">
             </div>
             <div class="col-2">
-                <button type="submit" id="submit" class="btn btn-primary btn-lg mb-4 form-control py-3">
+                <button type="submit" id="submit" class="btn btn-primary btn-lg mb-1 form-control py-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
                     </svg>
