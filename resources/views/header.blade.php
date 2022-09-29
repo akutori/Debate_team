@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <link rel="stylesheet" href="{{asset('css/head.css')}}">
     <title>{{config('app.name')}}</title>
