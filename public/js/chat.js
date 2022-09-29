@@ -47,7 +47,8 @@ function get_data() {
                 }
 
                 var html = `
-                    <div class="row ${positoncolor} mt-2 mb-2">
+                    <div class="chat-visible">
+                    <div class="row ${positoncolor} mt-2 mb-2" id="chatalldata">
                         <div class="col-auto">
                             ${svgicon}
                             <span class="chat-body-user text-black fs-5 me-5 ms-2" id="user_name">${data.chats[i].user_name}</span>
@@ -61,6 +62,7 @@ function get_data() {
                         <div class="col-12 py-2" id="${chatcolor}">
                             <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
                         </div>
+                    </div>
                     </div>
                         `;
                 $("#chat-data").append(html).fadeIn();
