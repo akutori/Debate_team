@@ -17,23 +17,6 @@ use Illuminate\Support\Facades\Auth;
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
 
-    <input type="hidden" name="room_id" value="{{$rid=$roomdata->r_id}}" id="roomid">
-
-    <script>
-        $(function(){
-            $('.timer').startTimer({
-                onComplete:function(element){
-                    //カウントダウン終了時にdiv class="timer"をcompleteへ変更する
-                    element.addClass('complete');
-                }
-            });
-        });
-        //10秒後に指定したリンクへ飛ぶ
-        setTimeout(function(){
-            window.location.href = '{{url('/vote2',compact('rid'))}}';
-        }, {{--$tim--}}*1000);
-    </script>
-
 </head>
 <body>
 <input type="hidden" id="starttime" value="{{$StartTime}}" class="bg-danger">
@@ -50,7 +33,7 @@ use Illuminate\Support\Facades\Auth;
             <p>あなたの立場は傍観者です</p>
         @endif
             {{--タイマー--}}
-            <div class="col-3 col-lg-2 justify-content-start">
+            <div class="col-auto col-lg-2 justify-content-start">
                 <span class='timer text-danger fs-3' id="timer"></span>
             </div>
         </div>

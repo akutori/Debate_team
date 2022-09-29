@@ -2,6 +2,7 @@ $(function() {
     timer();
     sendtext();
     get_data();
+    not_back();
 });
 
 function get_data() {
@@ -129,7 +130,7 @@ function get_data() {
 }
 
 function timer(){
-    const ROOMID = $('#roomid').val()
+    const ROOMID = $('#room_id').val()
     //ルームの開始時間を取得
     var RoomTime = new Date($('#starttime').val())
     //現在の時間を取得
@@ -144,10 +145,23 @@ function timer(){
     //秒を計算してマイナスを取り除く
     const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
     //タイマー部分に表示させる
-    $("#timer").text(m+'分'+s+'秒');
-    if(m===59&&s===0){
-        window.location.href = '/vote2/'+ROOMID+'/';
+    $("#timer").text('残り '+d+'日'+h+'時間'+m+'分'+s+'秒');
+    if(d<0&&h<0){
+        if(m===59&&s===0){
+            window.location.href = '/vote2/'+ROOMID+'/';
+        }
     }
     //1秒間隔でタイマーを実行
     setTimeout('timer()', 1000);
+}
+
+function not_back() {
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
+    });
 }
