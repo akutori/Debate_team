@@ -1,6 +1,7 @@
 $(function() {
     sendtext();
     get_data();
+    not_back();
 });
 
 function get_data() {
@@ -124,5 +125,16 @@ function get_data() {
             }
         });
 
+    });
+}
+
+function not_back() {
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
     });
 }
