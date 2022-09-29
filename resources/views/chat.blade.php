@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
         //10秒後に指定したリンクへ飛ぶ
         setTimeout(function(){
             window.location.href = '{{url('/vote2',compact('rid'))}}';
-        }, {{--$tim--}}*1000);
+        }, {{$tim}}*1000);
     </script>
 @endsection
 @section('body')
@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Auth;
             <p>あなたの立場は傍観者です</p>
         @endif
             {{--タイマー--}}
-            <div class='timer text-danger fs-3 text-end col-2 col-lg-1' data-seconds-left="{{--$tim--}}">10:00</div>
+            <div class='timer text-danger fs-3 text-end col-2 col-lg-1' data-seconds-left="{{$tim}}"></div>
         </div>
         <div class="row overflow-auto mt-4 mx-auto" id="chatzone">
             <div id="chat-data">

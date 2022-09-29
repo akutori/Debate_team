@@ -74,7 +74,7 @@ function get_data() {
         }
     });
 
-    //setTimeout("get_data()", 300);
+    setTimeout("get_data()", 300);
 }
 
 //送信ボタンが押された際リロードを挟まずにチャットを登録
