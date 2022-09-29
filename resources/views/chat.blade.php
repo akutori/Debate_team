@@ -44,9 +44,9 @@ use Illuminate\Support\Facades\Auth;
             <p>あなたの立場は傍観者です</p>
         @endif
             {{--タイマー--}}
-            <div class='timer text-danger fs-3 text-end col-1' data-seconds-left="{{--$tim--}}">10:00</div>
+            <div class='timer text-danger fs-3 text-end col-2 col-lg-1' data-seconds-left="{{--$tim--}}">10:00</div>
         </div>
-        <div class="row  h-50 w-100 overflow-auto mt-4 mx-auto" id="chatzone">
+        <div class="row overflow-auto mt-4 mx-auto" id="chatzone">
             <div id="chat-data">
                 {{-- チャット履歴を表示させる --}}
             </div>
@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\Auth;
 @if($state==0)
     {{---  チャット送信  ---}}
     {{--- web.phpの/chat ---}}
-        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post" id="chatform" class="mt-5">
+        <form action="{{url('/chat/'.$roomdata->r_id.'/'.$state)}}" method="post" id="chatform" class="mt-3">
             <div class="row">
             @csrf
             <input type="hidden" name="user_id" value="{{$id = auth()->id()}}">

@@ -58,7 +58,7 @@ function get_data() {
                         </div>
                     </div>
                     <div class="row mb-4 ms-3 ${positoncolor}">
-                        <div class="col-auto py-2" id="${chatcolor}">
+                        <div class="col-12 py-2" id="${chatcolor}">
                             <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
                         </div>
                     </div>
