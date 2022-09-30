@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
 
         setTimeout(function(){
             window.location.href = '{{url('/vote2',compact('rid'))}}';
-        }, {{$tim}}*1000);
+        }, 1*10);
     </script>
 @endsection
 @section('body')

@@ -28,7 +28,7 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=600;
+        $max=10;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
@@ -81,8 +81,8 @@ class ChatController extends Controller
 
             ->where('r_id','=',$roomid)->first();
 
-           return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
-       }
+        return view('/chat',compact('name','roomdata','state','st','tim','stflg','usersposition'));
+    }
 
 
     /**
@@ -115,7 +115,7 @@ class ChatController extends Controller
         }
 
         $st = DB::table('rooms')->where('r_id', $roomid)->select('Starting_time')->first();
-        $max=600;
+        $max=10;
 
         $stt = new Carbon($st->Starting_time);
         $stb = $stt->second;
@@ -201,10 +201,10 @@ class ChatController extends Controller
         //
     }
     public function getData($rid)
-{
-    //チャットの履歴を全て取得
-    $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
-    $json = ["chats" => $chats];
-    return response()->json($json);
-}
+    {
+        //チャットの履歴を全て取得
+        $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
+        $json = ["chats" => $chats];
+        return response()->json($json);
+    }
 }

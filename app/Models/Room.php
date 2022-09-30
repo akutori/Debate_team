@@ -13,8 +13,9 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $guarded='r_id';
+    protected $guarded=['r_id','r_positive','r_denial','category_id','d_pd'];
     protected $primaryKey = 'r_id';
+
     public $timestamps = false;
 
     //部屋を作成する roomsum=傍観者数
