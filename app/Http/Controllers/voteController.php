@@ -43,7 +43,7 @@ class voteController extends Controller
                     if ($position_p->user_id == $userid) {
                         DB::table('users')->where('id', $userid)->increment('u_point', 10);
                     }
-                } //反対派の勝利
+                } //反対派の勝利・
             }
                 if ($r_denial > $r_positive) {
                     if ($position_d->d_pd == 1) {
