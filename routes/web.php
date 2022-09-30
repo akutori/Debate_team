@@ -36,7 +36,7 @@ Route::get('/chat',function (){
 });
 */
 //ログインした後の画面。りどみに飛ぶ
-Route::get('/',[GenreController::class,'readme']);
+//Route::get('/',[GenreController::class,'readme']);
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
@@ -79,3 +79,12 @@ Route::get('/vote/{rid}',[\App\Http\Controllers\votesumController::class,'index'
 
 //all機能
 Route::get('/all',[allController::class,'index']);
+
+//mypage機能
+Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
+Route::get('/readme',[GenreController::class,'readme']);
+Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
+Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
+
+//ルート変更
+
