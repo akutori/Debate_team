@@ -1,4 +1,5 @@
 $(function() {
+    not_back();
     get_data();
 });
 
@@ -33,6 +34,16 @@ function get_data() {
             console.log("errorThrown    : " + errorThrown.message);
         }
     });
-
     setTimeout("get_data()", 2000);
+}
+
+function not_back() {
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
+    });
 }

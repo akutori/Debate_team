@@ -67,7 +67,6 @@ class ThemeController extends Controller
         $bystander_flag=1;
 
         return view('theme',compact('room','userid','debater_flag','bystander_flag','category'));
-
     }
 
     //ユーザー作成のルーム一覧を表示させる

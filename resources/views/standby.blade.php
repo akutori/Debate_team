@@ -1,7 +1,8 @@
 @extends('header')
 
 @section('head')
-
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <script src="{{asset('js/app.js')}}"></script>
 @endsection
 @section('body')
     <input type="hidden" name="roomid" id="roomid" value="{{$roomid}}">
@@ -21,10 +22,10 @@
 
         <button id="backinfo" type="button" onclick="document.getElementById('alert-info').show();">戻る</button>
         <dialog id="alert-info">
-            <span>戻ろうとしています!</span><br>
-            <button type="button" onclick="location.href='{{url('/stheme/'.$roomid.'/'.$state.'/'.$userid)}}'">待機室から抜ける</button>
-            <button type="button" onclick="location.href='{{url('/sgenre')}}'">ジャンル選択に戻る</button>
-            <button type="button" onclick="document.getElementById('alert-info').close();">待機画面に戻る</button>
+            <div class="fs-3 m-5 text-center">戻ろうとしています!</div>
+            <button type="button" class="btn btn-outline-primary btn-lg mx-3" onclick="document.getElementById('alert-info').close();">待機画面に戻る</button>
+            <button type="button" class="btn btn-outline-warning btn-lg mx-3" onclick="location.href='{{url('/stheme/'.$roomid.'/'.$state.'/'.$userid)}}'">待機室から抜ける</button>
+            <button type="button" class="btn btn-outline-warning btn-lg mx-3" onclick="location.href='{{url('/sgenre/'.$roomid.'/'.$state.'/'.$userid)}}'">ジャンル選択に戻る</button>
         </dialog>
 
 @endsection

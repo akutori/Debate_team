@@ -18,19 +18,24 @@ class RoomController extends Controller
         $debater = new Debater();
         $bystander= new Bystander();
         $room = new Room();
+        $chat = new Chat();
         $user=Auth::user();
         $userid= $user['id'];
         //ディベートのタイトルを表示させる。
         $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
 
         //todo 全員が途中離脱してディベート時間が来てしまった場合新しい状態として再度ディベート待機画面に移動させる処理を追加する
-
         //傍観者で選択した場合と発表者で選択された場合の処理
         if($state == 0) {
             //すでに発表者として登録されているか
             if($debater->roomedDebater($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
+                    //ディベートの終了時刻を過ぎているか
+                    if($room->this_room_debate_time_end($roomid)){
+                        $this->removedebate($roomid,$userid);
+                        return redirect('/sgenre');
+                    }
                     //発表者の賛成・反対の状態を取得
                     $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //途中参加
@@ -56,6 +61,11 @@ class RoomController extends Controller
             if($bystander->roomedBystander($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
+                    //ディベートの終了時刻を過ぎているか
+                    if($room->this_room_debate_time_end($roomid)){
+                        $this->removedebate($roomid,$userid);
+                        return redirect('/sgenre');
+                    }
                     //発表者の賛成・反対の状態を取得
                     $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //途中参加
@@ -80,6 +90,20 @@ class RoomController extends Controller
         Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
 
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
+    }
+
+    public function removedebate($roomid,$userid){
+        $debater = new Debater();
+        $bystander= new Bystander();
+        $room = new Room();
+        $chat = new Chat();
+        //そのルームの発表者を削除
+        $debater->remove_debater_by_roomid($roomid);
+        //そのルームの傍観者を削除
+        $bystander->remove_bystander_by_roomid($roomid);
+        //そのルームのチャット内容を削除
+        $chat->remove_chat_by_id($roomid);
+        $room->where('r_id',$roomid)->update(["timestartflg" => 0]);
     }
 
     //発表者が2人かつ傍観者が1人以上いるかを聞き続ける
