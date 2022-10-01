@@ -18,13 +18,11 @@ class RoomController extends Controller
         $debater = new Debater();
         $bystander= new Bystander();
         $room = new Room();
-        $chat = new Chat();
         $user=Auth::user();
         $userid= $user['id'];
         //ディベートのタイトルを表示させる。
         $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
 
-        //todo 全員が途中離脱してディベート時間が来てしまった場合新しい状態として再度ディベート待機画面に移動させる処理を追加する
         //傍観者で選択した場合と発表者で選択された場合の処理
         if($state == 0) {
             //すでに発表者として登録されているか
@@ -92,6 +90,7 @@ class RoomController extends Controller
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
     }
 
+    //すべてのディベートの情報を削除
     public function removedebate($roomid,$userid){
         $debater = new Debater();
         $bystander= new Bystander();

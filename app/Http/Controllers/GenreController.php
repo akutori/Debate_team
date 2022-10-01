@@ -19,6 +19,7 @@ class GenreController extends Controller
         return view('genre', compact('cate', 'ctn'));
     }
 
+    //待機画面から離席してジャンル選択に戻る
     public function exit_from_waiting_room($roomid, $state, $userid){
         $debater = new Debater();
         $bystander = new Bystander();

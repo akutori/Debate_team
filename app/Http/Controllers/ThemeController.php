@@ -17,7 +17,7 @@ class ThemeController extends Controller
         $room = DB::table('rooms')
             ->join('categories','rooms.category_id','=','c_id')
             ->join('titles','rooms.title_id','=','t_id')
-                                                                        //user_idがnull(公式が作成したもの)のものを抽出
+            //user_idがnull(公式が作成したもの)のものを抽出
             ->where('rooms.category_id','=',$cid)->where('user_id',null)->get();
         $category = Category::where('c_id','=',$cid)->first();
         $userinfo = Auth::user();
