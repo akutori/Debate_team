@@ -11,6 +11,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RankingController;
 
 
 /*;
@@ -53,7 +54,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData(ajax)
 Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
-Route::get('/result/ajax/', [ChatController::class,'getData']);
+Route::get('/result//', [ChatController::class,'getData']);
+Route::get('/result/ajax/', [RankingController::class,'index']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
