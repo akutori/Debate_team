@@ -29,13 +29,14 @@ class RoomController extends Controller
             if($debater->roomedDebater($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
-                    //ディベートの終了時刻を過ぎているか
-                    if($room->this_room_debate_time_end($roomid)){
-                        $this->removedebate($roomid,$userid);
-                        return redirect('/sgenre');
-                    }
                     //発表者の賛成・反対の状態を取得
                     $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
+                    //ディベートの終了時刻を過ぎているか
+                    if($room->this_room_debate_time_end($roomid)){
+                        //終了時刻を過ぎている場合新たに始める必要があるため、全員の情報を削除する必要がある
+                        //ディベートの情報を削除
+                        $this->removedebate($roomid,$userid);
+                    }
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                 }
@@ -59,13 +60,14 @@ class RoomController extends Controller
             if($bystander->roomedBystander($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
-                    //ディベートの終了時刻を過ぎているか
-                    if($room->this_room_debate_time_end($roomid)){
-                        $this->removedebate($roomid,$userid);
-                        return redirect('/sgenre');
-                    }
                     //発表者の賛成・反対の状態を取得
                     $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
+                    //ディベートの終了時刻を過ぎているか
+                    if($room->this_room_debate_time_end($roomid)){
+                        //終了時刻を過ぎている場合新たに始める必要があるため、全員の情報を削除する必要がある
+                        //ディベートの情報を削除
+                        $this->removedebate($roomid,$userid);
+                    }
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                 }
