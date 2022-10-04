@@ -26,9 +26,9 @@
         <div class="col-12 col-md-6 text-center">
             @if($state==0)
                 @if($debaterstate==0)
-                    あなたは<span class="fs-4 text-danger">賛成</span>です
+                    <span class="fs-5">あなたは<span class="fs-4 text-danger">賛成</span>です</span>
                 @elseif($debaterstate==1)
-                    あなたは<span class="fs-4 text-primary">反対</span>です
+                    <span class="fs-5">あなたは<span class="fs-4 text-primary">反対</span>です</span>
                 @endif
             @elseif($state==1)
                 あなたは<span class="fs-4 text-success">傍観者</span>です
