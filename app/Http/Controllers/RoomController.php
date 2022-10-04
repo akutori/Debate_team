@@ -120,9 +120,9 @@ class RoomController extends Controller
         if($state == 0){
             $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
             if(($debaterstate->d_pd == 0) && $state==0){
-                $debaterstate="賛成";
+                $debaterstate=0;
             }else{
-                $debaterstate="反対";
+                $debaterstate=1;
             }
         }else if ($state==1){
             $debaterstate="";
