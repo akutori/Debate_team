@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RankingController extends Controller
 {
     public function index(){
-        //ポイントを比較し、降順に表示
+        $userinfo = Auth::user();
+        $username = $userinfo['name'];
+        //降順に表示
+        $user=User::orderBy('u_point','desc')->get();
 
 
-        $rank=User::select('u_point')->orderBy('u_point','desc')->get();
-        $user = ["users" => $rank];
-        return view('Ranking',compact('user'));
+
+
+        return view('Ranking',compact('user','username'));
 
 
     }

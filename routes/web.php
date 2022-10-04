@@ -77,7 +77,8 @@ Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
 Route::get('/readme',[GenreController::class,'readme']);
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
-
+//ランキング一覧
+Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 //ルート変更
 
 //管理者画面に遷移
