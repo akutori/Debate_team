@@ -94,3 +94,12 @@ Route::post('/titleInsert',[\App\Http\Controllers\TitleController::class,'titleI
 Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
+
+//mypage機能
+Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
+Route::get('/readme',[GenreController::class,'readme']);
+Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
+Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
+
+//ルート変更
+

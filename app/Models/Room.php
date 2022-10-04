@@ -13,7 +13,7 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $guarded='r_id';
+    protected $guarded=['r_id'];
     protected $primaryKey = 'r_id';
     public $timestamps = false;
 
@@ -25,7 +25,7 @@ class Room extends Model
         $titleid = $title->getLastTitleData();
         //今日の日付を取得
         // composer require nesbot/carbon を使用
-        $today = new Carbon('today');
+        $today = new Carbon();
         return Room::create([
             'title_id'=>$titleid['t_id'],
             'category_id'=>$cateid,
@@ -48,8 +48,12 @@ class Room extends Model
     //todo 作成限度数は未定
     public function Is_the_users_room_creation_limit($userid):bool{
         //ユーザーが作成した
-        $roomdata = Room::where("user_id",$userid)->count()->get();
+        $roomdata = Room::where("user_id",$userid)->count();
         //作成上限である3件を超過している場合trueを返す
-        return $result = $roomdata > 4;
+        if($roomdata >= 3){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
