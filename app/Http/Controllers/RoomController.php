@@ -29,13 +29,13 @@ class RoomController extends Controller
             if($debater->roomedDebater($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
+                    //発表者の賛成・反対の状態を取得
+                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //ディベートの終了時刻を過ぎているか
                     if($room->this_room_debate_time_end($roomid)){
                         $this->removedebate($roomid,$userid);
-                        return redirect('/sgenre');
+                        $debater->insert($roomid,$userid);
                     }
-                    //発表者の賛成・反対の状態を取得
-                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                 }
@@ -59,13 +59,13 @@ class RoomController extends Controller
             if($bystander->roomedBystander($userid,$roomid)==1){
                 //すでにディベートは開始されているか
                 if($room->is_debate_start($roomid)){
+                    //発表者の賛成・反対の状態を取得
+                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //ディベートの終了時刻を過ぎているか
                     if($room->this_room_debate_time_end($roomid)){
                         $this->removedebate($roomid,$userid);
-                        return redirect('/sgenre');
+                        $bystander->insert($roomid,$userid);
                     }
-                    //発表者の賛成・反対の状態を取得
-                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                     //途中参加
                     return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
                 }
@@ -82,7 +82,6 @@ class RoomController extends Controller
         }
         //発表者の賛成・反対の状態を表示させる
         $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-
         //賛成と反対票をリセット
         Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
         Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
