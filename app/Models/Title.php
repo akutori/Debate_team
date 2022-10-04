@@ -10,7 +10,7 @@ class Title extends Model
     use HasFactory;
 
     //ホワイトリスト。この中に入っているカラムは変更を許可させる
-    protected $fillable = ['t_name'];
+    protected $fillable = ['t_name','category_id'];
     protected $primaryKey='t_id';
     public $timestamps = false;
 

@@ -84,8 +84,12 @@ Route::get('/root',function(){
 });
 // 管理者画面の「NGワード編集」ボタンを押下したとき
 Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
+
 // 管理者画面の「お題作成」ボタンを押下したとき
-Route::get('/addTitle',[\App\Http\Controllers\AddTitleController::class,'index']);
+Route::get('/addTitle',[\App\Http\Controllers\TitleController::class,'index']);
+// お題作成ページの「登録ボタンを押下したとき
+Route::post('/titleInsert',[\App\Http\Controllers\TitleController::class,'titleInsert']);
+
 // 管理者画面の「ルーム一覧」ボタンを押下したとき
 Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき

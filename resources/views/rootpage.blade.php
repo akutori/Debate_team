@@ -1,12 +1,12 @@
 @extends('header')
 
 @section('head')
-
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <script src="{{asset('js/app.js')}}"></script>
 @endsection
 <body>
 <h1 class="text-center p-5 display-1"><strong>管理者画面</strong></h1>
 <div class="container-fluid">
-
 
     <div class="row pb-lg-5 me-5">
         <div class="col-9 text-end align-self-center">
