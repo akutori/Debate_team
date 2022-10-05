@@ -12,12 +12,16 @@ class RankingController extends Controller
         $userinfo = Auth::user();
         $username = $userinfo['name'];
         //降順に表示
-        $user=User::orderBy('u_point','desc')->get();
+        $user=array(User::orderBy('u_point','desc')->get());
+        //4位以降取得
+        $user_4=array_slice($user,3);
 
 
 
 
-        return view('Ranking',compact('user','username'));
+
+
+        return view('Ranking',compact('user','username','user_4'));
 
 
     }
