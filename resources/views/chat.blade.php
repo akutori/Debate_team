@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Auth;
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
 </head>
-<body>
+<body id="background">
 <input type="hidden" id="starttime" value="{{$StartTime}}" class="bg-danger">
-    <div class="container mt-3 shadow-lg">
+    <div class="container mt-3 shadow-lg bg-light">
         <div class="row shadow">
         <h1 class="text-center mt-5 mb-3">{{$roomdata->t_name}}</h1>
         <div class="col-2"></div>
