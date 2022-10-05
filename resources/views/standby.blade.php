@@ -25,9 +25,9 @@
         <div class="col-3"></div>
         <div class="col-12 col-md-6 text-center">
             @if($state==0)
-                @if($debaterstate==0)
+                @if(isset($debaterstate)&&$debaterstate==0)
                     <span class="fs-5">あなたは<span class="fs-4 text-danger">賛成</span>です</span>
-                @elseif($debaterstate==1)
+                @elseif(isset($debaterstate)&&$debaterstate==1)
                     <span class="fs-5">あなたは<span class="fs-4 text-primary">反対</span>です</span>
                 @endif
             @elseif($state==1)

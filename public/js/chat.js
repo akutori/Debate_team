@@ -149,7 +149,7 @@ function timer(){
     const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
     //タイマー部分に表示させる
     $("#timer").text('残り '+m+'分'+s+'秒');
-
+    if(m===59) $("#timer").text('残り '+0+'分'+s+'秒');
     //指定の時間に達しているかの比較
     if(d<0&&h<0){
         if(m===59&&s===0){
