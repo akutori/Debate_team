@@ -16,11 +16,8 @@ class TitleController extends Controller
 
     // お題作成ページの「登録ボタン」を押下したとき
     public function titleInsert(Request $request){
-        //$category_id = $request->input('category',1);
-        //$title = $request->input('title',"何もないです");
         $form = $request->only(['title','category']);
         $titles = new Title();
-        //$titles->insert($title,$category_id);
         $titles->insert($form['title'],$form['category']);
         return view('rootpage');
     }

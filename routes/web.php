@@ -35,8 +35,6 @@ Route::get('/chat',function (){
     return view('chat');
 });
 */
-//ログインした後の画面。りどみに飛ぶ
-Route::get('/',[GenreController::class,'readme']);
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
@@ -52,7 +50,7 @@ Route::get('/stheme/{roomid}/{state}/{userid}',[ThemeController::class,'exit_fro
 
 Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
 
-Auth::routes();
+
 
 //laravel のホーム画面
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -78,6 +76,18 @@ Route::get('/vote/{rid}',[\App\Http\Controllers\votesumController::class,'index'
 //all機能
 Route::get('/all',[allController::class,'index']);
 
+//mypage機能
+Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
+Route::get('/readme',[GenreController::class,'readme']);
+Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
+Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
+
+//ルート変更(改訂版）
+//一番最初にreadmeページを開く
+Route::get('/',[GenreController::class,'readme']);
+//ログインボタンを押下
+Auth::routes();
+
 //管理者画面に遷移
 Route::get('/root',function(){
      return view('rootpage');
@@ -95,11 +105,5 @@ Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
 
-//mypage機能
-Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
-Route::get('/readme',[GenreController::class,'readme']);
-Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
-Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
 
-//ルート変更
 
