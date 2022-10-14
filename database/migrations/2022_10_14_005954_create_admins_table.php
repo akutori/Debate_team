@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('root', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id('adomin_id')->comment('管理者ID');
             //管理者名
             $table->string('adominname',500)->comment('管理者名');
