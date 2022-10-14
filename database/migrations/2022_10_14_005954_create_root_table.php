@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('titles', function (Blueprint $table) {
-            //お題ID
-            $table->id('t_id')->comment('お題ID');
-            //お題名
-            $table->string('t_name')->comment('お題名');
+        Schema::create('root', function (Blueprint $table) {
+            $table->id('adomin_id')->comment('管理者ID');
+            //管理者名
+            $table->string('adominname',500)->comment('管理者名');
+            //パスワード
+            $table->string('password',500)->comment('パスワード');
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('titles');
+        Schema::dropIfExists('root');
     }
 };
