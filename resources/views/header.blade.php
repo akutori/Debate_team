@@ -7,6 +7,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
     @yield('head')
 
 </head>
@@ -21,12 +23,12 @@
         @if (Route::has('login'))
             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                 @auth
-                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                    <button onclick="location.href='{{ url('/home') }}'" class=" text-sm text-gray-700 dark:text-gray-500 underline">Home</button>
                 @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                    <button onclick="location.href='{{ route('login') }}'" class="btn btn-primary text-sm text-gray-700 dark:text-gray-500 underline">ログイン</button>
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                        <button onclick="location.href='{{ route('register') }}'" class="btn btn-primary ml-4 text-sm text-gray-700 dark:text-gray-500 underline">アカウント登録</button>
                     @endif
                 @endauth
             </div>
