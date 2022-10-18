@@ -1,9 +1,14 @@
 @extends('test')
 @section('head')
+
     <link rel="stylesheet" href="{{asset('css/register.css')}}">
     <link rel="stylesheet" href="{{asset('js/register.js')}}">
     <link rel="stylesheet" href="{{asset('js/genre.js')}}">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+
+
+
+
 
 
 @section('body')
@@ -17,7 +22,7 @@
                     <div class="text-bg-info " style="font-size: large ">{{ __('Register your information') }}</div>
 
                     <div class="card-body">
-                        <div class="register">
+                        <div class="lo">
                             <form method="POST" action="{{ route('register') }}">
                             @csrf
 
@@ -46,27 +51,28 @@
                                     <label for="password"
                                            class="col-md-4 col-form-label text-md-end">{{ __('') }}</label>
                                     <div class="group">
-
-
                                         <input id="password" type="password"
                                                class="form-control @error('password') is-invalid @enderror"
                                                name="password" required autocomplete="new-password">
                                         <label>Password</label>
-                                    </div>
-                                    <div class="col-md-6">
 
+
+                                    <div class="col-md-6">
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                         @enderror
                                     </div>
+                                    </div>
                                 </div>
+
+
 
                                 <div class="form-floating mb-3">
                                     <label for="password-confirm"
                                            class="col-md-4 col-form-label text-md-end">{{ __('') }}</label>
-                                    <div class="group2">
+                                    <div class="group">
                                         <input id="password-confirm" type="password" class="form-control"
                                                name="password_confirmation" required autocomplete="new-password">
                                         <label>Confirm Password</label>
@@ -77,7 +83,7 @@
 
                                     <div class="container-fluid">
                                         <button type="submit" class="btn btn-primary ">{{ __('Register') }}
-                                            <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+
                                         </button>
 
 

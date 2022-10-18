@@ -12,7 +12,7 @@ body{
     margin-top: 60px;
     font-size: 40px;
 }
-.register{
+.login{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,11 +32,7 @@ label{
 
 * { box-sizing:border-box; }
 
-body {
-    font-family: Helvetica;
-    background: #BBBBBB;
 
-}
 
 hgroup {
     text-align:center;

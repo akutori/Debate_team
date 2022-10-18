@@ -14,11 +14,10 @@
     <div class="ht">
         <a href="{{url('/sgenre')}}" ><img class="rogo" src="{{asset('images/debate01.png')}}"></a>
     </div>
-    @yield('body')
     <div class="regi">
 
 
-    <!---ログイン,会員登録遷移--->
+        <!---ログイン,会員登録遷移--->
         @if (Route::has('login'))
             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                 @auth
@@ -33,6 +32,8 @@
             </div>
         @endif
     </div>
+    @yield('body')
+
         @yield('js')
 
 

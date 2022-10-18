@@ -1,11 +1,12 @@
 @extends('test')
-
 @section('head')
-
-    <link rel="stylesheet" href="{{asset('js/login.js')}}">
-    <link rel="stylesheet" href="{{asset('js/genre.js')}}">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/login.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('js/login.js')}}">
+    <link rel="stylesheet" href="{{asset('js/genre.js')}}">
+
+
+
 
 
 @section('body')
@@ -13,20 +14,21 @@
 
     <div id="particles-js"></div>
     <div class="container">
+
         <div id="wrapper">
             <div class="col-md-8">
                 <div class="card">
 
                     <div class="text-bg-info " style="font-size: large ">{{ __('Register your information') }}</div>
 
-
                     <div class="card-body">
-                        <div class="register">
+                        <div class="login">
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
-                                <div class="form-floating mb-3">
 
+                                <div class="form-floating mb-3">
+                                    <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('') }}</label>
                                     <div class="group">
                                         <input id="name" type="text"
                                                class="form-control @error('name') is-invalid @enderror" name="name"
@@ -85,14 +87,14 @@
                                                 <button type="submit" class="btn btn-primary">
                                                     {{ __('Login') }}
                                                 </button>
+                                            </div>
+                                        </div>
 
-                                                @if (Route::has('password.request'))
+                            @if (Route::has('password.request'))
                                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                                         {{ __('Forgot Your Password?') }}
                                                     </a>
                                                 @endif
-                                            </div>
-                                        </div>
 
                             </form>
                         </div>
