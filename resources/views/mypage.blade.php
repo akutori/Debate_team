@@ -2,6 +2,12 @@
 <body>
     <h1>Mypage</h1>
     <p>{{$username}}さん</p>
+    <p>
+        ><a class="btn btn-link" href="{{ url('root') }}">
+            {{ __('管理者の方はこちら') }}
+        </a>
+    </p>
+
     <button type="button" onclick="location.href='{{url('/sgenre')}}'">ジャンル選択</button>
     <button type="button" onclick="location.href='{{url('/makeroom')}}'">ルーム作成</button>
     <button type="button" onclick="location.href='{{url('/ranking')}}'">ランキングに行く</button>

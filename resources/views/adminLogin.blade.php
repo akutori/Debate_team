@@ -12,7 +12,7 @@
 
 
     <div class="card-body">
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ url('/adminLogin') }}">
             @csrf
 
             <div class="row mb-3">
@@ -23,9 +23,9 @@
                            value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                     @error('id')
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                     @enderror
                 </div>
             </div>
@@ -38,9 +38,9 @@
                            name="password" required autocomplete="current-password">
 
                     @error('password')
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                     @enderror
                 </div>
             </div>
@@ -64,11 +64,10 @@
                         {{ __('Login') }}
                     </button>
 
-                    @if (Route::has('password.request'))
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                        </a>
-                    @endif
+
+                    <a class="btn btn-link" href="{{ url('adminNewAcount') }}">
+                        {{ __('Do you have an Adomin acount?') }}
+                    </a>
                 </div>
             </div>
         </form>

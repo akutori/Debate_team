@@ -88,12 +88,18 @@ Route::get('/',[GenreController::class,'readme']);
 //ログインボタンを押下
 Auth::routes();
 
-//管理者画面に遷移
+//管理者ログイン画面に遷移
 Route::get('/root',function(){
-     return view('rootpage');
+     return view('adminlogin');
 });
-// 管理者画面の「NGワード編集」ボタンを押下したとき
-Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
+//管理者ログイン画面のloginを押下時
+Route::post('/adminLogin',[\App\Http\Controllers\AdminController::class,'login']);
+//管理者ログイン画面の[Do you have an admin acount?]ボタンを押下時
+Route::get('/adminNewAcount',[\App\Http\Controllers\AdminController::class,'newAcountView']);
+
+//管理者アカウント作成画面の「make acount」ボタンを押下したとき
+Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdminAcount']);
+
 
 // 管理者画面の「お題作成」ボタンを押下したとき
 Route::get('/addTitle',[\App\Http\Controllers\TitleController::class,'index']);
@@ -104,6 +110,5 @@ Route::post('/titleInsert',[\App\Http\Controllers\TitleController::class,'titleI
 Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
-
-
-
+// 管理者画面の「NGワード編集」ボタンを押下したとき
+Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
