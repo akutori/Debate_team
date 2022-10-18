@@ -23,7 +23,7 @@
         <!---ログイン,会員登録遷移--->
         @if (Route::has('login'))
 
-
+            <!--ログイン時、マイページ、ログアウトボタン表示-->
                 @auth
                     <button onclick="location.href='{{ url('/mypage') }}'" class=" btn btn-primary">マイページ</button>
 
@@ -31,7 +31,7 @@
                 @csrf
                 <input type="submit" class=" btn btn-danger" value="ログアウト">
             </form>
-
+                    <!--ゲスト時、ログイン、ログアウトボタン表示-->
                 @else
                     <button onclick="location.href='{{ route('login') }}'" class="btn btn-primary">ログイン</button>
 
