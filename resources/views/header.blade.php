@@ -17,14 +17,21 @@
         <a href="{{url('/sgenre')}}" ><img class="rogo" src="{{asset('images/debate01.png')}}"></a>
     </div>
 
+<div class="container-sm p-5 text-center">
 
-<div class="p-5 mx-auto" >
+
         <!---ログイン,会員登録遷移--->
         @if (Route::has('login'))
 
 
                 @auth
-                    <button onclick="location.href='{{ url('/home') }}'" class=" ">Home</button>
+                    <button onclick="location.href='{{ url('/mypage') }}'" class=" btn btn-primary">マイページ</button>
+
+            <form style="display: inline" action="{{ route('logout') }}" method="POST" >
+                @csrf
+                <input type="submit" class=" btn btn-danger" value="ログアウト">
+            </form>
+
                 @else
                     <button onclick="location.href='{{ route('login') }}'" class="btn btn-primary">ログイン</button>
 
@@ -37,6 +44,7 @@
         @endif
 
     </div>
+</div>
 
     @yield('body')
 
