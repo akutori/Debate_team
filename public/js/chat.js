@@ -83,7 +83,7 @@ function get_data() {
 }
 
 //送信ボタンが押された際リロードを挟まずにチャットを登録
-function sendtext() {
+ function sendtext() {
     $('#chatform').submit(function(event) {
         // HTMLでの送信をキャンセル
         event.preventDefault();

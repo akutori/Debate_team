@@ -44,17 +44,7 @@ class Bystander extends Model
         if(Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
             return true;
         }else{
-            return false;
-        }
-    }
-
-    //すでにどこかの部屋で発表者として登録されているかを確認
-    public function is_registered_as_a_bystander($user_id): bool
-    {
-        if(Bystander::where("user_id","=",$user_id)->exists()){
-            return true;
-        }else{
-            return false;
+            return 0;
         }
     }
 

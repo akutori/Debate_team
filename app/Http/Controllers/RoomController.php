@@ -56,7 +56,7 @@ class RoomController extends Controller
                 //そうでない場合普通に登録
                 $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
                 //発表者にすでに2人入っていた場合(新規で)
-            }else if($debater->countdebater($roomid) >=2){
+            }else if($debater->countdebater($roomid) >=2&& !$debater->roomedDebater($roomid, $userid)){
                 return redirect('/sgenre');
             }
             //傍観者として参加した場合

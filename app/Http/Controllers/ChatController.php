@@ -22,7 +22,11 @@ class ChatController extends Controller
     public function index($roomid,$state){
         /*タイムスタンプ保存*/
         $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
-
+        //スタートフラグが0の場合現在時刻を打刻し、スタートフラグを1にする。
+        if ($stflg->timestartflg == 0){
+            DB::table('rooms')->where('r_id', $roomid)->update(['Starting_time'=>Carbon::now()]);
+            DB::table('rooms')->where('r_id', $roomid)->update(['timestartflg'=>1]);
+        }
         //該当ルームの開始時間を取得
         $RoomStartTime = Room::where('r_id', $roomid)->select('Starting_time')->first();
         //取得した時間をカーボンにかける

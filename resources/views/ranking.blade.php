@@ -34,8 +34,10 @@
                 <a class="list-group-item"> {{$i+1}}位 名前：{{$users[$i]->name}} ポイント：{{$users[$i]->u_point}}</a>
             </div>
 
-        @endfor
-        @endforeach
-        <script src="{{mix('js/app.js')}}"></script>
+    @endfor
+@endforeach
+<script src="{{mix('js/app.js')}}"></script>
 </body>
 </html>
+
+
