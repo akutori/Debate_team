@@ -12,7 +12,7 @@
 
 
     <div class="card-body">
-        <form method="POST" action="{{ url('/adminLogin') }}">
+        <form method="post" action="{{ url('/admin') }}">
             @csrf
 
             <div class="row mb-3">
@@ -74,3 +74,7 @@
     </div>
 
 @endsection
+
+
+
+

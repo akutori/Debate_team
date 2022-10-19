@@ -92,13 +92,6 @@ Auth::routes();
 Route::get('/root',function(){
      return view('adminlogin');
 });
-//管理者ログイン画面のloginを押下時
-Route::post('/adminLogin',[\App\Http\Controllers\AdminController::class,'login']);
-//管理者ログイン画面の[Do you have an admin acount?]ボタンを押下時
-Route::get('/adminNewAcount',[\App\Http\Controllers\AdminController::class,'newAcountView']);
-
-//管理者アカウント作成画面の「make acount」ボタンを押下したとき
-Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdminAcount']);
 
 
 // 管理者画面の「お題作成」ボタンを押下したとき
@@ -112,3 +105,14 @@ Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
 // 管理者画面の「NGワード編集」ボタンを押下したとき
 Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
+
+
+//管理者ログイン画面の[Do you have an admin acount?]ボタンを押下時
+Route::get('/adminNewAcount',[\App\Http\Controllers\AdminController::class,'newAcountView']);
+
+//管理者アカウント作成画面の「make acount」ボタンを押下したとき
+Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdminAcount']);
+//管理者ログイン画面のloginを押下時
+Route::post('/admin',[\App\Http\Controllers\AdminController::class,'login']);
+
+

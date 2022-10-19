@@ -10,7 +10,7 @@
 
     <div class="row pb-lg-5 me-5">
         <div class="col-9 text-end align-self-center">
-            <p class="display-3">管理者名さん</p>
+            <p class="display-3">{{$adminName}}さん</p>
         </div>
     </div>
 
