@@ -44,16 +44,16 @@ class Debater extends Model
                 'room_id'=>$room_id,
                 'd_pd'=>1
             ]);
-        //値が含まれていない場合
-        //ディベーターテーブルのroomidと引数のroomidが同じものが入っていない
-        //そしてd_pdの値も入っていない場合の値を取得する
+            //値が含まれていない場合
+            //ディベーターテーブルのroomidと引数のroomidが同じものが入っていない
+            //そしてd_pdの値も入っていない場合の値を取得する
         }else if(Debater::where('room_id','=',$room_id)->doesntExist()){
             $insert = Debater::create([
                 'room_id'=>$room_id,
                 'user_id'=>$user_id,
                 'd_pd'=>$flag
             ]);
-        //同じroomidを持つユーザーが2人存在していた場合
+            //同じroomidを持つユーザーが2人存在していた場合
         }else if(Debater::where('room_id','=',$room_id)->count()>2){
             return false;
         }
@@ -78,11 +78,11 @@ class Debater extends Model
     //すでに発表者として登録されているかを確認。
     public function roomedDebater($user_id,$room_id): bool
     {
-       if(Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
-           return true;
-       }else{
-           return false;
-       }
+        if(Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     //すでにどこかの部屋で発表者として登録されているかを確認

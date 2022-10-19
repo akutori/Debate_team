@@ -28,8 +28,13 @@ class Bystander extends Model
         Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
     }
 
-    //同一ルームの全ての傍観者を削除
-    public function remove_all_bystander_by_id($room_id){
+    //userの傍観者情報を取り消し
+    public function remove_bystander_by_userid($user_id){
+        Bystander::where("user_id","=",$user_id)->delete();
+    }
+
+    //そのルームのすべての傍観者情報を削除
+    public function remove_bystander_by_roomid($room_id){
         Bystander::where("room_id","=",$room_id)->delete();
     }
 
