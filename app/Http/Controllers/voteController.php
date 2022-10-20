@@ -36,7 +36,7 @@ class voteController extends Controller
         $room->where('r_id', $rid)->first();
 
         //賛成派の勝利
-        if ($debater->roomedDebater($userid,$rid)==1) {
+        if ($debater->roomedDebater($userid, $rid)) {
 
             if ($r_positive > $r_denial) {
                 if ($position_p->d_pd == 0) {
