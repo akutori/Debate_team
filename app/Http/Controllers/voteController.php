@@ -72,8 +72,8 @@ class voteController extends Controller
         $userid = $userinfo['id'];
 
         //各ユーザーの登録を削除
-        $debater->remove_debater_by_id($userid, $rid);
-        $bystander->remove_bystander_by_id($userid, $rid);
+        $debater->remove_debater_by_roomid( $rid);
+        $bystander->remove_bystander_by_roomid($rid);
 
         //チャットの履歴を削除
         $chat->remove_chat_by_id($rid);
