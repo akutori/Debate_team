@@ -1,11 +1,12 @@
 $(function() {
+    not_back();
     get_data();
+    Text_Spotting();
 });
 
 function get_data() {
     var roomid = $("#roomid").val();
     var state = $("#state").val();
-    var userid = $("#userid").val();
     $.ajax({
 
         url: "/check/"+roomid+"/"+state+"/",
@@ -21,9 +22,8 @@ function get_data() {
                 return window.location.href="/chat/"+data.room_id+"/"+data.state;
             }else{
                 //待ってほしいメッセージ
-                $(".message").text("条件を満たしていません。人が来るまで待っててね");
-                $(".debater").text("現在の発表者:"+data.debater+"人");
-                $(".bystander").text("現在の傍観者:"+data.bystander+"人");
+                const participants = data.debater + data.bystander;
+                $('#participants').text(participants);
             }
         },
         error: () => {
@@ -33,6 +33,24 @@ function get_data() {
             console.log("errorThrown    : " + errorThrown.message);
         }
     });
-
     setTimeout("get_data()", 2000);
+}
+
+function not_back() {
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
+    });
+}
+
+function Text_Spotting(){
+    setInterval(function(){
+        $('#dot').fadeOut(500,function(){
+            $(this).fadeIn(500)
+        });
+    },1000);
 }

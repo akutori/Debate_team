@@ -31,7 +31,7 @@
             </p>
             <input type="submit" class="btn btn-outline-primary btn-lg mt-3 p-lg-3 shadow" id="createroom" value="ルームの新規作成" >
             <span class="float-lg-end">
-                <a onclick="window.location.reload();" class="btn btn-outline-danger btn-lg mt-3 p-lg-3 shadow">戻る</a>
+                <a onclick="window.location.href = 'mypage';" class="btn btn-outline-danger btn-lg mt-3 p-lg-3 shadow">戻る</a>
             </span>
         </form>
     </div>
