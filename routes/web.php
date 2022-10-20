@@ -25,6 +25,8 @@ use App\Http\Controllers\RankingController;
 |
 */
 
+//todo APIのテスト用
+Route::get('/apitest',[ChatController::class,'check_comment']);
 //ログインした後の画面。りどみに飛ぶ
 Route::get('/',function(){return redirect('/sgenre');});
 

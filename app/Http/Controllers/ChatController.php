@@ -7,6 +7,8 @@ use App\Models\Debater;
 use App\Models\Room;
 use App\Models\User;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
@@ -106,6 +108,31 @@ class ChatController extends Controller
             ->where('r_id','=',$roomid)->first();
         $state=0;
         return view('chat',compact('roomdata','state','name','StartTime','stflg','usersposition'));
+    }
+    //todo 現状pserspectiveはこちらのみで取り扱うか不明なので仮置きとする
+    public function check_comment(){
+        //フォームに入力された内容を取得
+        $text = "こんにちは";//$request->input('input_text');
+        //configからenvに設定されたキーを取得
+        $api_key = config('api.perspectiveAPI.public_key');
+        $client = new Client();
+        try {
+            $res = $client->post('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key='.$api_key, [
+                'json' => [
+                    'comment' => ['text' => $text],
+                    'languages' => 'ja',
+                    'requestedAttributes' => ['TOXICITY' => ['scoreType' => 'PROBABILITY', 'scoreThreshold' => 0]],
+
+                ],
+            ]);
+            $json = json_decode($res->getBody());
+            // Get the score from the JSON response.
+            $score = $json->attributeScores->TOXICITY->summaryScore->value;
+            echo print_r("コメント「こんにちは」のスコアは".$score);
+        } catch (GuzzleException $e) {
+            var_dump(json_decode($e->getResponse()->getBody()->getContents()));
+        }
+        return;
     }
 
     /**
