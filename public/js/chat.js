@@ -1,5 +1,11 @@
 $(function() {
+    //ブラウザバックを禁止する
+    not_back();
+    //タイマーの関数
+    timer();
+    //ajaxでチャット内容を送信する
     sendtext();
+    //チャットを受信するajax
     get_data();
 });
 
@@ -14,23 +20,55 @@ function get_data() {
                 .find(".chat-visible")
                 .remove();
 
-/*<span class="chat-body-time" id="created_at">${data.chats[i].created_at}</span>*/
             for (var i = 0; i < data.chats.length; i++) {
+                //時間の時と分を抽出
+                const time = new Date(data.chats[i].created_at);
+                const create_at = time.getHours() + ':' + time.getMinutes();
+                //ポジションごとに文字の色を変更する
+                let position = ''
+                //SVGアイコンと色をポジションごとに設定する
+                let svgicon = ''
+                //チャットの吹き出しの色を変更する
+                let chatcolor=''
+                if(data.chats[i].users_position==="賛成"){
+                    position = 'text-danger'
+                    svgicon =
+                        '<span class="text-danger">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-emoji-smile-fill" viewBox="0 0 16 16">\n' +
+                        '  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zM4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>\n' +
+                        '</svg>' +
+                        '</span>'
+                    chatcolor = 'chatcolor-agree'
+                }else{
+                    position ='text-primary'
+                    svgicon =
+                        '<span class="text-primary">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-emoji-frown-fill" viewBox="0 0 16 16">\n' +
+                        '  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm-2.715 5.933a.5.5 0 0 1-.183-.683A4.498 4.498 0 0 1 8 9.5a4.5 4.5 0 0 1 3.898 2.25.5.5 0 0 1-.866.5A3.498 3.498 0 0 0 8 10.5a3.498 3.498 0 0 0-3.032 1.75.5.5 0 0 1-.683.183zM10 8c-.552 0-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5S10.552 8 10 8z"/>\n' +
+                        '</svg>' +
+                        '</span>'
+                    chatcolor = 'chatcolor-denial'
+                }
 
                 var html = `
-                            <div class="media chat-visible">
-                                <div class="media-body chat-body">
-                                    <div class="row">
-                                        <span class="chat-body-id" id="user_id">ID：${data.chats[i].user_id}</span>
-                                        <span class="chat-body-user" id="user_name">＠${data.chats[i].user_name}</span>
-
-                                        <span class="chat-body-state" id="users_positon">立場:${data.chats[i].users_position}</span>
-                                    </div>
-                                    <span class="chat-body-message" id="message">${data.chats[i].message}</span>
-                                </div>
+                    <div class="chat-visible">
+                        <div class="row mt-2 mb-2" id="chatalldata">
+                            <div class="col-auto">
+                                ${svgicon}
+                                <span class="chat-body-user text-black fs-5 me-5 ms-2" id="user_name">${data.chats[i].user_name}</span>
+                                <span class="chat-body-state fs-5 ${position}" id="users_positon">${data.chats[i].users_position}</span>
                             </div>
+                            <div class="col-auto d-flex align-items-end">
+                                <span class="chat-body-time text-secondary" id="created_at">${create_at}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-4 ms-3">
+                            <div class="col-12 py-2" id="${chatcolor}">
+                                <span class="chat-body-message fs-5" id="message">${data.chats[i].message}</span>
+                            </div>
+                        </div>
+                    </div>
                         `;
-
                 $("#chat-data").append(html).fadeIn();
             }
         },
@@ -41,8 +79,7 @@ function get_data() {
             console.log("errorThrown    : " + errorThrown.message);
         }
     });
-
-    setTimeout("get_data()", 300);
+    setTimeout("get_data()", 500);
 }
 
 //送信ボタンが押された際リロードを挟まずにチャットを登録
@@ -90,5 +127,47 @@ function get_data() {
             }
         });
 
+    });
+}
+
+function timer(){
+    //ルームIDを取得
+    const ROOMID = $('#room_id').val()
+    //ルームの開始時間を取得
+    var RoomTime = new Date($('#starttime').val())
+    //現在の時間を取得
+    let NowTime = new Date()
+    //分に+14を加えて終了時間を設定(14で15分ちょうどとなる)
+    RoomTime.setMinutes(RoomTime.getMinutes()+14)
+    //日時を取得比較用
+    var d = Math.floor((NowTime - RoomTime)/(24*60*60*1000))
+    //時間を取得比較用
+    var h =Math.floor(((NowTime - RoomTime)%(24*60*60*1000))/(60*60*1000))
+    //分を計算してマイナスを取り除く
+    const m = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60);
+    //秒を計算してマイナスを取り除く
+    const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
+    //タイマー部分に表示させる
+    $("#timer").text('残り '+m+'分'+s+'秒');
+    if(m===59) $("#timer").text('残り '+0+'分'+s+'秒');
+    //指定の時間に達しているかの比較
+    if(d<0&&h<0){
+        if(m===59&&s===0){
+            //投票画面に遷移
+            window.location.href = '/vote2/'+ROOMID+'/';
+        }
+    }
+    //1秒間隔でタイマーを実行
+    setInterval('timer()', 1000);
+}
+
+function not_back() {
+    //ブラウザバックを禁止する
+    $(function() {
+        history.pushState(null, null, null);
+
+        $(window).on("popstate", function(){
+            history.pushState(null, null, null);
+        });
     });
 }
