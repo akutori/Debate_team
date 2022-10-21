@@ -55,7 +55,7 @@
     opts = opts || {};
 
     // Element that will be created for hours, minutes, and seconds.
-    timer._options.elementContainer = opts.elementContainer || 'div';
+    timer._options.elementContainer = opts.elementContainer || 'span';
 
     var classNames = opts.classNames || {};
 
