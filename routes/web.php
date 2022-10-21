@@ -115,11 +115,6 @@ Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdm
 //管理者ログイン画面のloginを押下時
 Route::post('/admin',[\App\Http\Controllers\AdminController::class,'login']);
 
-
-//管理者画面に遷移
-Route::get('/root',function(){
-     return view('rootpage');
-});
 // 管理者画面の「NGワード編集」ボタンを押下したとき
 Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
 // 管理者画面の「お題作成」ボタンを押下したとき
