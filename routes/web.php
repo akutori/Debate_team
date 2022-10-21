@@ -14,7 +14,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RankingController;
 
 
-/*;
+/*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -26,6 +26,8 @@ use App\Http\Controllers\RankingController;
 */
 
 //ログインした後の画面。りどみに飛ぶ
+Route::get('/',function(){return redirect('/sgenre');});
+
 Route::get('/',function(){return redirect('/sgenre');});
 
 //チャット機能
