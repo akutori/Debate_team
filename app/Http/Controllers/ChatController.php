@@ -43,9 +43,9 @@ class ChatController extends Controller
         //賛成のときはチャットのusers_positionに賛成を入れる
         if(!isset($usersposition)){
             $usersposition="";
-        }else if(isset($usersposition) && $usersposition->d_pd==0){
+        }else if($usersposition->d_pd==0){
             $usersposition="賛成";
-        }elseif (isset($usersposition) && $usersposition->d_pd==1){
+        }elseif ($usersposition->d_pd==1){
             $usersposition="反対";
         }
 
@@ -110,29 +110,38 @@ class ChatController extends Controller
         return view('chat',compact('roomdata','state','name','StartTime','stflg','usersposition'));
     }
     //todo 現状pserspectiveはこちらのみで取り扱うか不明なので仮置きとする
-    public function check_comment(){
-        //フォームに入力された内容を取得
-        $text = "こんにちは";//$request->input('input_text');
+    public function check_comment($text){
         //configからenvに設定されたキーを取得
         $api_key = config('api.perspectiveAPI.public_key');
+        //guzzle_client起動
         $client = new Client();
         try {
+            //POST通信でURLにAPIキーを合わせ、テキスト内容とオプションを追加し送信
             $res = $client->post('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key='.$api_key, [
+                //jsonで送信
                 'json' => [
+                    //実際に調査するコメント内容
                     'comment' => ['text' => $text],
+                    //指定言語、デフォルトで必ず入れなければならないが、英語ならちゃんとenでレスポンスされる
                     'languages' => 'ja',
+                    /*
+                     * 与えられたコメント内容をどんな視点から判断するか
+                     * 日本語環境では「人々がディスカッションから離れてしまう可能性がある、失礼、無礼、または不当なコメント。」の視点から見る「'TOXICITY'」のみ対応
+                     * scoreTypeは現在「'PROBABILITY'」のみ対応
+                     * 「'scoreThreshold'」はスコアの下限しきい値
+                    */
                     'requestedAttributes' => ['TOXICITY' => ['scoreType' => 'PROBABILITY', 'scoreThreshold' => 0]],
-
                 ],
             ]);
+            //レスポンスを受け取る
             $json = json_decode($res->getBody());
             // Get the score from the JSON response.
-            $score = $json->attributeScores->TOXICITY->summaryScore->value;
-            echo print_r("コメント「こんにちは」のスコアは".$score);
+            //コメントの悪性度のみ抽出してreturn
+            return $json->attributeScores->TOXICITY->summaryScore->value;
         } catch (GuzzleException $e) {
-            var_dump(json_decode($e->getResponse()->getBody()->getContents()));
+            //エラーがー発生した場合nullを返す
+            return null;
         }
-        return;
     }
 
     /**
