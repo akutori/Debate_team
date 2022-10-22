@@ -44,7 +44,7 @@ class Bystander extends Model
         if(Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
             return true;
         }else{
-            return 0;
+            return false;
         }
     }
 
