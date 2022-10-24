@@ -38,6 +38,7 @@ function get_data() {
                     create_at = time.getHours() + ':' +'0'+time.getMinutes();
                 }
 
+                //チャットの悪性度が規定以上ある場合botメッセージに置き換える
                 if(data.chats[i].score>=MALIGNANCY_TOLERANCE_LEVEL){
                     data.chats[i].message="悪質なコメントと判断したためコメントを検閲しました"
                     data.chats[i].user_name="ЯØ|3Ø7"
@@ -62,7 +63,7 @@ function get_data() {
                         '</svg>' +
                         '</span>'
                     chatcolor = 'chatcolor-denial'
-                }else{
+                }else{ //悪質なコメントの場合コチラに置き換える
                     position = 'text-success'
                     svgicon =
                         '<span class="text-success">' +
@@ -103,16 +104,16 @@ function get_data() {
             console.log("errorThrown    : " + errorThrown.message);
         }
     });
-    setTimeout("get_data()", 500);
+    setTimeout("get_data()", 1000);
 }
 
 function Alert_message() {
-    $('#lockalert').on('shown.bs.modal',function () {
+    $('#lockalert').on('show.bs.modal',function () {
         let btn = document.querySelector('#modalbutton')
         btn.disabled = true
         setTimeout(function(){
             btn.disabled = false
-        },9000)
+        },10000)
     })
 
 }
