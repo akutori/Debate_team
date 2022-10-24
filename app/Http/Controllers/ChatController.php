@@ -9,6 +9,9 @@ use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
@@ -72,13 +75,27 @@ class ChatController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param Request $request
+     * @param $roomid
+     * @return Application|Factory|View
      */
-    public function store(Request $request,$roomid,){
+
+    public function store(Request $request,$roomid,): View|Factory|Application
+    {
         $chats=new Chat;
+        //チャット悪性度許容レベル
+        $MALIGNANCY_TOLERANCE_LEVEL = 0.6;
+        //チャットをAPIを使用してスコアを算出
+        $chat_score = $this->check_comment($request->input('message'));
+        $chats->score = $chat_score;
         //チャットの内容を全て保存
-        $chats->fill($request->all())->save();
+        $chats->fill(['user_id'=>$request->input('user_id'),
+                      'user_name'=>$request->input('user_name'),
+                      'room_id'=>$request->input('room_id'),
+                      'users_position'=>$request->input('users_position'),
+                      'message'=>$request->input('message'),
+                      'score'=>$chat_score])
+                ->save();
 
         /*タイムスタンプ保存*/
         $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
@@ -169,7 +186,7 @@ class ChatController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -189,10 +206,10 @@ class ChatController extends Controller
         //
     }
     public function getData($rid)
-{
-    //チャットの履歴を全て取得
-    $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
-    $json = ["chats" => $chats];
-    return response()->json($json);
-}
+    {
+        //チャットの履歴を全て取得
+        $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
+        $json = ["chats" => $chats];
+        return response()->json($json);
+    }
 }
