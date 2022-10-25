@@ -16,6 +16,7 @@
 
     <div class="col grid text-center h-25 ">
 
+        <a href="{{url('/stheme/')}}" class="delay-time fadeUp "><img class="genreimg" src="{{asset('images/')}}"></a>
     <button type="button" class="g-col-6 " onclick="location.href='{{url('/sgenre')}}'">ジャンル選択</button>
     <button type="button" class="g-col-6" onclick="location.href='{{url('/makeroom')}}'">ルーム作成</button>
     <button type="button" class="g-col-6" onclick="location.href='{{url('/ranking')}}'">ランキングに行く</button>
