@@ -88,6 +88,7 @@ use Illuminate\Support\Facades\Auth;
                     required
                     name="message"
                     placeholder="メッセージを入力"
+                    autocomplete="off"
                     class="form-control py-4 py-md-3">
                 </div>
                 <div class="col-12 col-md-2 py-3 py-md-0">

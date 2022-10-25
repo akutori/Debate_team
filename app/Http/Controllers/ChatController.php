@@ -83,8 +83,6 @@ class ChatController extends Controller
     public function store(Request $request,$roomid,): View|Factory|Application
     {
         $chats=new Chat;
-        //チャット悪性度許容レベル
-        $MALIGNANCY_TOLERANCE_LEVEL = 0.6;
         //チャットをAPIを使用してスコアを算出
         $chat_score = $this->check_comment($request->input('message'));
         $chats->score = $chat_score;
@@ -209,7 +207,17 @@ class ChatController extends Controller
     {
         //チャットの履歴を全て取得
         $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
+        //チャット悪性度許容レベル
+        $MALIGNANCY_TOLERANCE_LEVEL = 0.6;
         $json = ["chats" => $chats];
+        //チャットをAPIを使用してスコアを算出
+        foreach ($chats as $item){
+            if($item->score>=$MALIGNANCY_TOLERANCE_LEVEL){
+                $item->message = "悪質なコメントと判断したためコメントを検閲しました";
+                $item->user_name="ЯØ|3Ø7";
+                $item->users_position="BOT";
+            }
+        }
         return response()->json($json);
     }
 }
