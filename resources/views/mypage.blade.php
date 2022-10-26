@@ -1,6 +1,11 @@
 <html>
 <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/background-js.css') }}" rel="stylesheet">
 <body>
+<div id="particles-js"></div>
+<div class="container">
+
+    <div id="wrapper">
 <div class="grid text-center">
     <a href="{{url('/sgenre')}}" ><img class="w-50 h-50" src="{{asset('images/debate01.png')}}"></a>
 </div>
@@ -59,8 +64,10 @@
             <button type="button" class="btn btn-danger mb-2  rounded-pill" >ログアウト</button>
         </div>
     </div>
+    </div></div>
 
-
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src={{asset('js/genre.js')}}></script>
 </body>
 </html>
 
