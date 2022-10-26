@@ -61,7 +61,10 @@
             <a href="{{ url('/') }}">
                 <img class="card-img-top p-2 rounded-circle" src="{{ asset('./images/irast2.jpg') }}">
             </a>
-            <button type="button" class="btn btn-danger mb-2  rounded-pill" >ログアウト</button>
+            <form style="display: inline" action="{{ route('logout') }}" method="POST" >
+                @csrf
+                <input type="submit" class="btn rounded-pill btn-danger mb-2　" value="ログアウト">
+            </form>
         </div>
     </div>
     </div></div>
