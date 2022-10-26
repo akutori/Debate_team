@@ -39,9 +39,10 @@ class Bystander extends Model
     }
 
     //すでに傍観者として登録されているかを確認。
-    public function roomedBystander($user_id,$room_id){
+    public function roomedBystander($user_id,$room_id): bool
+    {
         if(Bystander::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
-            return 1;
+            return true;
         }else{
             return 0;
         }

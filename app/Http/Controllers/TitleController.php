@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Title;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TitleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    // お題作成ページを表示
+    public function index(){
+        $categoryList = DB::table('categories')->get();
+        return view('addTitle',compact('categoryList'));
     }
 
+    // お題作成ページの「登録ボタン」を押下したとき
+    public function titleInsert(Request $request){
+        $form = $request->only(['title','category']);
+        $titles = new Title();
+        $titles->insert($form['title'],$form['category']);
+        return view('rootpage');
+    }
     /**
      * Show the form for creating a new resource.
      *

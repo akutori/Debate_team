@@ -76,12 +76,12 @@ class Debater extends Model
     }
 
     //すでに発表者として登録されているかを確認。
-    public function roomedDebater($user_id,$room_id): int
+    public function roomedDebater($user_id,$room_id): bool
     {
        if(Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->exists()){
-           return 1;
+           return true;
        }else{
-           return 0;
+           return false;
        }
     }
 

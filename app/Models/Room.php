@@ -18,7 +18,6 @@ class Room extends Model
     protected $primaryKey = 'r_id';
     public $timestamps = false;
 
-    // todo 先にカテゴリーを格納してからこちらのメソッドを使用する
     //部屋を作成する roomsum=傍観者数
     public function insert($cateid, $userid)
     {
@@ -33,12 +32,6 @@ class Room extends Model
             'r_day' => $today,
             'user_id' => $userid
         ]);
-    }
-
-    //一部屋にいる特定のユーザーを抽出
-    public function Select_Specific_Users()
-    {
-        return Room::find();
     }
 
     //すでにディベートが開始されているか
@@ -84,7 +77,15 @@ class Room extends Model
             //終了分を超過しているのでディベートは終了している
             return true;
         }
-        //違う日なのでディベートは終了している
-        return true;
+        //ディベートの終了時刻を設定
+        $Debate_End_Time->addMinutes($END_TIME);
+        //今日の時間とディベートが終了時刻の差が15分以上ある
+        if($Today->diffInMinutes($Debate_End_Time) > $END_TIME){
+            //日付をまたいで15分経過しているのでディベートは終了している
+            return true;
+        }else{
+            //比較分の差が終了時間以下なのでディベートは続いている
+            return false;
+        }
     }
 }
