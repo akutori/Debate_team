@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <div class="card">
 
-                    <div class="text-bg-info " style="font-size: large ">{{ __('Register your information') }}</div>
+                    <div class="bg-info " style="font-size: large ">{{ __('Register your information') }}</div>
 
                     <div class="card-body">
                         <div class="lo">
