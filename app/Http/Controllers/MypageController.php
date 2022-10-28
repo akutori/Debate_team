@@ -11,7 +11,7 @@ class MypageController extends Controller
         $userinfo = Auth::user();
         $username = $userinfo['name'];
         // mypageでポイントを出すための処理
-        $userpoint = $userinfo['upoint'];
+        $userpoint = $userinfo['u_point'];
         // ポイントが登録されていない場合0を代入する
         if($userpoint == ""){
             $userpoint = 0;
