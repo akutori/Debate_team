@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Auth;
             </div>
         </div>
         {{-- modal_start --}}
+        {{--
         <!-- 切り替えボタンの設定 -->
         <div class="container">
             <div class="row">
@@ -68,6 +69,7 @@ use Illuminate\Support\Facades\Auth;
                 </div>
             </div>
         </div>
+        --}}
         {{-- modal_end --}}
     @if($state==0)
         {{---  チャット送信  ---}}
