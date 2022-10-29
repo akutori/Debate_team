@@ -25,8 +25,7 @@ use App\Http\Controllers\RankingController;
 |
 */
 
-//todo APIのテスト用
-Route::get('/apitest',[ChatController::class,'check_comment']);
+
 //ログインした後の画面。りどみに飛ぶ
 Route::get('/',function(){return redirect('/sgenre');});
 
@@ -57,7 +56,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData(ajax)
 Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
-Route::get('/result/ajax/', [RankingController::class,'index']);
+Route::get('/chat/{rid}/result/ajax/chat_data',[ChatController::class,'getDataSize']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
@@ -84,7 +83,7 @@ Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 
 //ルート変更
 //一番最初にreadmeページを開く
-Route::get('/',[GenreController::class,'readme']);
+//Route::get('/',[GenreController::class,'readme']);
 //ログインボタンを押下
 Auth::routes();
 

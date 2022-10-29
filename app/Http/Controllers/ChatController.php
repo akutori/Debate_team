@@ -85,13 +85,24 @@ class ChatController extends Controller
         $chats=new Chat;
         //チャットをAPIを使用してスコアを算出
         $chat_score = $this->check_comment($request->input('message'));
-        $chats->score = $chat_score;
+        //チャット悪性度許容レベル
+        $MALIGNANCY_TOLERANCE_LEVEL = 0.6;
+        //チャットの悪性度が許容量を超えた場合DBに格納する情報をBotに置き換える
+        if($chat_score>=$MALIGNANCY_TOLERANCE_LEVEL){
+            $message="悪質なコメントと判断したためコメントを検閲しました";
+            $user_name="ЯØ|3Ø7";
+            $users_position="BOT";
+        }else{
+            $message=$request->input('message');
+            $user_name=$request->input('user_name');
+            $users_position=$request->input('users_position');
+        }
         //チャットの内容を全て保存
         $chats->fill(['user_id'=>$request->input('user_id'),
-                      'user_name'=>$request->input('user_name'),
+                      'user_name'=>$user_name,
                       'room_id'=>$request->input('room_id'),
-                      'users_position'=>$request->input('users_position'),
-                      'message'=>$request->input('message'),
+                      'users_position'=>$users_position,
+                      'message'=>$message,
                       'score'=>$chat_score])
                 ->save();
 
@@ -203,21 +214,19 @@ class ChatController extends Controller
     {
         //
     }
-    public function getData($rid)
+    public function getData($rid): \Illuminate\Http\JsonResponse
     {
         //チャットの履歴を全て取得
         $chats = Chat::where('room_id','=',$rid)->orderBy('created_at', 'asc')->get();
         //チャット悪性度許容レベル
-        $MALIGNANCY_TOLERANCE_LEVEL = 0.6;
         $json = ["chats" => $chats];
-        //チャットをAPIを使用してスコアを算出
-        foreach ($chats as $item){
-            if($item->score>=$MALIGNANCY_TOLERANCE_LEVEL){
-                $item->message = "悪質なコメントと判断したためコメントを検閲しました";
-                $item->user_name="ЯØ|3Ø7";
-                $item->users_position="BOT";
-            }
-        }
+        return response()->json($json);
+    }
+
+    public function getDataSize($rid): \Illuminate\Http\JsonResponse
+    {
+        $chats = Chat::where('room_id','=',$rid)->count();
+        $json = ["chat_size" => $chats];
         return response()->json($json);
     }
 }
