@@ -88,7 +88,7 @@ Auth::routes();
 
 //管理者ログイン画面に遷移
 Route::get('/root',function(){
-     return view('adminlogin');
+     return view('adminLogin');
 });
 
 

@@ -7,6 +7,12 @@
 
 @section('head')
     <link rel="stylesheet" href="{{asset('css/theme.css')}}">
+    <script src="{{ asset('js/newAcount.js') }}"></script>
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
 @endsection
 @section('body')
 
@@ -20,7 +26,7 @@
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                           value="{{ old('name') }}" required autocomplete="name" autofocus>
+                           value="{{ old('name') }}" required autocomplete="name" autofocus onchange="acount()">
 
                     @error('id')
                         <span class="invalid-feedback" role="alert">
@@ -65,7 +71,7 @@
                     </button>
 
 
-                    <a class="btn btn-link" href="{{ url('adminNewAcount') }}">
+                    <a class="hidden btn btn-link" id="newAcount" href="{{ url('adminNewAcount') }}">
                         {{ __('Do you have an Adomin acount?') }}
                     </a>
                 </div>
