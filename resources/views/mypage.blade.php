@@ -18,6 +18,7 @@
         </a>
     </p>
 
+
     <div class="row row-cols-1 row-cols-lg-2 justify-content-center">
         <div class="card m-2" style="width: 15rem;">
             <a href="{{ url('/sgenre') }}" class="delay-time fadeUp ">
