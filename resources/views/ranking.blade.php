@@ -90,9 +90,9 @@
     @for($i = 3; $i <count($users); $i++)
         <div class="d-flex justify-content-center text-start border-bottom  border-3">
                     <span class="fs-4 ">
-                             {{$i+1}}位
-                             名前：{{$users[$i]->name}}
-                            ポイント：{{$users[$i]->u_point}}
+                             {{$i+1}}th
+                            {{$users[$i]->name}}
+                            Point ：{{$users[$i]->u_point}}
                      </span>
         </div>
     @endfor
