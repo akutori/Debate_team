@@ -32,16 +32,18 @@
 
         <!-- 1st -->
         <div class="container shadow-lg">
-              <div class="row border-bottom border-3 h-auto" >
-                  <div class="col"></div>
-                <div class="col  justify-content-center"id="1st">
+            <div class="row border-bottom border-3 h-auto">
+                <div class="col "></div>
+                <div class="col  justify-content-center" id="1st">
                     <div class="text-center">
-                        <a class="col fs-1 text-warning"  id="icon1st">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
-                                <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
+                        <span class="col fs-1 text-warning" id="icon1st">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor"
+                                 class="bi bi-award" viewBox="0 0 16 16">
+                                <path
+                                    d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
                                 <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
                             </svg>
-                        </a>
+                        </span>
                         <a class="fs-1 text-black">1st</a>
                     </div>
                     <div class="text-center fs-2">
@@ -50,10 +52,10 @@
                     </div>
                 </div>
 
-                  <div class="col" ></div>
+                <div class="col "></div>
             </div>
             <div class="row " id="2nd3rd">
-            <!-- 2nd -->
+                <!-- 2nd -->
                 <div class="col border-end border-3">
                     <div class="col-auto  text-center ">
                         <div class="col text-center fs-2 ">
@@ -71,25 +73,35 @@
                             <a class="text-black">3rd</a>
                         </div>
                         <div class="text-center">
-                        <a class="">{{$users[2]->name}}</a>
-                        <a class="">{{$users[2]->u_point}}Pt</a>
+                            <a class="">{{$users[2]->name}}</a>
+                            <a class="">{{$users[2]->u_point}}Pt</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+</div>
 <!--Other-->
-<div class="container mt-4 row-12 text-center">
+
+
+<div class="container shadow-lg w-75 mt-4 ">
+    <div class="row">
+
     @for($i = 3; $i <count($users); $i++)
-        <div class="list-group" style="width:360px;">
-            <a class="list-group-item"> {{$i+1}}位 名前：{{$users[$i]->name}} ポイント：{{$users[$i]->u_point}}</a>
+        <div class="d-flex justify-content-center text-start border-bottom  border-3">
+                    <span class="fs-4 ">
+                             {{$i+1}}位
+                             名前：{{$users[$i]->name}}
+                            ポイント：{{$users[$i]->u_point}}
+                     </span>
         </div>
     @endfor
-</div>
 
-@endforeach
+    </div>
 </div>
+@endforeach
+
+
 <script src="{{mix('js/app.js')}}"></script>
 </body>
 </html>
