@@ -53,7 +53,7 @@ LaravelはPHPよりも、難しく複雑ですが、その分やりたいこと�
 </div>
 </div>
 <div class="text-lg-center">
-    <button type="submit" onclick="location.href='{{url('/sgenre')}}'" class="btn btn-outline-primary btn-light p-xxl-5 m-lg-5 shadow-lg fs-4">ジャンル選択</button>
+    <button type="submit" onclick="location.href='{{url('/login')}}'" class="btn btn-outline-primary btn-light p-xxl-5 m-lg-5 shadow-lg fs-4">ログイン</button>
     <button type="submit" onclick="location.href='{{url('/register')}}'" class="btn btn-outline-success btn-light p-xxl-5 m-lg-5 shadow-lg fs-4">アカウント作成</button>
 </div>
 @section('body')
