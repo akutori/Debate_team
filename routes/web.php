@@ -14,7 +14,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RankingController;
 
 
-/*;
+/*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -38,6 +38,8 @@ Route::get('/chat',function (){
 */
 //ログインした後の画面。りどみに飛ぶ
 //Route::get('/',[GenreController::class,'readme']);
+
+Route::get('/',function(){return redirect('/sgenre');});
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');

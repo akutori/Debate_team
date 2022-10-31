@@ -60,11 +60,11 @@ class Room extends Model
         //ディベート終了(分)
         $END_TIME = 15;
         //現在時間を取得
-        $Today = Carbon::now();
+        $Today = Carbon::now()->setTimezone('Asia/Tokyo');
         //現在いる部屋を取得
         $Room = Room::where("r_id", $roomid)->first();
         //Carbonインスタンスを生成。時間はルームのディベート開始時刻
-        $Debate_End_Time = new Carbon($Room->Starting_time);
+        $Debate_End_Time = new Carbon($Room->Starting_time,'Asia/Tokyo');
         //同じ日
         if ($Debate_End_Time->isToday()) {
             //ディベートの終了時刻を設定
