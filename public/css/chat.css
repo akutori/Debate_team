@@ -19,7 +19,12 @@
 #message{
     font-size: 1.2em;
 }
-
-#background{
-    background-color: gray;
+#lanking{
+    font-size: 1.2em;
+}
+#1st{
+    font-size: 400px;
+}
+svg{
+    size: 110.0em;
 }

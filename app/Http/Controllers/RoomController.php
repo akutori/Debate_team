@@ -40,7 +40,7 @@ class RoomController extends Controller
                 }
             }
             //ディベートが始まっていてまだ終了していないが傍観者としてもともと登録されていた場合立場を変更させずに再入室させる
-            if(!$room->this_room_debate_time_end($roomid)&&$bystander->roomedBystander($userid,$roomid)){
+            if($room->this_room_debate_time_end($roomid)&&$bystander->roomedBystander($userid,$roomid)){
                 $state=1;
                 //同じ部屋の場合は立場を変更せずにそのまま参加させる
                 return view('standby',compact('roomid','state','userid','roomtitle'));
@@ -59,7 +59,7 @@ class RoomController extends Controller
             }else if($debater->countdebater($roomid) >=2&& !$debater->roomedDebater($roomid, $userid)){
                 return redirect('/sgenre');
             }
-            //傍観者として参加した場合
+        //傍観者として参加した場合
         }else if($state==1){
             //傍観者として登録されているか
             if($bystander->roomedBystander($userid,$roomid)){
@@ -73,7 +73,7 @@ class RoomController extends Controller
                     return view('standby',compact('roomid','state','userid','roomtitle'));
                 }
             }//ディベートが始まっていてまだ終了していないが発表者としてもともと登録されていた場合立場を変更させずに再入室させる
-            if(!$room->this_room_debate_time_end($roomid)&&$debater->roomedDebater($userid,$roomid)){
+            if($room->this_room_debate_time_end($roomid) && $debater->roomedDebater($userid,$roomid)){
                 //発表者の賛成・反対の状態を取得
                 $state=0;
                 $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
