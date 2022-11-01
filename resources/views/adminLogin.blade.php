@@ -33,7 +33,7 @@
                 <label for="id" class="col-md-4 col-form-label text-md-end">ユーザーID</label>
                 <div class="group">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                           value="{{ old('name') }}" required autocomplete="name" autofocus>
+                           value="{{ old('name') }}" required autocomplete="name" autofocus onchange="acount()">
                 </div>
                 <div class="col-md-6">
                     @error('id')
@@ -99,6 +99,7 @@
 
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src={{asset('js/genre.js')}}></script>
+    <script src={{ asset('js/newAcount.js') }}></script>
 
 @endsection
 
