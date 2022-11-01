@@ -144,7 +144,7 @@ class DomainLiteral extends PartParser
             $this->warnings[IPV6Deprecated::CODE] = new IPV6Deprecated();
         }
     }
-
+    
     public function convertIPv4ToIPv6(string $addressLiteralIPv4) : string
     {
         $matchesIP  = [];

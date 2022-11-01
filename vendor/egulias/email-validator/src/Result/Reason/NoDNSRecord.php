@@ -2,7 +2,7 @@
 
 namespace Egulias\EmailValidator\Result\Reason;
 
-class NoDNSRecord implements Reason
+class NoDNSRecord implements Reason 
 {
     public function code() : int
     {

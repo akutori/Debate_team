@@ -33,7 +33,7 @@ class EmailParser extends Parser
 
         return $result;
     }
-
+    
     protected function preLeftParsing(): Result
     {
         if (!$this->hasAtToken()) {
@@ -68,7 +68,7 @@ class EmailParser extends Parser
         $domainPartResult = $domainPartParser->parse();
         $this->domainPart = $domainPartParser->domainPart();
         $this->warnings = array_merge($domainPartParser->getWarnings(), $this->warnings);
-
+        
         return $domainPartResult;
     }
 

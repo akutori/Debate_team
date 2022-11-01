@@ -11,7 +11,7 @@ class SpoofEmail implements Reason
 
     public function description() : string
     {
-        return 'The email contains mixed UTF8 chars that makes it suspicious';
+        return 'The email contains mixed UTF8 chars that makes it suspicious'; 
     }
 
 }

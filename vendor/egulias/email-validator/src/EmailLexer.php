@@ -211,7 +211,7 @@ class EmailLexer extends AbstractLexer
         }
 
         $this->previous = $this->token;
-
+        
         if($this->lookahead === null) {
             $this->lookahead = self::$nullToken;
         }

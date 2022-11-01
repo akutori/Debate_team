@@ -20,7 +20,7 @@ class IDRightPart extends DomainPart
             EmailLexer::S_GREATERTHAN => true,
             EmailLexer::S_LOWERTHAN => true,
         ];
-
+    
         if (isset($invalidDomainTokens[$this->lexer->token['type']])) {
             return new InvalidEmail(new ExpectingATEXT('Invalid token in domain: ' . $this->lexer->token['value']), $this->lexer->token['value']);
         }

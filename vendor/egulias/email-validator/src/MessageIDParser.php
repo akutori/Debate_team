@@ -34,7 +34,7 @@ class MessageIDParser extends Parser
 
         return $result;
     }
-
+    
     protected function preLeftParsing(): Result
     {
         if (!$this->hasAtToken()) {
@@ -69,7 +69,7 @@ class MessageIDParser extends Parser
         $domainPartResult = $domainPartParser->parse();
         $this->idRight = $domainPartParser->domainPart();
         $this->warnings = array_merge($domainPartParser->getWarnings(), $this->warnings);
-
+        
         return $domainPartResult;
     }
 

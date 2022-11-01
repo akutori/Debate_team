@@ -3,14 +3,11 @@
 namespace Illuminate\Filesystem;
 
 use Aws\S3\S3Client;
-use Illuminate\Support\Traits\Conditionable;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter as S3Adapter;
 use League\Flysystem\FilesystemOperator;
 
 class AwsS3V3Adapter extends FilesystemAdapter
 {
-    use Conditionable;
-
     /**
      * The AWS S3 client.
      *
@@ -54,16 +51,6 @@ class AwsS3V3Adapter extends FilesystemAdapter
         return $this->client->getObjectUrl(
             $this->config['bucket'], $this->prefixer->prefixPath($path)
         );
-    }
-
-    /**
-     * Determine if temporary URLs can be generated.
-     *
-     * @return bool
-     */
-    public function providesTemporaryUrls()
-    {
-        return true;
     }
 
     /**

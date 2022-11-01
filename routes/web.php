@@ -25,7 +25,6 @@ use App\Http\Controllers\RankingController;
 |
 */
 
-
 //ログインした後の画面。りどみに飛ぶ
 Route::get('/',function(){return redirect('/sgenre');});
 
@@ -89,7 +88,7 @@ Auth::routes();
 
 //管理者ログイン画面に遷移
 Route::get('/root',function(){
-     return view('adminlogin');
+     return view('adminLogin');
 });
 
 

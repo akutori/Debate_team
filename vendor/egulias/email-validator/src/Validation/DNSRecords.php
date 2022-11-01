@@ -4,7 +4,7 @@ namespace Egulias\EmailValidator\Validation;
 
 class DNSRecords
 {
-
+    
     /**
      * @var array $records
      */

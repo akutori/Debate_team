@@ -2,13 +2,14 @@
 
 namespace Barryvdh\Debugbar\Middleware;
 
+use Error;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Barryvdh\Debugbar\LaravelDebugbar;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Throwable;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class InjectDebugbar
 {
@@ -64,7 +65,10 @@ class InjectDebugbar
         try {
             /** @var \Illuminate\Http\Response $response */
             $response = $next($request);
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
+            $response = $this->handleException($request, $e);
+        } catch (Error $error) {
+            $e = new FatalThrowableError($error);
             $response = $this->handleException($request, $e);
         }
 
@@ -80,11 +84,11 @@ class InjectDebugbar
      * (Copy from Illuminate\Routing\Pipeline by Taylor Otwell)
      *
      * @param $passable
-     * @param  Throwable $e
+     * @param  Exception $e
      * @return mixed
      * @throws Exception
      */
-    protected function handleException($passable, $e)
+    protected function handleException($passable, Exception $e)
     {
         if (! $this->container->bound(ExceptionHandler::class) || ! $passable instanceof Request) {
             throw $e;

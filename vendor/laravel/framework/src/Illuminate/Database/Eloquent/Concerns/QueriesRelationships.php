@@ -622,7 +622,9 @@ trait QueriesRelationships
             $relation = $this->getRelationWithoutConstraints($name);
 
             if ($function) {
-                $hashedColumn = $this->getRelationHashedColumn($column, $relation);
+                $hashedColumn = $this->getQuery()->from === $relation->getQuery()->getQuery()->from
+                                            ? "{$relation->getRelationCountHash(false)}.$column"
+                                            : $column;
 
                 $wrappedColumn = $this->getQuery()->getGrammar()->wrap(
                     $column === '*' ? $column : $relation->getRelated()->qualifyColumn($hashedColumn)
@@ -676,24 +678,6 @@ trait QueriesRelationships
         }
 
         return $this;
-    }
-
-    /**
-     * Get the relation hashed column name for the given column and relation.
-     *
-     * @param  string  $column
-     * @param  \Illuminate\Database\Eloquent\Relations\Relationship  $relation
-     * @return string
-     */
-    protected function getRelationHashedColumn($column, $relation)
-    {
-        if (str_contains($column, '.')) {
-            return $column;
-        }
-
-        return $this->getQuery()->from === $relation->getQuery()->getQuery()->from
-            ? "{$relation->getRelationCountHash(false)}.$column"
-            : $column;
     }
 
     /**

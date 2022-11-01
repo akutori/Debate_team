@@ -31,7 +31,7 @@ class DoubleQuote extends PartParser
             EmailLexer::S_CR => true,
             EmailLexer::S_LF => true
         ];
-
+        
         $setSpecialsWarning = true;
 
         $this->lexer->moveNext();

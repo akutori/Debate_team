@@ -40,7 +40,7 @@ class DNSCheckValidation implements EmailValidation
         'home',
         'lan',
     ];
-
+    
     /**
      * @var array
      */

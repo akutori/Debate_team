@@ -301,7 +301,7 @@ class Builder implements BuilderContract
     /**
      * Makes "from" fetch from a subquery.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @param  string  $as
      * @return $this
      *
@@ -333,7 +333,7 @@ class Builder implements BuilderContract
     /**
      * Creates a subquery and parse it.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @return array
      */
     protected function createSub($query)
@@ -643,7 +643,7 @@ class Builder implements BuilderContract
     /**
      * Add a subquery cross join to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @param  string  $as
      * @return $this
      */
@@ -800,7 +800,7 @@ class Builder implements BuilderContract
                 if (is_numeric($key) && is_array($value)) {
                     $query->{$method}(...array_values($value));
                 } else {
-                    $query->{$method}($key, '=', $value, $boolean);
+                    $query->$method($key, '=', $value, $boolean);
                 }
             }
         }, $boolean);
@@ -894,12 +894,6 @@ class Builder implements BuilderContract
      */
     public function whereNot($column, $operator = null, $value = null, $boolean = 'and')
     {
-        if (is_array($column)) {
-            return $this->whereNested(function ($query) use ($column, $operator, $value, $boolean) {
-                $query->where($column, $operator, $value, $boolean);
-            }, $boolean.' not');
-        }
-
         return $this->where($column, $operator, $value, $boolean.' not');
     }
 
@@ -1392,7 +1386,7 @@ class Builder implements BuilderContract
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  \DateTimeInterface|string|int|null  $value
+     * @param  \DateTimeInterface|string|null  $value
      * @param  string  $boolean
      * @return $this
      */
@@ -1409,7 +1403,7 @@ class Builder implements BuilderContract
         }
 
         if (! $value instanceof Expression) {
-            $value = sprintf('%02d', $value);
+            $value = str_pad($value, 2, '0', STR_PAD_LEFT);
         }
 
         return $this->addDateBasedWhere('Day', $column, $operator, $value, $boolean);
@@ -1420,7 +1414,7 @@ class Builder implements BuilderContract
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  \DateTimeInterface|string|int|null  $value
+     * @param  \DateTimeInterface|string|null  $value
      * @return $this
      */
     public function orWhereDay($column, $operator, $value = null)
@@ -1437,7 +1431,7 @@ class Builder implements BuilderContract
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  \DateTimeInterface|string|int|null  $value
+     * @param  \DateTimeInterface|string|null  $value
      * @param  string  $boolean
      * @return $this
      */
@@ -1454,7 +1448,7 @@ class Builder implements BuilderContract
         }
 
         if (! $value instanceof Expression) {
-            $value = sprintf('%02d', $value);
+            $value = str_pad($value, 2, '0', STR_PAD_LEFT);
         }
 
         return $this->addDateBasedWhere('Month', $column, $operator, $value, $boolean);
@@ -1465,7 +1459,7 @@ class Builder implements BuilderContract
      *
      * @param  string  $column
      * @param  string  $operator
-     * @param  \DateTimeInterface|string|int|null  $value
+     * @param  \DateTimeInterface|string|null  $value
      * @return $this
      */
     public function orWhereMonth($column, $operator, $value = null)
@@ -2444,7 +2438,7 @@ class Builder implements BuilderContract
     /**
      * Add a union statement to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder|\Closure  $query
      * @param  bool  $all
      * @return $this
      */
@@ -2464,7 +2458,7 @@ class Builder implements BuilderContract
     /**
      * Add a union all statement to the query.
      *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder|\Closure  $query
      * @return $this
      */
     public function unionAll($query)
@@ -2592,20 +2586,6 @@ class Builder implements BuilderContract
     public function value($column)
     {
         $result = (array) $this->first([$column]);
-
-        return count($result) > 0 ? reset($result) : null;
-    }
-
-    /**
-     * Get a single expression value from the first result of a query.
-     *
-     * @param  string  $expression
-     * @param  array  $bindings
-     * @return mixed
-     */
-    public function rawValue(string $expression, array $bindings = [])
-    {
-        $result = (array) $this->selectRaw($expression, $bindings)->first();
 
         return count($result) > 0 ? reset($result) : null;
     }
@@ -3270,7 +3250,7 @@ class Builder implements BuilderContract
      * Insert new records into the table using a subquery.
      *
      * @param  array  $columns
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string  $query
+     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $query
      * @return int
      */
     public function insertUsing(array $columns, $query)

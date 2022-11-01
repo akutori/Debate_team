@@ -97,7 +97,7 @@ class DomainPart extends PartParser
         if ($invalidTokens->isInvalid()) {
             return $invalidTokens;
         }
-
+        
         $missingDomain = $this->checkEmptyDomain();
         if ($missingDomain->isInvalid()) {
             return $missingDomain;
@@ -155,7 +155,7 @@ class DomainPart extends PartParser
                 return $notAllowedChars;
             }
 
-            if ($this->lexer->token['type'] === EmailLexer::S_OPENPARENTHESIS ||
+            if ($this->lexer->token['type'] === EmailLexer::S_OPENPARENTHESIS || 
                 $this->lexer->token['type'] === EmailLexer::S_CLOSEPARENTHESIS ) {
                 $hasComments = true;
                 $commentsResult = $this->parseComments();

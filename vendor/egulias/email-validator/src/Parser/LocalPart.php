@@ -50,7 +50,7 @@ class LocalPart extends PartParser
                 }
             }
 
-            if ($this->lexer->token['type'] === EmailLexer::S_OPENPARENTHESIS ||
+            if ($this->lexer->token['type'] === EmailLexer::S_OPENPARENTHESIS || 
                 $this->lexer->token['type'] === EmailLexer::S_CLOSEPARENTHESIS ) {
                 $commentsResult = $this->parseComments();
 
@@ -110,7 +110,7 @@ class LocalPart extends PartParser
         return $this->localPart;
     }
 
-    private function parseLocalFWS() : Result
+    private function parseLocalFWS() : Result 
     {
         $foldingWS = new FoldingWhiteSpace($this->lexer);
         $resultFWS = $foldingWS->parse();

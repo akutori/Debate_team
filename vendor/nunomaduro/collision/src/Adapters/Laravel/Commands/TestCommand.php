@@ -100,11 +100,11 @@ class TestCommand extends Command
         $parallel = $this->option('parallel');
 
         $process = (new Process(array_merge(
-            // Binary ...
-            $this->binary(),
-            // Arguments ...
-            $parallel ? $this->paratestArguments($options) : $this->phpunitArguments($options)
-        ),
+                // Binary ...
+                $this->binary(),
+                // Arguments ...
+                $parallel ? $this->paratestArguments($options) : $this->phpunitArguments($options)
+            ),
             null,
             // Envs ...
             $parallel ? $this->paratestEnvironmentVariables() : $this->phpunitEnvironmentVariables(),
@@ -210,8 +210,6 @@ class TestCommand extends Command
 
         $options = array_values(array_filter($options, function ($option) {
             return ! Str::startsWith($option, '--env=')
-                && $option != '-q'
-                && $option != '--quiet'
                 && $option != '--coverage'
                 && ! Str::startsWith($option, '--min');
         }));
@@ -234,8 +232,6 @@ class TestCommand extends Command
         $options = array_values(array_filter($options, function ($option) {
             return ! Str::startsWith($option, '--env=')
                 && $option != '--coverage'
-                && $option != '-q'
-                && $option != '--quiet'
                 && ! Str::startsWith($option, '--min')
                 && ! Str::startsWith($option, '-p')
                 && ! Str::startsWith($option, '--parallel')
@@ -271,7 +267,7 @@ class TestCommand extends Command
     protected function paratestEnvironmentVariables()
     {
         return [
-            'LARAVEL_PARALLEL_TESTING' => 1,
+            'LARAVEL_PARALLEL_TESTING'                    => 1,
             'LARAVEL_PARALLEL_TESTING_RECREATE_DATABASES' => $this->option('recreate-databases'),
             'LARAVEL_PARALLEL_TESTING_DROP_DATABASES' => $this->option('drop-databases'),
         ];

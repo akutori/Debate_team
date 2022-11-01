@@ -91,7 +91,7 @@ class Comment extends PartParser
 
     }
 
-    private function noClosingParenthesis() : bool
+    private function noClosingParenthesis() : bool 
     {
         try {
             $this->lexer->find(EmailLexer::S_CLOSEPARENTHESIS);

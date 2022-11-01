@@ -74,7 +74,7 @@ class  FoldingWhiteSpace extends PartParser
 
         return new ValidEmail();
     }
-
+     
     protected function isFWS() : bool
     {
         if ($this->escaped()) {

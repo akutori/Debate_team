@@ -112,15 +112,7 @@ class ComponentTagCompiler
                         \s+
                         (?:
                             (?:
-                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
                                 \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
-                            )
-                            |
-                            (?:
-                                (\:\\\$)(\w+)
                             )
                             |
                             (?:
@@ -173,15 +165,7 @@ class ComponentTagCompiler
                         \s+
                         (?:
                             (?:
-                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
                                 \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
-                            )
-                            |
-                            (?:
-                                (\:\\\$)(\w+)
                             )
                             |
                             (?:
@@ -236,12 +220,8 @@ class ComponentTagCompiler
         // component and pass the component as a view parameter to the data so it
         // can be accessed within the component and we can render out the view.
         if (! class_exists($class)) {
-            $view = Str::startsWith($component, 'mail::')
-                ? "\$__env->getContainer()->make(Illuminate\\View\\Factory::class)->make('{$component}')"
-                : "'$class'";
-
             $parameters = [
-                'view' => $view,
+                'view' => "'$class'",
                 'data' => '['.$this->attributesToString($data->all(), $escapeBound = false).']',
             ];
 
@@ -314,10 +294,6 @@ class ComponentTagCompiler
 
         if (! is_null($guess)) {
             return $guess;
-        }
-
-        if (Str::startsWith($component, 'mail::')) {
-            return $component;
         }
 
         throw new InvalidArgumentException(
@@ -457,10 +433,6 @@ class ComponentTagCompiler
                         \s+
                         (?:
                             (?:
-                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
                                 \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
                             )
                             |
@@ -514,9 +486,8 @@ class ComponentTagCompiler
      */
     protected function getAttributesFromAttributeString(string $attributeString)
     {
-        $attributeString = $this->parseShortAttributeSyntax($attributeString);
         $attributeString = $this->parseAttributeBag($attributeString);
-        $attributeString = $this->parseComponentTagClassStatements($attributeString);
+
         $attributeString = $this->parseBindAttributes($attributeString);
 
         $pattern = '/
@@ -568,21 +539,6 @@ class ComponentTagCompiler
     }
 
     /**
-     * Parses a short attribute syntax like :$foo into a fully-qualified syntax like :foo="$foo".
-     *
-     * @param  string  $value
-     * @return string
-     */
-    protected function parseShortAttributeSyntax(string $value)
-    {
-        $pattern = "/\s\:\\\$(\w+)/x";
-
-        return preg_replace_callback($pattern, function (array $matches) {
-            return " :{$matches[1]}=\"\${$matches[1]}\"";
-        }, $value);
-    }
-
-    /**
      * Parse the attribute bag in a given attribute string into its fully-qualified syntax.
      *
      * @param  string  $attributeString
@@ -596,27 +552,6 @@ class ComponentTagCompiler
         /x";
 
         return preg_replace($pattern, ' :attributes="$1"', $attributeString);
-    }
-
-    /**
-     * Parse @class statements in a given attribute string into their fully-qualified syntax.
-     *
-     * @param  string  $attributeString
-     * @return string
-     */
-    protected function parseComponentTagClassStatements(string $attributeString)
-    {
-        return preg_replace_callback(
-             '/@(class)(\( ( (?>[^()]+) | (?2) )* \))/x', function ($match) {
-                 if ($match[1] === 'class') {
-                     $match[2] = str_replace('"', "'", $match[2]);
-
-                     return ":class=\"\Illuminate\Support\Arr::toCssClasses{$match[2]}\"";
-                 }
-
-                 return $match[0];
-             }, $attributeString
-        );
     }
 
     /**
