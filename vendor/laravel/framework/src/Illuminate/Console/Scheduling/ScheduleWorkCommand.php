@@ -42,7 +42,7 @@ class ScheduleWorkCommand extends Command
      */
     public function handle()
     {
-        $this->components->info('Running schedule tasks every minute.');
+        $this->info('Schedule worker started successfully.');
 
         [$lastExecutionStartedAt, $keyOfLastExecutionWithOutput, $executions] = [null, null, []];
 
@@ -63,10 +63,18 @@ class ScheduleWorkCommand extends Command
             }
 
             foreach ($executions as $key => $execution) {
-                $output = $execution->getIncrementalOutput().
-                          $execution->getIncrementalErrorOutput();
+                $output = trim($execution->getIncrementalOutput()).
+                          trim($execution->getIncrementalErrorOutput());
 
-                $this->output->write(ltrim($output, "\n"));
+                if (! empty($output)) {
+                    if ($key !== $keyOfLastExecutionWithOutput) {
+                        $this->info(PHP_EOL.'['.date('c').'] Execution #'.($key + 1).' output:');
+
+                        $keyOfLastExecutionWithOutput = $key;
+                    }
+
+                    $this->output->writeln($output);
+                }
 
                 if (! $execution->isRunning()) {
                     unset($executions[$key]);

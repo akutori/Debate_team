@@ -43,13 +43,13 @@ class ViewCacheCommand extends Command
      */
     public function handle()
     {
-        $this->callSilent('view:clear');
+        $this->call('view:clear');
 
         $this->paths()->each(function ($path) {
             $this->compileViews($this->bladeFilesIn([$path]));
         });
 
-        $this->components->info('Blade templates cached successfully.');
+        $this->info('Blade templates cached successfully.');
     }
 
     /**

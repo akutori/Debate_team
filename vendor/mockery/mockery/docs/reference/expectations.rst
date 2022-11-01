@@ -158,8 +158,8 @@ Check if expected values are included or not, but type should be matched:
 
     $mock->foo(1, 2, 3);  // matches the expectation
     $mock->foo(3, 2, 1);  // matches the expectation (passed order doesn't matter)
-    $mock->foo('1', '2'); // throws a NoMatchingExpectationException (type should be matched) 
-    $mock->foo(3);        // throws a NoMatchingExpectationException 
+    $mock->foo('1', '2'); // throws a NoMatchingExpectationException (type should be matched)
+    $mock->foo(3);        // throws a NoMatchingExpectationException
 
 Any, or no arguments
 ^^^^^^^^^^^^^^^^^^^^
@@ -447,34 +447,6 @@ We can also set a range of call counts, using ``between()``:
 This is actually identical to using ``atLeast()->times($min)->atMost()->times($max)``
 but is provided as a shorthand. It may be followed by a ``times()`` call with no
 parameter to preserve the APIs natural language readability.
-
-Multiple Calls with Different Expectations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If a method is expected to get called multiple times with different arguments
-and/or return values we can simply repeat the expectations. The same of course
-also works if we expect multiple calls to different methods.
-
-.. code-block:: php
-
-    $mock = \Mockery::mock('MyClass');
-    // Expectations for the 1st call
-    $mock->shouldReceive('name_of_method');
-        ->once()
-        ->with('arg1')
-        ->andReturn($value1)
-
-        // 2nd call to same method
-        ->shouldReceive('name_of_method')
-        ->once()
-        ->with('arg2')
-        ->andReturn($value2)
-
-        // final call to another method
-        ->shouldReceive('other_method')
-        ->once()
-        ->with('other')
-        ->andReturn($value_other);
 
 Expectation Declaration Utilities
 ---------------------------------

@@ -21,7 +21,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Env;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -31,14 +30,12 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class Application extends Container implements ApplicationContract, CachesConfiguration, CachesRoutes, HttpKernelInterface
 {
-    use Macroable;
-
     /**
      * The Laravel framework version.
      *
      * @var string
      */
-    const VERSION = '9.36.4';
+    const VERSION = '9.19.0';
 
     /**
      * The base path for the Laravel installation.
@@ -699,8 +696,6 @@ class Application extends Container implements ApplicationContract, CachesConfig
 
         if (property_exists($provider, 'singletons')) {
             foreach ($provider->singletons as $key => $value) {
-                $key = is_int($key) ? $value : $key;
-
                 $this->singleton($key, $value);
             }
         }

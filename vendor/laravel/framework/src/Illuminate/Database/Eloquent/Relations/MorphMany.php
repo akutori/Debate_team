@@ -57,6 +57,6 @@ class MorphMany extends MorphOneOrMany
     {
         $attributes[$this->getMorphType()] = $this->morphClass;
 
-        return parent::forceCreate($attributes);
+        parent::forceCreate($attributes);
     }
 }

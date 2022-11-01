@@ -7,9 +7,6 @@ namespace League\Flysystem;
 /**
  * This interface contains everything to read from and inspect
  * a filesystem. All methods containing are non-destructive.
- *
- * @method string publicUrl(string $path, array $config = []) Will be added in 4.0
- * @method string checksum(string $path, array $config = []) Will be added in 4.0
  */
 interface FilesystemReader
 {
@@ -52,7 +49,6 @@ interface FilesystemReader
      * @return DirectoryListing<StorageAttributes>
      *
      * @throws FilesystemException
-     * @throws UnableToListContents
      */
     public function listContents(string $location, bool $deep = self::LIST_SHALLOW): DirectoryListing;
 

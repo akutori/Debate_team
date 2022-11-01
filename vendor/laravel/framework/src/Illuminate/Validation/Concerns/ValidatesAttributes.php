@@ -117,29 +117,13 @@ trait ValidatesAttributes
 
         if ($url = parse_url($value, PHP_URL_HOST)) {
             try {
-                $records = $this->getDnsRecords($url.'.', DNS_A | DNS_AAAA);
-
-                if (is_array($records) && count($records) > 0) {
-                    return true;
-                }
+                return count(dns_get_record($url.'.', DNS_A | DNS_AAAA)) > 0;
             } catch (Exception $e) {
                 return false;
             }
         }
 
         return false;
-    }
-
-    /**
-     * Get the DNS records for the given hostname.
-     *
-     * @param  string  $hostname
-     * @param  int  $type
-     * @return array|false
-     */
-    protected function getDnsRecords($hostname, $type)
-    {
-        return dns_get_record($hostname, $type);
     }
 
     /**
@@ -749,14 +733,22 @@ trait ValidatesAttributes
 
         $validations = collect($parameters)
             ->unique()
-            ->map(fn ($validation) => match (true) {
-                $validation === 'strict' => new NoRFCWarningsValidation(),
-                $validation === 'dns' => new DNSCheckValidation(),
-                $validation === 'spoof' => new SpoofCheckValidation(),
-                $validation === 'filter' => new FilterEmailValidation(),
-                $validation === 'filter_unicode' => FilterEmailValidation::unicode(),
-                is_string($validation) && class_exists($validation) => $this->container->make($validation),
-                default => new RFCValidation(),
+            ->map(function ($validation) {
+                if ($validation === 'rfc') {
+                    return new RFCValidation;
+                } elseif ($validation === 'strict') {
+                    return new NoRFCWarningsValidation;
+                } elseif ($validation === 'dns') {
+                    return new DNSCheckValidation;
+                } elseif ($validation === 'spoof') {
+                    return new SpoofCheckValidation;
+                } elseif ($validation === 'filter') {
+                    return new FilterEmailValidation;
+                } elseif ($validation === 'filter_unicode') {
+                    return FilterEmailValidation::unicode();
+                } elseif (is_string($validation) && class_exists($validation)) {
+                    return $this->container->make($validation);
+                }
             })
             ->values()
             ->all() ?: [new RFCValidation];
@@ -1318,23 +1310,6 @@ trait ValidatesAttributes
     }
 
     /**
-     * Validate that an attribute has a maximum number of digits.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  array<int, int|string>  $parameters
-     * @return bool
-     */
-    public function validateMaxDigits($attribute, $value, $parameters)
-    {
-        $this->requireParameterCount(1, $parameters, 'max');
-
-        $length = strlen((string) $value);
-
-        return ! preg_match('/[^0-9]/', $value) && $length <= $parameters[0];
-    }
-
-    /**
      * Validate the guessed extension of a file upload is in a set of file extensions.
      *
      * @param  string  $attribute
@@ -1396,7 +1371,7 @@ trait ValidatesAttributes
         }
 
         $phpExtensions = [
-            'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
+            'php', 'php3', 'php4', 'php5', 'phtml', 'phar',
         ];
 
         return ($value instanceof UploadedFile)
@@ -1417,23 +1392,6 @@ trait ValidatesAttributes
         $this->requireParameterCount(1, $parameters, 'min');
 
         return $this->getSize($attribute, $value) >= $parameters[0];
-    }
-
-    /**
-     * Validate that an attribute has a minimum number of digits.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  array<int, int|string>  $parameters
-     * @return bool
-     */
-    public function validateMinDigits($attribute, $value, $parameters)
-    {
-        $this->requireParameterCount(1, $parameters, 'min');
-
-        $length = strlen((string) $value);
-
-        return ! preg_match('/[^0-9]/', $value) && $length >= $parameters[0];
     }
 
     /**
@@ -1587,25 +1545,6 @@ trait ValidatesAttributes
         [$values, $other] = $this->parseDependentRuleParameters($parameters);
 
         if (in_array($other, $values, is_bool($other) || is_null($other))) {
-            return $this->validateRequired($attribute, $value);
-        }
-
-        return true;
-    }
-
-    /**
-     * Validate that an attribute exists when another attribute was "accepted".
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  mixed  $parameters
-     * @return bool
-     */
-    public function validateRequiredIfAccepted($attribute, $value, $parameters)
-    {
-        $this->requireParameterCount(1, $parameters, 'required_if_accepted');
-
-        if ($this->validateAccepted($parameters[0], $this->getValue($parameters[0]))) {
             return $this->validateRequired($attribute, $value);
         }
 
@@ -2035,19 +1974,6 @@ trait ValidatesAttributes
     public function validateEndsWith($attribute, $value, $parameters)
     {
         return Str::endsWith($value, $parameters);
-    }
-
-    /**
-     * Validate the attribute does not end with a given substring.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  array<int, int|string>  $parameters
-     * @return bool
-     */
-    public function validateDoesntEndWith($attribute, $value, $parameters)
-    {
-        return ! Str::endsWith($value, $parameters);
     }
 
     /**

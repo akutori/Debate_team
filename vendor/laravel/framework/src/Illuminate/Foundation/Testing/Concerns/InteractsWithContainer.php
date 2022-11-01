@@ -109,52 +109,8 @@ trait InteractsWithContainer
             $this->originalVite = app(Vite::class);
         }
 
-        $this->swap(Vite::class, new class
-        {
-            public function __invoke()
-            {
-                return '';
-            }
-
-            public function __call($name, $arguments)
-            {
-                return '';
-            }
-
-            public function __toString()
-            {
-                return '';
-            }
-
-            public function useIntegrityKey()
-            {
-                return $this;
-            }
-
-            public function useBuildDirectory()
-            {
-                return $this;
-            }
-
-            public function useHotFile()
-            {
-                return $this;
-            }
-
-            public function withEntryPoints()
-            {
-                return $this;
-            }
-
-            public function useScriptTagAttributes()
-            {
-                return $this;
-            }
-
-            public function useStyleTagAttributes()
-            {
-                return $this;
-            }
+        $this->swap(Vite::class, function () {
+            return '';
         });
 
         return $this;
