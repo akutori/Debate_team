@@ -88,4 +88,8 @@ class Room extends Model
             return false;
         }
     }
+
+    public function findroom($room_id){
+        return Room::where("r_id", $room_id)->first();
+    }
 }
