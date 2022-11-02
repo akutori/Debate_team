@@ -25,8 +25,6 @@ use App\Http\Controllers\RankingController;
 |
 */
 
-//ログインした後の画面。りどみに飛ぶ
-Route::get('/',function(){return redirect('/sgenre');});
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
