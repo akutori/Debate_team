@@ -14,7 +14,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RankingController;
 
 
-/*
+/*;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -24,55 +24,42 @@ use App\Http\Controllers\RankingController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/theme/{id}',function ($id){
-    return view('theme',compact('id'));
-});
-Route::get('/genre',function (){
-    return view('genre');
-});
 
-Route::get('/chat',function (){
-    return view('chat');
-});
-*/
-//ログインした後の画面。りどみに飛ぶ
-//Route::get('/',[GenreController::class,'readme']);
-
-Route::get('/',function(){return redirect('/sgenre');});
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
 
 //ディベートのジャンル選択ページ
 Route::get('/sgenre',[GenreController::class,'index']);
-
+//待機室から抜けてジャンル選択に戻る(部屋から離脱する)
+Route::get('/sgenre/{roomid}/{state}/{userid}',[GenreController::class,'exit_from_waiting_room']);
+//ルーム作成
 Route::get('/makeroom',[RoomController::class,'index']);
 
 //ルーム作成submit
 Route::post('/makeroom/create',[RoomController::class,'create']);
-
+//ルーム選択
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
+//待機室から抜けてルーム画面にも戻る(部屋から離脱する)
+Route::get('/stheme/{roomid}/{state}/{userid}',[ThemeController::class,'exit_from_waiting_room'])->name('exitwaitroom');
 Route::get('/createdtheme',[ThemeController::class,'userindex']);
 //待機室から抜ける(部屋から離脱する)
 Route::get('/stheme/{roomid}/{state}/{userid}',[ThemeController::class,'exit_from_waiting_room'])->name('exitwaitroom');
 
 Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
 
-Auth::routes();
+
 
 //laravel のホーム画面
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-//getData
+//getData(ajax)
 Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
 Route::get('/result/ajax/', [ChatController::class,'getData']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
 //規定人数がいるかどうかを聞く
-//デプロイ用ルート
-//Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
 Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
 
 //投票機能
@@ -102,7 +89,7 @@ Auth::routes();
 
 //管理者ログイン画面に遷移
 Route::get('/root',function(){
-     return view('adminlogin');
+     return view('adminLogin');
 });
 
 
@@ -111,3 +98,27 @@ Route::get('/addTitle',[\App\Http\Controllers\TitleController::class,'index']);
 // お題作成ページの「登録ボタンを押下したとき
 Route::post('/titleInsert',[\App\Http\Controllers\TitleController::class,'titleInsert']);
 
+// 管理者画面の「ルーム一覧」ボタンを押下したとき
+Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
+// 管理者画面の「チャット時間の編集」ボタンを押下したとき
+Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
+// 管理者画面の「NGワード編集」ボタンを押下したとき
+Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
+
+
+//管理者ログイン画面の[Do you have an admin acount?]ボタンを押下時
+Route::get('/adminNewAcount',[\App\Http\Controllers\AdminController::class,'newAcountView']);
+
+//管理者アカウント作成画面の「make acount」ボタンを押下したとき
+Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdminAcount']);
+//管理者ログイン画面のloginを押下時
+Route::post('/admin',[\App\Http\Controllers\AdminController::class,'login']);
+
+// 管理者画面の「NGワード編集」ボタンを押下したとき
+Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
+// 管理者画面の「お題作成」ボタンを押下したとき
+Route::get('/addTitle',[\App\Http\Controllers\AddTitleController::class,'index']);
+// 管理者画面の「ルーム一覧」ボタンを押下したとき
+Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
+// 管理者画面の「チャット時間の編集」ボタンを押下したとき
+Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);

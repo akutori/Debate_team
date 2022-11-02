@@ -64,7 +64,7 @@
             </a>
             <form style="display: inline" action="{{ route('logout') }}" method="POST" >
                 @csrf
-                <input type="submit" class="btn rounded-pill btn-danger mb-2　" value="ログアウト">
+                <input type="submit" class="btn rounded-pill btn-danger mb-2 w-100" value="ログアウト">
             </form>
         </div>
     </div>

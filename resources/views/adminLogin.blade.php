@@ -1,5 +1,13 @@
 @extends('test')
 @section('head')
+    <link rel="stylesheet" href="{{asset('css/theme.css')}}">
+    <script src="{{ asset('js/newAcount.js') }}"></script>
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
+@endsection
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/login.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('js/login.js')}}">
@@ -25,7 +33,7 @@
                 <label for="id" class="col-md-4 col-form-label text-md-end">ユーザーID</label>
                 <div class="group">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                           value="{{ old('name') }}" required autocomplete="name" autofocus>
+                           value="{{ old('name') }}" required autocomplete="name" autofocus onchange="acount()">
                 </div>
                 <div class="col-md-6">
                     @error('id')
@@ -78,7 +86,7 @@
             </div>
 
 
-                    <a class="btn btn-link" href="{{ url('adminNewAcount') }}">
+                    <a class="hidden btn btn-link" id="newAcount" href="{{ url('adminNewAcount') }}">
                         {{ __('Do you have an Adomin acount?') }}
                     </a>
         </form>
@@ -91,6 +99,7 @@
 
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src={{asset('js/genre.js')}}></script>
+    <script src={{ asset('js/newAcount.js') }}></script>
 
 @endsection
 
