@@ -25,8 +25,6 @@ use App\Http\Controllers\RankingController;
 |
 */
 
-//ログインした後の画面。りどみに飛ぶ
-Route::get('/',function(){return redirect('/sgenre');});
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
@@ -77,6 +75,7 @@ Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
 Route::get('/readme',[GenreController::class,'readme']);
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
+Route::get('/delroom/{rid}',[\App\Http\Controllers\DelController::class,'del']);
 //ランキング一覧
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 
