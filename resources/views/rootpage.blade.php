@@ -17,7 +17,7 @@
     <div class="row row-cols-1 row-cols-lg-2 justify-content-center">
 
         <div class="col col-lg-auto card my-3 mx-auto mx-lg-3 shadow-lg" style="width: 17rem;">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQATMbubZqJxGWjeHrRSvVyO3nFihSmi7mdOw&usqp=CAU" alt="NGの画像" class="card-img-top">
+            <img src="{{ asset('./images/ngword.png') }}" alt="NGの画像" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">NGワード編集</h5>
                 <p class="card-text">登録されたNGワードを確認します</p>
@@ -26,16 +26,16 @@
         </div>
 
         <div class="col col-lg-auto card my-3 mx-auto mx-lg-3 shadow-lg" style="width: 17rem;">
-            <img src="https://1.bp.blogspot.com/-ngMRSaxyRfA/WM9XgLQPplI/AAAAAAABCrA/EC4t9JLB4gA6WSZe58KbeGLIXm4ljyRfACLcB/s800/art_live_painting.png" alt="カードの画像" class="card-img-top">
+            <img src="{{ asset('./images/ルーム作成.png') }}" alt="ルーム作成の画像" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">お題作成</h5>
                 <p class="card-text">公式が考えたお題で部屋を作成します</p>
-                <a href="{{url('/addTitle')}}" class="btn btn-primary btn-lg shadow-lg">お題作成</a>
+                <a href="{{url('/addTitle', compact( 'adminName'))}}" class="btn btn-primary btn-lg shadow-lg">お題作成</a>
             </div>
         </div>
 
         <div class="col col-lg-auto card my-3 mx-auto mx-lg-3 shadow-lg" style="width: 17rem;">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-uoW4rwKly5fP9BgBi9xo-_rLZe4Dl7U2mQ&usqp=CAU" alt="ルームの画像" class="card-img-top">
+            <img src="{{ asset('./images/一覧余白改良形.png') }}" alt="ルームの画像" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">ルーム一覧</h5>
                 <p class="card-text">ディベートがされているルームを全て表示します</p>
@@ -43,6 +43,7 @@
             </div>
         </div>
 
+        <!--
         <div class="col col-lg-auto card my-3 mx-auto mx-lg-3 shadow-lg" style="width: 17rem;">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgztcjMq8MIAMhtZHNQ53IiijOUOjklbpP1g&usqp=CAU" alt="時計の画像" class="card-img-top">
             <div class="card-body">
@@ -51,6 +52,7 @@
                 <a href="{{url('timeChange')}}" class="btn btn-primary btn-lg shadow-lg">チャット時間の編集</a>
             </div>
         </div>
+        -->
 
     </div>
 </div>
