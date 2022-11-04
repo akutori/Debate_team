@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Auth;
 class RoomController extends Controller
 {
 
-    public function waituser($roomid,$state){
+    public function waituser($roomid,$state,Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
         $debater = new Debater();
         $bystander= new Bystander();
         $room = new Room();
@@ -22,58 +23,124 @@ class RoomController extends Controller
         $userid= $user['id'];
         //ディベートのタイトルを表示させる。
         $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
+
+        //ディベートが終了しているのであればすべての履歴を削除し入室する
+        //todo 最初から定義しておくことで各stateごとにこの処理を書かなくて良くなる
+        //todo this_room_debate_time_end が false の場合は ディベート時間内と判断し is_debate_start が false の場合は ディベートは始まっていないので通常通りのinsertが入る
+        if($room->this_room_debate_time_end($roomid)&&$room->is_debate_start($roomid)){
+            $this->removedebate($roomid,$userid);
+            switch ($state){
+                case 0:
+                    $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
+                    break;
+                case 1:
+                    $bystander->remove_duplicates_and_reconfigure_bystander($userid, $roomid);
+                    break;
+            }
+            return view('standby',compact('roomid','state','userid','roomtitle'));
+        }
+        //todo これ以降は途中参加を想定する。上のところで登録があった場合はそのまま下に流す
         //傍観者で選択した場合と発表者で選択された場合の処理
+        else if($state == 0) {
+            /*
+            //ディベートが終了しているのであればすべての履歴を削除して再入室する
+            if($room->this_room_debate_time_end($roomid)){
+                $this->removedebate($roomid,$userid);
+                $debater->remove_duplicates_and_reconfigure_debater($roomid,$userid);
+            }
+            */
+            //自分が発表者として登録されていない場合別のルームから退出し、選択したルームに発表者として登録
+            if(!$debater->roomedDebater($roomid, $userid)){
+                $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
+            //ディベートが始まっていてまだ終了していないが傍観者としてもともと登録されていた場合立場を変更させずに再入室させる
+            }elseif ($bystander->roomedBystander($userid,$roomid)){
+                $state=1;
+                return view('standby',compact('roomid','state','userid','roomtitle'));
+            }
+            //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目)ルームにリダイレクトする
+            if($debater->countdebater($roomid)==2&& !$debater->roomedDebater($roomid, $userid)){
+                return redirect('/stheme/'.$roomid);
+            }
+            //todo ここの処理は傍観者or発言者の途中参加
+            $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
+            return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
+        }
+        /*
         if($state == 0) {
             //すでに発表者として登録されているか
-            if($debater->roomedDebater($userid,$roomid)){
-                //すでにディベートは開始されているか
-                if($room->is_debate_start($roomid)){
-                    //ディベートの終了時刻を過ぎているか
-                    if($room->this_room_debate_time_end($roomid)){
-                        $this->removedebate($roomid,$userid);
-                        $debater->remove_duplicates_and_reconfigure_debater($roomid,$userid);
-                    }
-                    //発表者の賛成・反対の状態を取得
-                    $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-                    //途中参加
-                    return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
+            //すでにディベートは開始されているか
+            if($debater->roomedDebater($userid,$roomid)&&$room->is_debate_start($roomid)){  //1
+                //ディベートの終了時刻を過ぎているか
+                if($room->this_room_debate_time_end($roomid)){ //2
+                    $this->removedebate($roomid,$userid);
+                    $debater->remove_duplicates_and_reconfigure_debater($roomid,$userid);
                 }
+                //発表者の賛成・反対の状態を取得
+                $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
+                //途中参加
+                return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
             }
             //ディベートが始まっていてまだ終了していないが傍観者としてもともと登録されていた場合立場を変更させずに再入室させる
-            if($room->this_room_debate_time_end($roomid)&&$bystander->roomedBystander($userid,$roomid)){
+            if($room->this_room_debate_time_end($roomid)&&$bystander->roomedBystander($userid,$roomid)){ //3
                 $state=1;
                 //同じ部屋の場合は立場を変更せずにそのまま参加させる
                 return view('standby',compact('roomid','state','userid','roomtitle'));
             }
             //発表者は2人未満 かつ 発表者として登録されていない
-            if(($debater->countdebater($roomid) <2)&& !$debater->roomedDebater($roomid, $userid)){
+            if(($debater->countdebater($roomid) <2)&& !$debater->roomedDebater($roomid, $userid)){ //4
                 //もしすでに傍観者として登録されていた場合
-                if($bystander->roomedBystander($roomid,$userid)){
+                if($bystander->roomedBystander($roomid,$userid)){ //5
                     //入室前にあった傍観者の登録を削除
                     $bystander->remove_bystander_by_id($userid,$roomid);
                 }
                 //違う部屋ですでに登録されていた場合現在のルームに再設定する
                 //そうでない場合普通に登録
                 $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
+                $request->session(['roomid'=>$roomid]);
                 //発表者にすでに2人入っていた場合(新規で)
-            }else if($debater->countdebater($roomid) >=2&& !$debater->roomedDebater($roomid, $userid)){
+            }else if($debater->countdebater($roomid) >=2&& !$debater->roomedDebater($roomid, $userid)){  //6
                 return redirect('/sgenre');
             }
+        }
+        */
         //傍観者として参加した場合
-        }else if($state==1){
+        else if($state==1){
+            //ディベートが終了しているのであればすべての履歴を削除して再入室する
+            /*
+            if($room->this_room_debate_time_end($roomid)) {
+                $this->removedebate($roomid,$userid);
+                $bystander->remove_duplicates_and_reconfigure_bystander($roomid,$userid);
+            }
+            */
+            //もし発表者として登録されているのであれば立場を変更させずに再入室させる
+            //else
+
+            //発表者でもなく傍観者としても登録されていない場合登録する。
+            if(!$bystander->roomedBystander($userid,$roomid)){
+                //発表者として登録されていないのであればそのまま登録する
+                //別のところにいた場合はそこから退出して選択したルームに入室する
+                $bystander->remove_duplicates_and_reconfigure_bystander($userid, $roomid);
+            //もし発表者として登録されているのであれば立場を変更させずに再入室させる
+            }
+            if($debater->roomedDebater($userid,$roomid)){
+                $state=0;
+            }
+            return view('standby',compact('roomid','state','userid','roomtitle'));
+        }
+        /*
+        else if($state==1){
             //傍観者として登録されているか
-            if($bystander->roomedBystander($userid,$roomid)){
-                //すでにディベートは開始されているか
-                if($room->is_debate_start($roomid)){
-                    //ディベートの終了時刻を過ぎているか
-                    if($room->this_room_debate_time_end($roomid)){
-                        $this->removedebate($roomid,$userid);
-                        $bystander->remove_duplicates_and_reconfigure_bystander($roomid,$userid);
-                    }
-                    return view('standby',compact('roomid','state','userid','roomtitle'));
+            //すでにディベートは開始されているか
+            if($bystander->roomedBystander($userid,$roomid)&&$room->is_debate_start($roomid)){ //1
+                //ディベートの終了時刻を過ぎているか
+                if($room->this_room_debate_time_end($roomid)){ //2
+                    $this->removedebate($roomid,$userid);
+                    $bystander->remove_duplicates_and_reconfigure_bystander($roomid,$userid);
                 }
-            }//ディベートが始まっていてまだ終了していないが発表者としてもともと登録されていた場合立場を変更させずに再入室させる
-            if($room->this_room_debate_time_end($roomid) && $debater->roomedDebater($userid,$roomid)){
+                return view('standby',compact('roomid','state','userid','roomtitle'));
+            }
+            //ディベートが始まっていてまだ終了していないが発表者としてもともと登録されていた場合立場を変更させずに再入室させる
+            if($room->this_room_debate_time_end($roomid) && $debater->roomedDebater($userid,$roomid)){ //3
                 //発表者の賛成・反対の状態を取得
                 $state=0;
                 $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
@@ -81,25 +148,23 @@ class RoomController extends Controller
                 return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
             }
             //もしすでに発表者として登録されていた場合
-            if($debater->roomedDebater($userid,$roomid)){
+            if($debater->roomedDebater($userid,$roomid)){ //4
                 //入室前にあった発表者の登録を削除
                 $debater->remove_debater_by_id($userid,$roomid);
-            }elseif($debater->roomedDebater($userid,$roomid)){
+            }else{
+                //発表者として登録されていないのであれば。通常通り入室させる
                 //発表者の賛成・反対の状態を取得
                 $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
                 return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
             }
+            // 4 から通じている
             //違う部屋ですでに登録されていた場合現在のルームに再設定する
             //重複がない場合普通に登録
             $bystander->remove_duplicates_and_reconfigure_bystander($userid, $roomid);
-
         }
+        */
         //発表者の賛成・反対の状態を表示させる
         $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-        //賛成と反対票をリセット
-        Room::where("r_id",$roomid)->where("r_positive",">",0)->update(["r_positive"=>0]);
-        Room::where("r_id",$roomid)->where("r_denial",">",0)->update(["r_denial"=>0]);
-
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
     }
 
@@ -115,6 +180,7 @@ class RoomController extends Controller
         $bystander->remove_bystander_by_roomid($roomid);
         //そのルームのチャット内容を削除
         $chat->remove_chat_by_id($roomid);
+        //そのルームを「始まっていない」状態にする
         $room->where('r_id',$roomid)->update(["timestartflg" => 0]);
     }
 
@@ -135,15 +201,13 @@ class RoomController extends Controller
             $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
             if(isset($debaterstate)&&$debaterstate->d_pd == 0){
                 //賛成
-                $debaterstate=0;
+                return 0;
             }else{
                 //反対
-                $debaterstate=1;
+                return 1;
             }
-        }else if ($state==1){//傍観者の場合
-            $debaterstate="";
         }
-        return $debaterstate;
+        return "";//傍観者の場合
     }
 
     /**
