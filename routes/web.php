@@ -77,6 +77,7 @@ Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
 Route::get('/readme',[GenreController::class,'readme']);
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
+Route::get('/delroom/{rid}',[\App\Http\Controllers\DelController::class,'del']);
 //ランキング一覧
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 
