@@ -1,20 +1,21 @@
 body{
-    margin: 15px;
     display: flex;
     flex-flow: column;
     justify-content: center;
 }
 
+
 .ht{
-    margin-top: 10px;
+    /*margin-top: 10px;*/
+    margin-bottom: 5px;
     display: flex;
     height: 250px;
     width: 100%;
     justify-content: center;
 }
 .rogo{
-    margin-top: 85px;
-    height: 100%;
+    /*margin-top: 4%;*/
+    height: 200px;
     width: 100%;
     justify-content: center;
 }
@@ -22,7 +23,7 @@ body{
 /*title*/
 .title{
     text-align: center;
-    margin-top: 40px;
+    margin-top: 3px;
 }
 .title h1{
     font-size: 40px;
