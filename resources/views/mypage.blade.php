@@ -53,13 +53,13 @@
             <button type="button" class="btn rounded-pill btn-primary mb-2" onclick="location.href='{{url('/delroom')}}'">ルーム削除</button>
         </div>
         <div class="card m-2" style="width: 15rem;">
-            <a href="{{ url('/') }}">
+            <a href="{{ url('/readme') }}">
                 <img class="card-img-top p-2 rounded-circle" src="{{ asset('./images/説明余白改良形.png') }}">
             </a>
-            <button type="button" class="btn rounded-pill btn-primary mb-2" onclick="location.href='{{url('/')}}'">説明を見る</button>
+            <button type="button" class="btn rounded-pill btn-primary mb-2" onclick="location.href='{{url('/readme')}}'">説明を見る</button>
         </div>
         <div class="card m-2" style="width: 15rem;">
-            <a href="{{ url('/') }}">
+            <a href="{{ url('/readme') }}">
                 <img class="card-img-top p-2 rounded-circle" src="{{ asset('./images/ログアウト余白改良形.png') }}">
             </a>
             <form style="display: inline" action="{{ route('logout') }}" method="POST" >
