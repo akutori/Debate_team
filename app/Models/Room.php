@@ -30,7 +30,8 @@ class Room extends Model
             'title_id' => $titleid['t_id'],
             'category_id' => $cateid,
             'r_day' => $today,
-            'user_id' => $userid
+            'user_id' => $userid,
+            'Starting_time'=>$today,
         ]);
     }
 
