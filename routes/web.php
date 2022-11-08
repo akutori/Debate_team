@@ -81,7 +81,7 @@ Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 
 //ルート変更
 //一番最初にreadmeページを開く
-//Route::get('/',[GenreController::class,'readme']);
+Route::get('/',[GenreController::class,'index']);
 //ログインボタンを押下
 Auth::routes();
 
