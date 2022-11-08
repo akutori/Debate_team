@@ -43,9 +43,7 @@ Route::get('/stheme/{id}',[ThemeController::class,'index']);
 //待機室から抜けてルーム画面にも戻る(部屋から離脱する)
 Route::get('/stheme/{roomid}/{state}/{userid}',[ThemeController::class,'exit_from_waiting_room'])->name('exitwaitroom');
 Route::get('/createdtheme',[ThemeController::class,'userindex']);
-//待機室から抜ける(部屋から離脱する)
-Route::get('/stheme/{roomid}/{state}/{userid}',[ThemeController::class,'exit_from_waiting_room'])->name('exitwaitroom');
-
+//チャットページ(待機画面から)
 Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
 
 
@@ -55,7 +53,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData(ajax)
 Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
-Route::get('/result/ajax/', [ChatController::class,'getData']);
+Route::get('/chat/{rid}/result/ajax/chat_data',[ChatController::class,'getDataSize']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
@@ -83,7 +81,7 @@ Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 
 //ルート変更
 //一番最初にreadmeページを開く
-Route::get('/',[GenreController::class,'readme']);
+//Route::get('/',[GenreController::class,'readme']);
 //ログインボタンを押下
 Auth::routes();
 
@@ -94,7 +92,7 @@ Route::get('/root',function(){
 
 
 // 管理者画面の「お題作成」ボタンを押下したとき
-Route::get('/addTitle',[\App\Http\Controllers\TitleController::class,'index']);
+Route::get('/addTitle/{adminName}',[\App\Http\Controllers\TitleController::class,'index']);
 // お題作成ページの「登録ボタンを押下したとき
 Route::post('/titleInsert',[\App\Http\Controllers\TitleController::class,'titleInsert']);
 
@@ -116,9 +114,10 @@ Route::post('/admin',[\App\Http\Controllers\AdminController::class,'login']);
 
 // 管理者画面の「NGワード編集」ボタンを押下したとき
 Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
-// 管理者画面の「お題作成」ボタンを押下したとき
-Route::get('/addTitle',[\App\Http\Controllers\AddTitleController::class,'index']);
 // 管理者画面の「ルーム一覧」ボタンを押下したとき
 Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
+
+// 管理者画面の「ルーム一覧」のボタンを押下したとき
+Route::post('/roomAlls',[\App\Http\Controllers\RoomAllController::class,'serach']);

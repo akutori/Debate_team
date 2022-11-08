@@ -19,6 +19,7 @@
             <textarea placeholder="題名を入力" class="form-control mt-2" rows="3" id="content" name="title"></textarea>
             <label for="content">Title</label>
         </p>
+        <input type="hidden" name="adminName" value="{{$adminName}}">
         <button type="submit">登録</button>
     </form>
 @endsection
