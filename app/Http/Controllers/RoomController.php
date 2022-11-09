@@ -44,6 +44,10 @@ class RoomController extends Controller
         }
         //傍観者で選択した場合と発表者で選択された場合の処理
         else if($state == 0) {
+            //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目ルームにリダイレクトする
+            if($debater->countdebater($roomid) === 2&& !$debater->roomedDebater($userid,$roomid)){
+                return redirect('/stheme/'.$roomid);
+            }
             //自分が発表者として登録されていない場合別のルームから退出し、選択したルームに発表者として登録
             if(!$debater->roomedDebater($roomid, $userid)){
                 $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
@@ -51,10 +55,6 @@ class RoomController extends Controller
             }elseif ($bystander->roomedBystander($userid,$roomid)){
                 $state=1;
                 return view('standby',compact('roomid','state','userid','roomtitle'));
-            }
-            //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目)ルームにリダイレクトする
-            if($debater->countdebater($roomid)==2&& !$debater->roomedDebater($roomid, $userid)){
-                return redirect('/stheme/'.$roomid);
             }
             $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
             return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));

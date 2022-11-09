@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
@@ -214,6 +215,11 @@ class ChatController extends Controller
     {
         //
     }
+
+    /**
+     * @param $rid
+     * @return JsonResponse
+     */
     public function getData($rid): \Illuminate\Http\JsonResponse
     {
         //チャットの履歴を全て取得
@@ -222,11 +228,15 @@ class ChatController extends Controller
         $json = ["chats" => $chats];
         return response()->json($json);
     }
-
+    /**
+     * @param $rid
+     * @return JsonResponse
+     */
     public function getDataSize($rid): \Illuminate\Http\JsonResponse
     {
         $chats = Chat::where('room_id','=',$rid)->count();
-        $json = ["chat_size" => $chats];
+        $chat_data = Chat::where('room_id',$rid)->latest()->first();
+        $json = ["chat_size" => $chats,"chat_data"=>$chat_data];
         return response()->json($json);
     }
 }
