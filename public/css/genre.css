@@ -19,7 +19,7 @@ h2{
 }
 
 body{
-    background-color: #BBBBBB;
+    background-color: #ffffff;
 }
 /*https://coco-factory.jp/ugokuweb/move02/5-4/
 ↑参考資料*/
@@ -42,9 +42,7 @@ a{
 
 /*========= particle js を描画するエリア設定 ===============*/
 
-html,body{
-    height: 100%;/*高さを100%にして描画エリアをとる*/
-}
+
 
 #particles-js{
     position:fixed;/*描画固定*/
