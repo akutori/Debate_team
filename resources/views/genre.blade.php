@@ -26,7 +26,7 @@
     <div id="wrapper">
 
         <div class="genres">
-            <div class="container-fluid mt-2">
+            <div class="container-fluid mt-1">
                 <div class="row">
                     @foreach($cate as $category)
                         <div class="col-4 d-flex justify-content-center">
@@ -35,7 +35,7 @@
                                    class="card-img-top justify-content-center">
                                     <img class="w-75" src="{{asset('images/'.$category->c_id.'.png')}}">
                                 </a>
-                                <span class="fs-3">テスト</span>
+                                <span class="fs-3">{{$category->c_name}}</span>
                             </div>
                         </div>
                     @endforeach
