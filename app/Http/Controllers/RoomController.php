@@ -28,7 +28,7 @@ class RoomController extends Controller
         $userid= $user['id'];
         //ディベートのタイトルを表示させる。
         $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
-
+        //todo 参加したディベートが始まって、その後違う部屋に行った場合元いた部屋に飛ばす
         //ディベートが終了しているのであればすべての履歴を削除し入室する
         if($room->this_room_debate_time_end($roomid)&&$room->is_debate_start($roomid)){
             $this->removedebate($roomid,$userid);
