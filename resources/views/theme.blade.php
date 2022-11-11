@@ -33,15 +33,19 @@
 
         </div>
         @foreach($room as $room_once)
-            <input type="button" class="w-75 mt-2" data-bs-toggle="modal" data-bs-target="#dialog{{$room_once->t_id}}"
-                   id="theme_btn" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();"
-                   value="{{$room_once->t_name}}">
+            <!--テーマ選択-->
+            <div class="text-center">
+                <input type="button" class="text-warp w-75 h-25 mt-2 btn btn-secondary btn-outline-danger text-white" data-bs-toggle="modal" data-bs-target="#dialog{{$room_once->t_id}}"
+                       id="theme_btn" onclick="document.getElementById('dialog{{$room_once->t_id}}').show();"
+                       value="{{$room_once->t_name}}">
+
+            </div>
 
 
             <!-- Modal -->
             <div class="modal fade" id="dialog{{$room_once->t_id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog  modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <p class="p1" id="exampleModalLabel">参加しますか？</p>
@@ -51,21 +55,22 @@
                             <p class="p2">{{$room_once->t_name}}</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="popb1" data-bs-target="#dialog2{{$room_once->t_id}}"
+                            <button class="btn btn-outline-info btn-secondary border-secondary text-white " data-bs-toggle="modal" data-bs-target="#dialog2{{$room_once->t_id}}"
                                     onclick="document.getElementById('dialog2{{$room_once->t_id}}').show();">参加する
                             </button>
-                            <button class="" data-bs-dismiss="modal">戻る</button>
+                            <button class="btn btn-outline-danger btn-secondary border-secondary text-white " data-bs-dismiss="modal">戻る</button>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="modal fade" id="dialog2{{$room_once->t_id}}" tabindex="-1" aria-labelledby="exampleModalLabels"
                  aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <p class="p1" id="exampleModalLabels">Choose Position</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
                         </div>
                         <div class="modal-body">
                             <p class="p3">Choose Position</p>
@@ -74,12 +79,13 @@
                         </div>
                         <div class="modal-footer">
                             {{-- 部屋IDとユーザーIDは前の画面から取得して状態のみこちらから指定する --}}
-                            <input type="button" class="popb1"
+                            <input type="button" class="btn btn-outline-info btn-secondary border-secondary text-white "
                                    onclick="location.href='{{url('/standby/'.$room_once->r_id.'/'.$debater_flag)}}'"
                                    value="発言者">
-                            <input type="button" class="popb1"
+                            <input type="button" class="btn btn-outline-info btn-secondary border-secondary text-white "
                                    onclick="location.href='{{url('/standby/'.$room_once->r_id.'/'.$bystander_flag)}}'"
                                    value="傍観者">
+                            <button class="btn btn-outline-danger btn-secondary border-secondary text-white " data-bs-target="#dialog{{$room_once->t_id}}" data-bs-dismiss="modal">戻る</button>
                         </div>
                     </div>
                 </div>
