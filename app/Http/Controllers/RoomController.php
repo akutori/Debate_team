@@ -8,6 +8,9 @@ use App\Models\Chat;
 use App\Models\Debater;
 use App\Models\Room;
 use App\Models\Title;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -149,14 +152,16 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
+        //ユーザーが作成したルームをすべて取得
+        $rooms = Room::join('users','rooms.user_id','=','users.id')->join('categories','rooms.category_id','=','categories.c_id')->join('titles','rooms.title_id','=','titles.t_id')->whereNotNull('user_id')->get();
         $user=Auth::user();
         $userid= $user['id'];
         $categorys = Category::all();
-        return view("makeroom",compact('userid','categorys'));
+        return view("makeroom",compact('userid','categorys','rooms'));
     }
 
     /**
@@ -177,6 +182,8 @@ class RoomController extends Controller
         $catgory = Category::where('c_id',$formdata['categoryid'])->first();
         //ユーザーが作成したルームが上限を超過しているか
         $isRoomCreateLimit = $room->Is_the_users_room_creation_limit($formdata['userid']);
+        //ユーザーが作成したルームをすべて取得
+        $rooms = Room::join('users','rooms.user_id','=','users.id')->whereNotNull('user_id')->get();
         //超過していなければ登録する
         if($isRoomCreateLimit){
             $alerttext = '
@@ -214,7 +221,7 @@ class RoomController extends Controller
             </div>
             ';
         }
-        return view("makeroom",compact('userid','alerttext','categorys'));
+        return view("userrooms",compact('userid','alerttext','categorys','rooms'));
     }
 
     /**
