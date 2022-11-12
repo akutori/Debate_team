@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 class RoomController extends Controller
 {
 
-    public function waituser($roomid,$state,Request $request): View|Factory|Redirector|RedirectResponse|Application
+    public function waituser($roomid,$state): View|Factory|Redirector|RedirectResponse|Application
     {
         $debater = new Debater();
         $bystander= new Bystander();
