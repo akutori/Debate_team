@@ -17,9 +17,9 @@
         </a>
 
         <ul class="nav nav-pills">
-            <li class="nav-item"><a href="#" class="nav-link active">ジャンル選択</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">マイページ</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">ログイン</a></li>
+            <li class="nav-item"><a href="{{url('/sgenre')}}" class="nav-link active">ジャンル選択</a></li>
+            <li class="nav-item"><a href="{{url('/mypage')}}" class="nav-link">マイページ</a></li>
+            <li class="nav-item"><a href="{{route('login')}}" class="nav-link">ログイン</a></li>
 
         </ul>
     </header>

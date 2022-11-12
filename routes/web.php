@@ -33,11 +33,6 @@ Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat')
 Route::get('/sgenre',[GenreController::class,'index']);
 //待機室から抜けてジャンル選択に戻る(部屋から離脱する)
 Route::get('/sgenre/{roomid}/{state}/{userid}',[GenreController::class,'exit_from_waiting_room']);
-//ルーム作成
-Route::get('/makeroom',[RoomController::class,'index']);
-
-//ルーム作成submit
-Route::post('/makeroom/create',[RoomController::class,'create']);
 //ルーム選択
 Route::get('/stheme/{id}',[ThemeController::class,'index']);
 //待機室から抜けてルーム画面にも戻る(部屋から離脱する)
@@ -56,6 +51,7 @@ Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
 Route::get('/chat/{rid}/result/ajax/chat_data',[ChatController::class,'getDataSize']);
 
 //待機画面ルート
+Route::get('standby/',[RoomController::class,'waituser2']);
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
 //規定人数がいるかどうかを聞く
 Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
@@ -76,6 +72,12 @@ Route::get('/readme',[GenreController::class,'readme']);
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
 Route::get('/delroom/{rid}',[\App\Http\Controllers\DelController::class,'del']);
+
+//ユーザー定義のルームページ
+Route::get('/userroom',[RoomController::class,'userroom']);
+//ルーム作成submit
+Route::post('/userroom/create',[RoomController::class,'create']);
+
 //ランキング一覧
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 

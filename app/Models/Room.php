@@ -93,4 +93,41 @@ class Room extends Model
     public function findroom($room_id){
         return Room::where("r_id", $room_id)->first();
     }
+
+    //部屋の検索
+    public function search_for_user_created_rooms($word,$genre,$state){
+        switch ($state){
+            //ユーザー名検索
+            case 0:
+                //すべてのジャンルが選ばれていた場合
+                if($genre==0){
+                    return Room::join('users','rooms.user_id','=','users.id')
+                        ->join('categories','rooms.category_id','=','categories.c_id')
+                        ->join('titles','rooms.title_id','=','titles.t_id')
+                        ->where('name','like','%'.$word.'%')
+                        ->get();
+                }
+                return Room::join('users','rooms.user_id','=','users.id')
+                    ->join('categories','rooms.category_id','=','categories.c_id')
+                    ->join('titles','rooms.title_id','=','titles.t_id')
+                    ->where('name','like','%'.$word.'%')
+                    ->where('c_id',$genre)
+                    ->get();
+            //ルーム名検索
+            case 1:
+                if($genre==0){
+                    return Room::join('users','rooms.user_id','=','users.id')
+                        ->join('categories','rooms.category_id','=','categories.c_id')
+                        ->join('titles','rooms.title_id','=','titles.t_id')
+                        ->where('t_name','like','%'.$word.'%')
+                        ->get();
+                }
+                return Room::join('users','rooms.user_id','=','users.id')
+                    ->join('categories','rooms.category_id','=','categories.c_id')
+                    ->join('titles','rooms.title_id','=','titles.t_id')
+                    ->where('t_name','like','%'.$word.'%')
+                    ->where('c_id',$genre)
+                    ->get();
+        }
+    }
 }

@@ -18,8 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-       'id','password','name','u_point','u_op'
+       'id','name','u_point','u_op'
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -29,7 +30,7 @@ class User extends Authenticatable
     //通常のクエリでは表示させたくないカラム。
     //一時的に表示させたい場合は User::find(1)->makeVisible(['カラム'])->toArray(); と言った感じ
     protected $hidden = [
-        'id',
+        'id','password'
     ];
 
     /**
