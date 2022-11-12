@@ -25,8 +25,6 @@ use App\Http\Controllers\RankingController;
 |
 */
 
-//ログインした後の画面。りどみに飛ぶ
-Route::get('/',function(){return redirect('/sgenre');});
 
 //チャット機能
 Route::post('/chat/{rid}/{state}',[ChatController::class,'store'])->name('chat');
@@ -55,7 +53,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //getData(ajax)
 Route::get('/chat/{rid}/result/ajax',[ChatController::class,'getData']);
-Route::get('/result/ajax/', [RankingController::class,'index']);
+Route::get('/chat/{rid}/result/ajax/chat_data',[ChatController::class,'getDataSize']);
 
 //待機画面ルート
 Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
@@ -77,23 +75,24 @@ Route::get('/mypage',[\App\Http\Controllers\MypageController::class,'index']);
 Route::get('/readme',[GenreController::class,'readme']);
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 Route::get('/delroom',[\App\Http\Controllers\DelController::class,'index']);
+Route::get('/delroom/{rid}',[\App\Http\Controllers\DelController::class,'del']);
 //ランキング一覧
 Route::get('/ranking',[\App\Http\Controllers\RankingController::class,'index']);
 
 //ルート変更
 //一番最初にreadmeページを開く
-Route::get('/',[GenreController::class,'readme']);
+Route::get('/',[GenreController::class,'index']);
 //ログインボタンを押下
 Auth::routes();
 
 //管理者ログイン画面に遷移
 Route::get('/root',function(){
-     return view('adminlogin');
+     return view('adminLogin');
 });
 
 
 // 管理者画面の「お題作成」ボタンを押下したとき
-Route::get('/addTitle',[\App\Http\Controllers\TitleController::class,'index']);
+Route::get('/addTitle/{adminName}',[\App\Http\Controllers\TitleController::class,'index']);
 // お題作成ページの「登録ボタンを押下したとき
 Route::post('/titleInsert',[\App\Http\Controllers\TitleController::class,'titleInsert']);
 
@@ -113,16 +112,12 @@ Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdm
 //管理者ログイン画面のloginを押下時
 Route::post('/admin',[\App\Http\Controllers\AdminController::class,'login']);
 
-
-//管理者画面に遷移
-Route::get('/root',function(){
-     return view('rootpage');
-});
 // 管理者画面の「NGワード編集」ボタンを押下したとき
 Route::get('/ngwordEdit',[\App\Http\Controllers\NgwordController::class,'index']);
-// 管理者画面の「お題作成」ボタンを押下したとき
-Route::get('/addTitle',[\App\Http\Controllers\AddTitleController::class,'index']);
 // 管理者画面の「ルーム一覧」ボタンを押下したとき
 Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
+
+// 管理者画面の「ルーム一覧」のボタンを押下したとき
+Route::post('/roomAlls',[\App\Http\Controllers\RoomAllController::class,'serach']);

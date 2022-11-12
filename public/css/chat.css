@@ -16,10 +16,19 @@
     background-color: rgba(0,255,249,0.22);
 }
 
+#chatcolor-bot{
+    background-color: lightgreen;
+}
+
 #message{
     font-size: 1.2em;
 }
-
-#background{
-    background-color: gray;
+#lanking{
+    font-size: 1.2em;
+}
+#1st{
+    font-size: 400px;
+}
+svg{
+    size: 110.0em;
 }

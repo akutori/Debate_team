@@ -2,37 +2,56 @@
 <html>
 <head>
     <link rel="stylesheet" href="{{asset('css/head.css')}}">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     <title>{{config('app.name')}}</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
     @yield('head')
 
 </head>
 <body>
-    <div class="ht">
-        <a href="{{url('/sgenre')}}" ><img class="rogo" src="{{asset('images/debate01.png')}}"></a>
+    <div class="container-sm justify-content-center h-auto px-5"STYLE=" max-width: 500px; max-height: 200px">
+        <div class="row gx-xxl-5">
+        <a href="{{url('/sgenre')}}" ><img class="img-fluid "  src="{{asset('images/debate01.png')}}"></a>
+    </div>
     </div>
 
-    <div class="regi">
-    @yield('body')
+<div class="container-sm p-5 text-center" style="max-height: 10px">
 
-    <!---ログイン,会員登録遷移--->
+
+        <!---ログイン,会員登録遷移--->
         @if (Route::has('login'))
-            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+
+            <!--ログイン時、マイページ、ログアウトボタン表示-->
                 @auth
-                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                    <button onclick="location.href='{{ url('/mypage') }}'" class=" btn btn-primary">マイページ</button>
+
+            <form style="display: inline" action="{{ route('logout') }}" method="POST" >
+                @csrf
+                <input type="submit" class=" btn btn-danger" value="ログアウト">
+            </form>
+                    <!--ゲスト時、ログイン、ログアウトボタン表示-->
                 @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                    <button onclick="location.href='{{ route('login') }}'" class="btn btn-primary">ログイン</button>
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                        <button onclick="location.href='{{ route('register') }}'" class="btn btn-primary ">アカウント登録</button>
                     @endif
                 @endauth
-            </div>
+
+
         @endif
-        @yield('js')
+
     </div>
+</div>
+
+    @yield('body')
+
+        @yield('js')
+
 
 </body>
 </html>
