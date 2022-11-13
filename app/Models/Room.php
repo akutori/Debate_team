@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class Room extends Model
@@ -105,6 +106,7 @@ class Room extends Model
                         ->join('categories','rooms.category_id','=','categories.c_id')
                         ->join('titles','rooms.title_id','=','titles.t_id')
                         ->where('name','like','%'.$word.'%')
+                        ->orderByRaw('users.id ='.Auth::id().' DESC,r_id desc')
                         ->get();
                 }
                 return Room::join('users','rooms.user_id','=','users.id')
@@ -112,6 +114,7 @@ class Room extends Model
                     ->join('titles','rooms.title_id','=','titles.t_id')
                     ->where('name','like','%'.$word.'%')
                     ->where('c_id',$genre)
+                    ->orderByRaw('users.id ='.Auth::id().' DESC,r_id desc')
                     ->get();
             //ルーム名検索
             case 1:
@@ -120,6 +123,7 @@ class Room extends Model
                         ->join('categories','rooms.category_id','=','categories.c_id')
                         ->join('titles','rooms.title_id','=','titles.t_id')
                         ->where('t_name','like','%'.$word.'%')
+                        ->orderByRaw('users.id ='.Auth::id().' DESC,r_id desc')
                         ->get();
                 }
                 return Room::join('users','rooms.user_id','=','users.id')
@@ -127,6 +131,7 @@ class Room extends Model
                     ->join('titles','rooms.title_id','=','titles.t_id')
                     ->where('t_name','like','%'.$word.'%')
                     ->where('c_id',$genre)
+                    ->orderByRaw('users.id ='.Auth::id().' DESC,r_id desc')
                     ->get();
         }
     }
