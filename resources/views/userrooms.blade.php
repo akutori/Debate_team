@@ -171,9 +171,15 @@
         @foreach($rooms as $room)
             <div class="row mb-5" style="background-color: rgb(14,92,102)">
                 <div class="col-2 text-dark">
-                    <div class="row" style="background-color: #ffd255;">
-                        <div class="col-lg-6 fs-5 text-center">ユーザー</div>
-                        <div class="col-lg-6 fs-5 text-center">{{$room->name}}</div>
+                    @if(\Illuminate\Support\Facades\Auth::id()==$room->id)
+                        <div class="row" style="background-color: #ff6a00;">
+                            <div class="col-lg-6 fs-5 text-center">ユーザー</div>
+                            <div class="col-lg-6 fs-5 text-center"><strong>{{$room->name}}</strong></div>
+                    @else
+                        <div class="row" style="background-color: #ffd255;">
+                            <div class="col-lg-6 fs-5 text-center">ユーザー</div>
+                            <div class="col-lg-6 fs-5 text-center">{{$room->name}}</div>
+                    @endif
                     </div>
                     <div class="row" style="background-color: #ffbb00;">
                         <div class="col-lg-6 fs-5 text-center">ジャンル</div>
