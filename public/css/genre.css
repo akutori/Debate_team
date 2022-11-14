@@ -1,16 +1,5 @@
-.genres{
-    width: 75%;
-    margin: 0 auto;
-    text-align: center;
 
-}
-.genreimg{
-    height: auto;
-    width: calc(60%/3);
-    float: left;
-    margin: 0 0 calc(100%/10) calc(100%/10);
-    border: 4px black solid;
-}
+
 h1{
     font-family: 'Gentium Plus', serif;
 }
@@ -18,9 +7,6 @@ h2{
     font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
-body{
-    background-color: #ffffff;
-}
 /*https://coco-factory.jp/ugokuweb/move02/5-4/
 ↑参考資料*/
 
@@ -29,7 +15,7 @@ body{
 /*========= レイアウトのためのCSS ===============*/
 
 #wrapper{
-    display: flex;
+
     justify-content: center;
     align-items: center;
     text-align:center;
@@ -38,11 +24,14 @@ body{
 
 a{
     color: #000000;
+
 }
 
 /*========= particle js を描画するエリア設定 ===============*/
 
-
+html,body{
+    height: 100%;/*高さを100%にして描画エリアをとる*/
+}
 
 #particles-js{
     position:fixed;/*描画固定*/
@@ -78,55 +67,5 @@ a{
     box-sizing:border-box;
 }
 
-/*==================================================
-スタート時は要素自体を透過0にするためのopacity:0;を指定する
-===================================*/
 
-.genre{
-    opacity: 0;
-}
-
-/*==================================================
-ふわっ
-===================================*/
-
-.fadeUp {
-    animation-name:fadeUpAnime;
-    animation-duration:2s;
-    animation-fill-mode:forwards;
-    opacity: 0;
-}
-@keyframes fadeUpAnime{
-    from {
-        opacity: 0;
-        transform: translateY(100px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(10000px);
-    }
-}
-
-/* アニメーションスタートの遅延時間を決めるCSS*/
-
-.delay-time0{
-    animation-delay: 0.5s;
-}
-.delay-time1{
-    animation-delay: 1s;
-}
-.delay-time2{
-    animation-delay: 1.5s;
-}
-.delay-time3{
-    animation-delay: 2s;
-}
-
-.delay-time4{
-    animation-delay: 2.5s;
-}
-.delay-time5{
-    animation-delay: 3s;
-}
 
