@@ -8,7 +8,7 @@
     <script src="{{asset('js/app.js')}}"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg mb-3">
+<nav class="navbar navbar-expand-lg mb-3 sticky-top bg-light border-bottom">
     <div class="container-fluid">
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="ナビゲーションの切替">
