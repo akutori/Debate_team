@@ -43,6 +43,6 @@ class AdminController extends Controller
         // adominsテーブルに登録する処理
         $admin = new Admin();
         $admin->insert( $adminName, $adminPassword );
-        return view('rootpage');
+        return view('rootpage',compact('adminName'));
     }
 }

@@ -21,7 +21,7 @@ class RankingController extends Controller
 
 
 
-        return view('Ranking',compact('user','username','user_4'));
+        return view('ranking',compact('user','username','user_4'));
 
 
     }

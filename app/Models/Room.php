@@ -30,7 +30,8 @@ class Room extends Model
             'title_id' => $titleid['t_id'],
             'category_id' => $cateid,
             'r_day' => $today,
-            'user_id' => $userid
+            'user_id' => $userid,
+            'Starting_time'=>$today,
         ]);
     }
 
@@ -87,5 +88,9 @@ class Room extends Model
             //比較分の差が終了時間以下なのでディベートは続いている
             return false;
         }
+    }
+
+    public function findroom($room_id){
+        return Room::where("r_id", $room_id)->first();
     }
 }

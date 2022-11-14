@@ -13,35 +13,44 @@
 
 </head>
 <body>
-<div class="ht">
-    <a href="{{url('/sgenre')}}"><img class="rogo" src="{{asset('images/debate01.png')}}"></a>
-</div>
+    <div class="container-sm justify-content-center h-auto px-5"STYLE=" max-width: 500px; max-height: 200px">
+        <div class="row gx-xxl-5">
+        <a href="{{url('/sgenre')}}" ><img class="img-fluid "  src="{{asset('images/debate01.png')}}"></a>
+    </div>
+    </div>
 
-<div class="container-sm p-1 text-center" id="btns">
-    <!---ログイン,会員登録遷移--->
-@if (Route::has('login'))
-    <!--ログイン時、マイページ、ログアウトボタン表示-->
-        @auth
-            <button onclick="location.href='{{ url('/mypage') }}'" class="btn btn-secondary btn-outline-info text-white btn-lg me-5">マイページ</button>
+<div class="container-sm p-5 text-center" style="max-height: 10px">
 
-            <form style="display: inline" action="{{ route('logout') }}" method="POST">
+
+        <!---ログイン,会員登録遷移--->
+        @if (Route::has('login'))
+
+            <!--ログイン時、マイページ、ログアウトボタン表示-->
+                @auth
+                    <button onclick="location.href='{{ url('/mypage') }}'" class=" btn btn-primary">マイページ</button>
+
+            <form style="display: inline" action="{{ route('logout') }}" method="POST" >
                 @csrf
-                <input type="submit" class=" btn btn-secondary btn-outline-danger text-white border-secondary btn-lg" value="ログアウト">
+                <input type="submit" class=" btn btn-danger" value="ログアウト">
             </form>
-            <!--ゲスト時、ログイン、ログアウトボタン表示-->
-        @else
-            <button onclick="location.href='{{ route('login') }}'" class="btn btn-secondary btn-outline-primary text-white border-secondary p-3 me-5">ログイン</button>
+                    <!--ゲスト時、ログイン、ログアウトボタン表示-->
+                @else
+                    <button onclick="location.href='{{ route('login') }}'" class="btn btn-primary">ログイン</button>
 
-            @if (Route::has('register'))
-                <button onclick="location.href='{{ route('register') }}'" class="btn btn-secondary btn-outline-primary text-white border-secondary">アカウント<br>登録</button>
-            @endif
-        @endauth
-    @endif
+                    @if (Route::has('register'))
+                        <button onclick="location.href='{{ route('register') }}'" class="btn btn-primary ">アカウント登録</button>
+                    @endif
+                @endauth
+
+
+        @endif
+
+    </div>
 </div>
 
-@yield('body')
+    @yield('body')
 
-@yield('js')
+        @yield('js')
 
 
 </body>

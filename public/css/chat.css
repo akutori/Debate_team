@@ -16,6 +16,10 @@
     background-color: rgba(0,255,249,0.22);
 }
 
+#chatcolor-bot{
+    background-color: lightgreen;
+}
+
 #message{
     font-size: 1.2em;
 }
