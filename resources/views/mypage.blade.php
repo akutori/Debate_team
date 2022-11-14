@@ -35,7 +35,7 @@
             <a href="{{ url('/userroom') }}">
                 <img class="card-img-top p-2 rounded-circle" src="{{ asset('./images/ルーム作成新.png') }}">
             </a>
-            <button type="button" class="btn rounded-pill btn-primary mb-2" onclick="location.href='{{url('/userroom')}}'">ルーム作成</button>
+            <button type="button" class="btn rounded-pill btn-primary mb-2" onclick="location.href='{{url('/userroom')}}'">ルーム作成&一覧</button>
         </div>
         <div class="card m-2" style="width: 15rem;">
             <a href="{{ url('/ranking') }}">
