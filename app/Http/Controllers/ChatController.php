@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bystander;
 use App\Models\Debater;
+use App\Models\Ng;
 use App\Models\Room;
-use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -94,7 +93,8 @@ class ChatController extends Controller
             $user_name="ЯØ|3Ø7";
             $users_position="BOT";
         }else{
-            $message=$request->input('message');
+            $ng = new Ng();
+            $message=$ng->replace_word($request->input('message'));
             $user_name=$request->input('user_name');
             $users_position=$request->input('users_position');
         }
