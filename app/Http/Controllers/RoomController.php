@@ -8,8 +8,14 @@ use App\Models\Chat;
 use App\Models\Debater;
 use App\Models\Room;
 use App\Models\Title;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
 {
@@ -103,6 +109,10 @@ class RoomController extends Controller
         return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
     }
 
+    public function waituser2(Request $request){
+        return $this->waituser($request->input('roomid'),$request->input('position'));
+    }
+
     //すべてのディベートの情報を削除
     public function removedebate($roomid,$userid){
         $debater = new Debater();
@@ -149,22 +159,37 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function index()
+    public function userroom(Request $request)
     {
+        $room = new Room();
         $user=Auth::user();
         $userid= $user['id'];
         $categorys = Category::all();
-        return view("makeroom",compact('userid','categorys'));
+        $word = $request->input('word');
+        $genre = $request->input('genre');
+        $state = $request->input('state');
+        //取得した情報をもとに検索する
+        $rooms = $room->search_for_user_created_rooms(
+            $word,$genre,$state);
+        //state = 0->ユーザー名,1-> ルーム名
+        if(isset($word)&&$request->input('state')==0){
+            $state = "ユーザー名 :";
+        }else{
+            $state = "ルーム名 :";
+        }
+        $genre = Category::where('c_id',$genre)->first();
+        return view("userrooms",compact('userid','categorys','rooms','word','state','genre'));
     }
 
     /**
      * Show the form for creating a new resource.
      * 新規リソースの作成フォームを表示します。
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Application|Factory|View
      */
-    public function create(Request $request)
+    public function create(Request $request,Exception $e): View|Factory|Application
     {
         $room = new Room();
         $title = new Title();
@@ -173,6 +198,18 @@ class RoomController extends Controller
         $formdata = $request->all();
         //同じビューにもどってくるためもう一度useridを取得する必要がある
         $userid = $formdata['userid'];
+        $validator = Validator::make($formdata, [
+            'title' => ['required','max:255'],
+        ]);
+        if($validator->fails()){
+            //ユーザーが作成したルームをすべて取得
+            $rooms = $room->search_for_user_created_rooms(
+                $request->input('word'),
+                $request->input('genre'),
+                $request->input('state'));
+            $errors = $validator->messages();
+            return view("userrooms",compact('userid','categorys','rooms','errors'));
+        }
         //アラート用にcategoryIDからcategory名を取得
         $catgory = Category::where('c_id',$formdata['categoryid'])->first();
         //ユーザーが作成したルームが上限を超過しているか
@@ -189,7 +226,7 @@ class RoomController extends Controller
                 <button type="button" class="btn-close float-end border-0 bg-transparent" data-bs-dismiss="alert" aria-label="Close"></button>
                 <h4 class="alert-heading m-3">ルームの作成上限に達しました!!</h4>
                 <hr>
-                <p class="m-3">新たにルーム作成を行う場合は「マイページ」から部屋の削除を行ってください</p>
+                <p class="m-3">新たにルーム作成を行う場合は「マイページ」「メニュー」から部屋の削除を行ってください</p>
             </div>
         </div>
             ';
@@ -214,7 +251,15 @@ class RoomController extends Controller
             </div>
             ';
         }
-        return view("makeroom",compact('userid','alerttext','categorys'));
+        //ユーザーが作成したルームをすべて取得
+        $rooms = $room->search_for_user_created_rooms(
+            $request->input('word'),
+            $request->input('genre'),
+            $request->input('state'));
+        //二重投稿防止のためにセッションを再生成
+        //再送信した場合はHandler.phpのrenderメソッドによって「/userroom」にリダイレクトする
+        $request->session()->regenerateToken();
+        return view("userrooms",compact('userid','alerttext','categorys','rooms'));
     }
 
     /**
