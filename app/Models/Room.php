@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class Room extends Model
@@ -133,6 +134,17 @@ class Room extends Model
                     ->where('c_id',$genre)
                     ->orderByRaw('users.id ='.Auth::id().' DESC,r_id desc')
                     ->get();
+        }
+    }
+
+    public function a($userid){
+        $debater = new Debater();
+        $bystander = new Bystander();
+        Room::join('debaters','rooms.r_id','=','debaters.room_id')->join('bystanders','debaters.room_id','=','bystanders.room_id')->get();
+        if(
+
+        ){
+
         }
     }
 }

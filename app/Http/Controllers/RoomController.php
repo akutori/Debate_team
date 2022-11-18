@@ -58,6 +58,11 @@ class RoomController extends Controller
                 $state=1;
                 return view('standby',compact('roomid','state','userid','roomtitle'));
             }
+            //参加したディベートが始まって、その後違う部屋に行った場合元いた部屋に飛ばす
+            //todo すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
+            if($){
+
+            }
             $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
             return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
         }
