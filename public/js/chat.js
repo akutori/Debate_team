@@ -163,16 +163,16 @@ function timer() {
     //秒を計算してマイナスを取り除く
     const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
     //タイマー部分に表示させる
-    $("#timer").text('残り ' + m + '分' + s + '秒');
-    if (m === 59) $("#timer").text('残り ' + 0 + '分' + 0 + '秒');
+    $("#timer").text('残り '+m+'分'+s+'秒');
+    if(m===59) $("#timer").text('残り 0分0秒');
     //指定の時間に達しているかの比較
-    if (m > 15) {
-        //投票画面に遷移
-        window.location.href = '/vote2/' + ROOMID + '/';
-    }
-    if (NowTime > RoomTime) {   //再読み込みなどしてページが遷移せずに時間が経過してしまった場合、ジャンルに遷移させる
-        window.location.href = '/sgenre';
-    }
+        if(NowTime > RoomTime){
+            //投票画面に遷移
+            window.location.href = '/vote2/'+ROOMID+'/';
+        }
+        /*if(m>=15&&s===0NowTime > RoomTime){   //再読み込みなどしてページが遷移せずに時間が経過してしまった場合、ジャンルに遷移させる
+            window.location.href = '/sgenre';
+        }*/
     //1秒間隔でタイマーを実行
     setInterval('timer()', 1000);
 }
