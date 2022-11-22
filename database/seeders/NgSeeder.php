@@ -14,6 +14,8 @@ class NgSeeder extends Seeder
      */
     public function run()
     {
-        //
+        //sampleデータ
+        Ng::create(['n_words'=>'きもい']);
+        Ng::create(['n_words'=>'キモイ']);
     }
 }
