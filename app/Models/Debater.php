@@ -65,6 +65,12 @@ class Debater extends Model
         Debater::where("room_id","=",$room_id)->where("user_id","=",$user_id)->delete();
     }
 
+    //ユーザーの発表者情報を取得
+    public function get_the_with_an_existing_userID($userid): bool
+    {
+        return Debater::where('user_id',$userid)->exists();
+    }
+
     //userの発表者情報を取り消し
     public function remove_debater_by_userid($user_id){
         Debater::where("user_id","=",$user_id)->delete();

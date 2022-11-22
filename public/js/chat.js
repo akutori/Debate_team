@@ -17,11 +17,6 @@ function get_data() {
         dataType: "json",
 
         success: data => {
-            /*
-            $("#chat-data")
-                .find(".chat-visible")
-                .remove();
-            */
             //ポジションごとに文字の色を変更する
             let position = ''
             //SVGアイコンと色をポジションごとに設定する
@@ -170,9 +165,6 @@ function timer() {
             //投票画面に遷移
             window.location.href = '/vote2/'+ROOMID+'/';
         }
-        /*if(m>=15&&s===0NowTime > RoomTime){   //再読み込みなどしてページが遷移せずに時間が経過してしまった場合、ジャンルに遷移させる
-            window.location.href = '/sgenre';
-        }*/
     //1秒間隔でタイマーを実行
     setInterval('timer()', 1000);
 }
@@ -186,20 +178,6 @@ function not_back() {
             history.pushState(null, null, null);
         });
     });
-}
-
-//モーダルを10秒間閉じれないようにする
-function Alert_message() {
-    let myModal = $('[data-bs-toggle="tooltip"]').tooltip('Modal')
-    const modal = $('#lockalert')
-    myModal.show(modal)
-    $('#lockalert').on('show.bs.modal', function () {
-        let btn = document.querySelector('#modalbutton')
-        btn.disabled = true
-        setTimeout(function () {
-            btn.disabled = false
-        }, 10000)
-    })
 }
 
 function get_data_once() {

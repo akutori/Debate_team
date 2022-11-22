@@ -46,6 +46,12 @@ class RoomController extends Controller
         }
         //傍観者で選択した場合と発表者で選択された場合の処理
         else if($state == 0) {
+            //すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
+            //自分が入ろうとしている部屋が違う&&討論開始がユーザIDの部屋で存在することを確認
+            if(!$room->is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid)&&!$room->check_debate_start_is_room_on_userid($userid)){
+                $debater_user = Debater::where('user_id',$userid)->first();
+                return redirect('/standby/'.$debater_user->room_id.'/0');
+            }
             //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目ルームにリダイレクトする
             if($debater->countdebater($roomid) === 2&& !$debater->roomedDebater($userid,$roomid)){
                 return redirect('/stheme/'.$roomid);
@@ -58,16 +64,17 @@ class RoomController extends Controller
                 $state=1;
                 return view('standby',compact('roomid','state','userid','roomtitle'));
             }
-            //参加したディベートが始まって、その後違う部屋に行った場合元いた部屋に飛ばす
-            //todo すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
-            if($){
-
-            }
             $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
             return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
         }
         //傍観者として参加した場合
         else if($state==1){
+            //すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
+            //自分が入ろうとしている部屋が違う&&討論開始がユーザIDの部屋で存在することを確認
+            if(!$room->is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid)&&!$room->check_debate_start_is_room_on_userid($userid)){
+                $debater_user = Debater::where('user_id',$userid)->first();
+                return redirect('/standby/'.$debater_user->room_id.'/0');
+            }
             //発表者でもなく傍観者としても登録されていない場合登録する。
             if(!$bystander->roomedBystander($userid,$roomid)){
                 //発表者として登録されていないのであればそのまま登録する

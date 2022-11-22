@@ -137,14 +137,44 @@ class Room extends Model
         }
     }
 
-    public function a($userid){
+    //討論開始がユーザIDの部屋で存在することを確認する
+    public function check_debate_start_is_room_on_userid($userid): bool
+    {
         $debater = new Debater();
-        $bystander = new Bystander();
-        Room::join('debaters','rooms.r_id','=','debaters.room_id')->join('bystanders','debaters.room_id','=','bystanders.room_id')->get();
-        if(
-
-        ){
-
+        //そのユーザーが発表者として登録されているか調べる
+        //もし発表者として登録されているのであれば
+        if($debater->get_the_with_an_existing_userID($userid)){
+            //そのルームを抽出
+            $debaterinfo = Debater::select('room_id')->where('user_id',$userid)->first();
+            $room = Room::where("r_id", $debaterinfo->room_id)->first();
+            //そのルームが始まっているのであれば
+            if($room->timestartflg==1){
+                //そのルームが時間内かを調べる。時間内であればfalse終了しているのであればtrue
+                return $this->this_room_debate_time_end($room->r_id);
+            }
+            //ルームは始まっていないのでスルー
+            return true;
         }
+        //登録されていないのでスルーさせる
+        return true;
+    }
+
+    //アクセスしたルームのroomidは入ろうとしているルームのroomidと重複しているかを確認するメソッド
+    public function is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid): bool
+    {
+        $debater = new Debater();
+        //もし発表者として登録されているのであれば
+        if($debater->get_the_with_an_existing_userID($userid)){
+            //そのルームを抽出
+            $debaterinfo = Debater::select('room_id')->where('user_id',$userid)->first();
+            //ルームIDが同じであればtrue
+            if($debaterinfo->room_id == $roomid){
+                return true;
+            }
+            //入室したルームIDと前にいたルームIDが違う
+            return false;
+        }
+        //どこにも登録されていない
+        return false;
     }
 }

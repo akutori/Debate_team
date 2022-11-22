@@ -76,11 +76,10 @@ class ChatController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @param $roomid
-     * @return Application|Factory|View
+     * @return bool
      */
 
-    public function store(Request $request,$roomid,): View|Factory|Application
+    public function store(Request $request): bool
     {
         $chats=new Chat;
         //チャットをAPIを使用してスコアを算出
@@ -99,44 +98,15 @@ class ChatController extends Controller
             $users_position=$request->input('users_position');
         }
         //チャットの内容を全て保存
-        $chats->fill(['user_id'=>$request->input('user_id'),
+        return $chats->fill(['user_id'=>$request->input('user_id'),
                       'user_name'=>$user_name,
                       'room_id'=>$request->input('room_id'),
                       'users_position'=>$users_position,
                       'message'=>$message,
                       'score'=>$chat_score])
                 ->save();
-
-        /*タイムスタンプ保存*/
-        $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
-
-        //該当ルームの開始時間を取得
-        $RoomStartTime = Room::where('r_id', $roomid)->select('Starting_time')->first();
-        //取得した時間をカーボンにかける
-        $StartTime = new Carbon($RoomStartTime->Starting_time);
-        //Iso8601形式の文字列で代入
-        $StartTime = $StartTime->toIso8601String();
-
-        $user=Auth::user();
-        $name = $user['name'];
-        $userid= $user['id'];
-        $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
-        //賛成のときはチャットのusers_positionに賛成を入れる
-        if($usersposition->d_pd==0){
-            $usersposition="賛成";
-        }elseif ($usersposition->d_pd==1){
-            $usersposition="反対";
-        }
-
-        //1ルームの情報全てを持ってくる
-        $roomdata = DB::table('rooms')
-            ->join('categories','rooms.category_id','=','c_id')
-            ->join('titles','rooms.title_id','=','t_id')
-            ->where('r_id','=',$roomid)->first();
-        $state=0;
-        return view('chat',compact('roomdata','state','name','StartTime','stflg','usersposition'));
     }
-    //todo 現状pserspectiveはこちらのみで取り扱うか不明なので仮置きとする
+    //todo 現状perspectiveはこちらのみで取り扱うか不明なので仮置きとする
     public function check_comment($text){
         //configからenvに設定されたキーを取得
         $api_key = config('api.perspectiveAPI.public_key');
