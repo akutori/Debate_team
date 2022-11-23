@@ -21,85 +21,90 @@ use Illuminate\Support\Facades\Validator;
 class RoomController extends Controller
 {
 
-    public function waituser($roomid,$state): View|Factory|Redirector|RedirectResponse|Application
+    public function waituser($roomid, $state, Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
         $debater = new Debater();
-        $bystander= new Bystander();
+        $bystander = new Bystander();
         $room = new Room();
-        $user=Auth::user();
-        $userid= $user['id'];
+        $user = Auth::user();
+        $userid = $user['id'];
         //ディベートのタイトルを表示させる。
-        $roomtitle = Room::join("titles","title_id","=","t_id")->where("r_id","=",$roomid)->first();
-        //todo 参加したディベートが始まって、その後違う部屋に行った場合元いた部屋に飛ばす
+        $roomtitle = Room::join("titles", "title_id", "=", "t_id")->where("r_id", "=", $roomid)->first();
+        //すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
+        //入室したルームIDと前にいたルームIDが違う
+        if ($room->is_access_roomid_is_a_duplicate_of_roomid($userid, $roomid)==2) {
+            //自分が発表者として登録されている部屋のディベート時間が終了していない
+            if ($room->check_debate_start_is_room_on_userid($userid) === false) {
+                //終了していない場合はもともと入っていた部屋の情報を取得して再入室させる
+                $debater_user = Debater::where('user_id', $userid)->first();
+                $state = 0;
+                $roomid = $debater_user->room_id;
+            }
+        }
         //ディベートが終了しているのであればすべての履歴を削除し入室する
-        if($room->this_room_debate_time_end($roomid)&&$room->is_debate_start($roomid)){
-            $this->removedebate($roomid,$userid);
-            switch ($state){
+        if ($room->this_room_debate_time_end($roomid) && $room->is_debate_start($roomid)) {
+            $this->removedebate($roomid);
+            switch ($state) {
                 case 0:
-                    $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
+                    $debater->remove_duplicates_and_reconfigure_debater($userid, $roomid);
+                    $debaterstate = $this->set_debaterstate($state, $userid, $roomid);
                     break;
                 case 1:
                     $bystander->remove_duplicates_and_reconfigure_bystander($userid, $roomid);
                     break;
             }
-            return view('standby',compact('roomid','state','userid','roomtitle'));
-        }
-        //傍観者で選択した場合と発表者で選択された場合の処理
-        else if($state == 0) {
-            //すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
-            //自分が入ろうとしている部屋が違う&&討論開始がユーザIDの部屋で存在することを確認
-            if(!$room->is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid)&&!$room->check_debate_start_is_room_on_userid($userid)){
-                $debater_user = Debater::where('user_id',$userid)->first();
-                return redirect('/standby/'.$debater_user->room_id.'/0');
-            }
-            //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目ルームにリダイレクトする
-            if($debater->countdebater($roomid) === 2&& !$debater->roomedDebater($userid,$roomid)){
-                return redirect('/stheme/'.$roomid);
+            return view('standby', compact('roomid', 'state', 'userid', 'debaterstate', 'roomtitle'));
+        } //傍観者で選択した場合と発表者で選択された場合の処理
+        else if ($state == 0) {
+            //ディベートが始まっていてまだ終了していないが傍観者としてもともと登録されていた場合立場を変更させずに再入室させる
+            if ($bystander->roomedBystander($userid, $roomid)) {
+                $state = 1;
+                return view('standby', compact('roomid', 'state', 'userid', 'roomtitle'));
             }
             //自分が発表者として登録されていない場合別のルームから退出し、選択したルームに発表者として登録
-            if(!$debater->roomedDebater($roomid, $userid)){
-                $debater->remove_duplicates_and_reconfigure_debater($userid,$roomid);
-            //ディベートが始まっていてまだ終了していないが傍観者としてもともと登録されていた場合立場を変更させずに再入室させる
-            }elseif ($bystander->roomedBystander($userid,$roomid)){
-                $state=1;
-                return view('standby',compact('roomid','state','userid','roomtitle'));
+            if (!$debater->roomedDebater($roomid, $userid)) {
+                $debater->remove_duplicates_and_reconfigure_debater($userid, $roomid);
             }
-            $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-            return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
-        }
-        //傍観者として参加した場合
-        else if($state==1){
-            //すでに自分が登録されていた部屋を検索。終了していないのであれば該当のルームidを取得して飛ばす
-            //自分が入ろうとしている部屋が違う&&討論開始がユーザIDの部屋で存在することを確認
-            if(!$room->is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid)&&!$room->check_debate_start_is_room_on_userid($userid)){
-                $debater_user = Debater::where('user_id',$userid)->first();
-                return redirect('/standby/'.$debater_user->room_id.'/0');
+            //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目ルームにリダイレクトする
+            if ($debater->countdebater($roomid) === 2 && !$debater->roomedDebater($userid, $roomid)) {
+                return redirect('/stheme/' . $roomid);
+            }
+            //同じルームで発表者として登録されていない場合は選択したルームに再登録する
+            if(!$debater->roomedDebater($userid,$roomid)){
+                $debater->remove_duplicates_and_reconfigure_debater($userid, $roomid);
+            }
+            $debaterstate = $this->set_debaterstate($state, $userid, $roomid);
+            return view('standby', compact('roomid', 'state', 'userid', 'debaterstate', 'roomtitle'));
+        } //傍観者として参加した場合
+        else if ($state == 1) {
+            //もし発表者として登録されているのであれば立場を変更させずに再入室させる
+            if ($debater->roomedDebater($userid, $roomid)) {
+                $state = 0;
+                return view('standby', compact('roomid', 'state', 'userid', 'roomtitle'));
             }
             //発表者でもなく傍観者としても登録されていない場合登録する。
-            if(!$bystander->roomedBystander($userid,$roomid)){
+            if (!$bystander->roomedBystander($userid, $roomid)) {
                 //発表者として登録されていないのであればそのまま登録する
                 //別のところにいた場合はそこから退出して選択したルームに入室する
                 $bystander->remove_duplicates_and_reconfigure_bystander($userid, $roomid);
             }
-            //もし発表者として登録されているのであれば立場を変更させずに再入室させる
-            if($debater->roomedDebater($userid,$roomid)){
-                $state=0;
-            }
-            return view('standby',compact('roomid','state','userid','roomtitle'));
+            return view('standby', compact('roomid', 'state', 'userid', 'roomtitle'));
         }
         //発表者の賛成・反対の状態を表示させる
-        $debaterstate = $this->set_debaterstate($state,$userid,$roomid);
-        return view('standby',compact('roomid','state','userid','debaterstate','roomtitle'));
+        $debaterstate = $this->set_debaterstate($state, $userid, $roomid);
+        return view('standby', compact('roomid', 'state', 'userid', 'debaterstate', 'roomtitle'));
     }
 
-    public function waituser2(Request $request){
-        return $this->waituser($request->input('roomid'),$request->input('position'));
+    public function waituser2(Request $request)
+    {
+        return $this->waituser($request->input('roomid'), $request->input('position'));
     }
 
     //すべてのディベートの情報を削除
-    public function removedebate($roomid){
+    public function removedebate($roomid)
+    {
         $debater = new Debater();
-        $bystander= new Bystander();
+        $bystander = new Bystander();
         $room = new Room();
         $chat = new Chat();
         //そのルームの発表者を削除
@@ -109,28 +114,29 @@ class RoomController extends Controller
         //そのルームのチャット内容を削除
         $chat->remove_chat_by_id($roomid);
         //そのルームを「始まっていない」状態にする
-        $room->where('r_id',$roomid)->update(["timestartflg" => 0]);
+        $room->where('r_id', $roomid)->update(["timestartflg" => 0]);
     }
 
     //発表者が2人かつ傍観者が1人以上いるかを聞き続ける
     //Ajaxで使う
-    public function confirmation($rid,$state){
-        $debater = Debater::where('room_id','=',$rid)->count();
-        $bystander = Bystander::where('room_id','=',$rid)->count();
-        $json = ["debater"=>$debater,"bystander"=>$bystander,"room_id"=>$rid,"state"=>$state];
+    public function confirmation($rid, $state)
+    {
+        $debater = Debater::where('room_id', '=', $rid)->count();
+        $bystander = Bystander::where('room_id', '=', $rid)->count();
+        $json = ["debater" => $debater, "bystander" => $bystander, "room_id" => $rid, "state" => $state];
 
         return response()->json($json);
     }
 
     //発表者の賛成・反対の状態を表示させる
-    public function set_debaterstate($state,$userid,$roomid): string
+    public function set_debaterstate($state, $userid, $roomid): string
     {
-        if($state == 0){
-            $debaterstate = Debater::where('room_id',$roomid)->where('user_id',$userid)->first();
-            if(isset($debaterstate)&&$debaterstate->d_pd == 0){
+        if ($state == 0) {
+            $debaterstate = Debater::where('room_id', $roomid)->where('user_id', $userid)->first();
+            if (isset($debaterstate) && $debaterstate->d_pd == 0) {
                 //賛成
                 return 0;
-            }else{
+            } else {
                 //反対
                 return 1;
             }
@@ -146,23 +152,23 @@ class RoomController extends Controller
     public function userroom(Request $request)
     {
         $room = new Room();
-        $user=Auth::user();
-        $userid= $user['id'];
+        $user = Auth::user();
+        $userid = $user['id'];
         $categorys = Category::all();
         $word = $request->input('word');
         $genre = $request->input('genre');
         $state = $request->input('state');
         //取得した情報をもとに検索する
         $rooms = $room->search_for_user_created_rooms(
-            $word,$genre,$state);
+            $word, $genre, $state);
         //state = 0->ユーザー名,1-> ルーム名
-        if(isset($word)&&$request->input('state')==0){
+        if (isset($word) && $request->input('state') == 0) {
             $state = "ユーザー名 :";
-        }else{
+        } else {
             $state = "ルーム名 :";
         }
-        $genre = Category::where('c_id',$genre)->first();
-        return view("userrooms",compact('userid','categorys','rooms','word','state','genre'));
+        $genre = Category::where('c_id', $genre)->first();
+        return view("userrooms", compact('userid', 'categorys', 'rooms', 'word', 'state', 'genre'));
     }
 
     /**
@@ -171,7 +177,7 @@ class RoomController extends Controller
      * @param Request $request
      * @return Application|Factory|View
      */
-    public function create(Request $request,Exception $e): View|Factory|Application
+    public function create(Request $request, Exception $e): View|Factory|Application
     {
         $room = new Room();
         $title = new Title();
@@ -181,23 +187,23 @@ class RoomController extends Controller
         //同じビューにもどってくるためもう一度useridを取得する必要がある
         $userid = $formdata['userid'];
         $validator = Validator::make($formdata, [
-            'title' => ['required','max:255'],
+            'title' => ['required', 'max:255'],
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             //ユーザーが作成したルームをすべて取得
             $rooms = $room->search_for_user_created_rooms(
                 $request->input('word'),
                 $request->input('genre'),
                 $request->input('state'));
             $errors = $validator->messages();
-            return view("userrooms",compact('userid','categorys','rooms','errors'));
+            return view("userrooms", compact('userid', 'categorys', 'rooms', 'errors'));
         }
         //アラート用にcategoryIDからcategory名を取得
-        $catgory = Category::where('c_id',$formdata['categoryid'])->first();
+        $catgory = Category::where('c_id', $formdata['categoryid'])->first();
         //ユーザーが作成したルームが上限を超過しているか
         $isRoomCreateLimit = $room->Is_the_users_room_creation_limit($formdata['userid']);
         //超過していなければ登録する
-        if($isRoomCreateLimit){
+        if ($isRoomCreateLimit) {
             $alerttext = '
                 <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show" role="alert" id="createalert">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-2" viewBox="0 0 16 15">
@@ -212,12 +218,12 @@ class RoomController extends Controller
             </div>
         </div>
             ';
-        }else{
+        } else {
             //お題から登録する。そうしないとroomから作成した場合に無いものを入れることになる
-            $title->insert($formdata['title'],(int)$formdata['categoryid']);
-            $room->insert((int)$formdata['categoryid'],(int)$formdata['userid']);
+            $title->insert($formdata['title'], (int)$formdata['categoryid']);
+            $room->insert((int)$formdata['categoryid'], (int)$formdata['userid']);
 
-            $alerttext='
+            $alerttext = '
                 <div class="alert alert-success alert-dismissible d-flex align-items-center fade show alert-heading" role="alert" id="alertclose">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check2-circle flex-shrink-0 me-2" viewBox="0 0 16 15">
                     <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
@@ -227,8 +233,8 @@ class RoomController extends Controller
                     <button type="button" class="btn-close float-end border-0 bg-transparent" data-bs-dismiss="alert" aria-label="Close" ></button>
                     <h4 class="alert-heading m-3">新規作成が完了しました!!</h4>
                     <hr>
-                    <p class="m-3">カテゴリー : 「'.$catgory->c_name.'」</p>
-                    <p class="m-3">お題 : 「'.$formdata['title'].'」</p>
+                    <p class="m-3">カテゴリー : 「' . $catgory->c_name . '」</p>
+                    <p class="m-3">お題 : 「' . $formdata['title'] . '」</p>
                 </div>
             </div>
             ';
@@ -241,13 +247,13 @@ class RoomController extends Controller
         //二重投稿防止のためにセッションを再生成
         //再送信した場合はHandler.phpのrenderメソッドによって「/userroom」にリダイレクトする
         $request->session()->regenerateToken();
-        return view("userrooms",compact('userid','alerttext','categorys','rooms'));
+        return view("userrooms", compact('userid', 'alerttext', 'categorys', 'rooms'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -258,7 +264,7 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Room  $room
+     * @param \App\Models\Room $room
      * @return \Illuminate\Http\Response
      */
     public function show(Room $room)
@@ -269,7 +275,7 @@ class RoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Room  $room
+     * @param \App\Models\Room $room
      * @return \Illuminate\Http\Response
      */
     public function edit(Room $room)
@@ -280,8 +286,8 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Room  $room
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Room $room
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Room $room)
@@ -292,7 +298,7 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Room  $room
+     * @param \App\Models\Room $room
      * @return \Illuminate\Http\Response
      */
     public function destroy(Room $room)

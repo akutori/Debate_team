@@ -138,7 +138,7 @@ class Room extends Model
     }
 
     //討論開始がユーザIDの部屋で存在することを確認する
-    public function check_debate_start_is_room_on_userid($userid): bool
+    public function check_debate_start_is_room_on_userid($userid): ?bool
     {
         $debater = new Debater();
         //そのユーザーが発表者として登録されているか調べる
@@ -149,18 +149,19 @@ class Room extends Model
             $room = Room::where("r_id", $debaterinfo->room_id)->first();
             //そのルームが始まっているのであれば
             if($room->timestartflg==1){
-                //そのルームが時間内かを調べる。時間内であればfalse終了しているのであればtrue
+                //そのルームが時間内かを調べる。
+                //時間内であればfalse終了しているのであればtrue
                 return $this->this_room_debate_time_end($room->r_id);
             }
             //ルームは始まっていないのでスルー
-            return true;
+            return null;
         }
         //登録されていないのでスルーさせる
-        return true;
+        return null;
     }
 
     //アクセスしたルームのroomidは入ろうとしているルームのroomidと重複しているかを確認するメソッド
-    public function is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid): bool
+    public function is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid): int
     {
         $debater = new Debater();
         //もし発表者として登録されているのであれば
@@ -169,12 +170,12 @@ class Room extends Model
             $debaterinfo = Debater::select('room_id')->where('user_id',$userid)->first();
             //ルームIDが同じであればtrue
             if($debaterinfo->room_id == $roomid){
-                return true;
+                return 1;
             }
             //入室したルームIDと前にいたルームIDが違う
-            return false;
+            return 2;
         }
         //どこにも登録されていない
-        return false;
+        return 3;
     }
 }
