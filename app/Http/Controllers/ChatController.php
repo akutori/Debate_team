@@ -205,8 +205,7 @@ class ChatController extends Controller
     public function getDataSize($rid): \Illuminate\Http\JsonResponse
     {
         $chats = Chat::where('room_id','=',$rid)->count();
-        $chat_data = Chat::where('room_id',$rid)->latest()->first();
-        $json = ["chat_size" => $chats,"chat_data"=>$chat_data];
+        $json = ["chat_size" => $chats];
         return response()->json($json);
     }
 }
