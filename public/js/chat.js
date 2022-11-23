@@ -6,7 +6,7 @@ $(function () {
     //ajaxでチャット内容を送信する
     sendtext();
     //タイマーの関数
-    //timer();
+    timer();
 });
 
 function get_data() {
