@@ -150,11 +150,8 @@ function timer() {
     const RoomTime = new Date($('#starttime').val());
     //現在の時間を取得
     let NowTime = new Date()
-    console.log(NowTime)
-
     //分に+14を加えて終了時間を設定(14で15分ちょうどとなる)
     RoomTime.setMinutes(RoomTime.getMinutes() + 15)
-    console.log(RoomTime)
     //日時を取得比較用
     const d = Math.floor((NowTime - RoomTime) / (24 * 60 * 60 * 1000));
     //時間を取得比較用
