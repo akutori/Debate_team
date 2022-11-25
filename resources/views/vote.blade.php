@@ -20,7 +20,6 @@
 </div>
 
 <!--{{$sum = $ro->r_sum/2}}-->
-<form action="{{url('/vote')}}"method="post">
 <div class="kekka">
     @if($ss > $uu )
         <p>肯定側勝利</p>
@@ -31,8 +30,7 @@
         <p>引き分け</p>
 @endif
 </div>
-<input type="hidden" name="d_pd">
-<button type="submit" onclick="location.href='{{url('/sgenre')}}'">トップに戻る</button>
+<button type="button" onclick="location.href='{{url('/')}}'">トップに戻る</button>
 
 @endforeach
 </body>

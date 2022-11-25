@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Boolean;
 
 class Room extends Model
@@ -134,5 +135,47 @@ class Room extends Model
                     ->orderByRaw('users.id ='.Auth::id().' DESC,r_id desc')
                     ->get();
         }
+    }
+
+    //討論開始がユーザIDの部屋で存在することを確認する
+    public function check_debate_start_is_room_on_userid($userid): ?bool
+    {
+        $debater = new Debater();
+        //そのユーザーが発表者として登録されているか調べる
+        //もし発表者として登録されているのであれば
+        if($debater->get_the_with_an_existing_userID($userid)){
+            //そのルームを抽出
+            $debaterinfo = Debater::select('room_id')->where('user_id',$userid)->first();
+            $room = Room::where("r_id", $debaterinfo->room_id)->first();
+            //そのルームが始まっているのであれば
+            if($room->timestartflg==1){
+                //そのルームが時間内かを調べる。
+                //時間内であればfalse終了しているのであればtrue
+                return $this->this_room_debate_time_end($room->r_id);
+            }
+            //ルームは始まっていないのでスルー
+            return null;
+        }
+        //登録されていないのでスルーさせる
+        return null;
+    }
+
+    //アクセスしたルームのroomidは入ろうとしているルームのroomidと重複しているかを確認するメソッド
+    public function is_access_roomid_is_a_duplicate_of_roomid($userid,$roomid): int
+    {
+        $debater = new Debater();
+        //もし発表者として登録されているのであれば
+        if($debater->get_the_with_an_existing_userID($userid)){
+            //そのルームを抽出
+            $debaterinfo = Debater::select('room_id')->where('user_id',$userid)->first();
+            //ルームIDが同じであればtrue
+            if($debaterinfo->room_id == $roomid){
+                return 1;
+            }
+            //入室したルームIDと前にいたルームIDが違う
+            return 2;
+        }
+        //どこにも登録されていない
+        return 3;
     }
 }
