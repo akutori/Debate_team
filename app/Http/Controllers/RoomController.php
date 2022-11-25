@@ -61,13 +61,13 @@ class RoomController extends Controller
                 $state = 1;
                 return view('standby', compact('roomid', 'state', 'userid', 'roomtitle'));
             }
-            //自分が発表者として登録されていない場合別のルームから退出し、選択したルームに発表者として登録
-            if (!$debater->roomedDebater($roomid, $userid)) {
-                $debater->remove_duplicates_and_reconfigure_debater($userid, $roomid);
-            }
             //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目ルームにリダイレクトする
             if ($debater->countdebater($roomid) === 2 && !$debater->roomedDebater($userid, $roomid)) {
                 return redirect('/stheme/' . $roomid);
+            }
+            //自分が発表者として登録されていない場合別のルームから退出し、選択したルームに発表者として登録
+            if (!$debater->roomedDebater($roomid, $userid)) {
+                $debater->remove_duplicates_and_reconfigure_debater($userid, $roomid);
             }
             //同じルームで発表者として登録されていない場合は選択したルームに再登録する
             if(!$debater->roomedDebater($userid,$roomid)){
