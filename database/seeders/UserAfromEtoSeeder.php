@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserAfromEtoSeeder extends Seeder
 {
@@ -20,43 +22,43 @@ class UserAfromEtoSeeder extends Seeder
                 switch ($txt){
                     case 1:
                         if($cnt<10){
-                            DB::table('users')->insert(['name'=>'A0'.$cnt,'password'=>Hash::make('A0'.$cnt.'password')]);
+                            User::create(['name'=>'A0'.$cnt,'password'=>Hash::make('A0'.$cnt.'password')]);
                             break;
                         }
-                        DB::table('users')->insert(['name'=>'A'.$cnt,'password'=>Hash::make('A'.$cnt.'password')]);
+                        User::create(['name'=>'A'.$cnt,'password'=>Hash::make('A'.$cnt.'password')]);
                         break;
                     case 2:
                         if($cnt<10){
-                            DB::table('users')->insert(['name'=>'B0'.$cnt,'password'=>Hash::make('B0'.$cnt.'password')]);
+                            User::create(['name'=>'B0'.$cnt,'password'=>Hash::make('B0'.$cnt.'password')]);
                             break;
                         }
-                        DB::table('users')->insert(['name'=>'B'.$cnt,'password'=>Hash::make('B'.$cnt.'password')]);
+                        User::create(['name'=>'B'.$cnt,'password'=>Hash::make('B'.$cnt.'password')]);
                         break;
                     case 3:
                         if($cnt<10){
-                            DB::table('users')->insert(['name'=>'B0'.$cnt,'password'=>Hash::make('C0'.$cnt.'password')]);
+                            User::create(['name'=>'B0'.$cnt,'password'=>Hash::make('C0'.$cnt.'password')]);
                             break;
                         }
-                        DB::table('users')->insert(['name'=>'B'.$cnt,'password'=>Hash::make('C'.$cnt.'password')]);
+                        User::create(['name'=>'B'.$cnt,'password'=>Hash::make('C'.$cnt.'password')]);
                         break;
                     case 4:
                         if($cnt<10){
-                            DB::table('users')->insert(['name'=>'B0'.$cnt,'password'=>Hash::make('D0'.$cnt.'password')]);
+                            User::create(['name'=>'B0'.$cnt,'password'=>Hash::make('D0'.$cnt.'password')]);
                             break;
                         }
-                        DB::table('users')->insert(['name'=>'B'.$cnt,'password'=>Hash::make('D'.$cnt.'password')]);
+                        User::create(['name'=>'B'.$cnt,'password'=>Hash::make('D'.$cnt.'password')]);
                         break;
                     case 5:
                         if($cnt<10){
-                            DB::table('users')->insert(['name'=>'B0'.$cnt,'password'=>Hash::make('E0'.$cnt.'password')]);
+                            User::create(['name'=>'B0'.$cnt,'password'=>Hash::make('E0'.$cnt.'password')]);
                             break;
                         }
-                        DB::table('users')->insert(['name'=>'B'.$cnt,'password'=>Hash::make('E'.$cnt.'password')]);
+                        User::create(['name'=>'B'.$cnt,'password'=>Hash::make('E'.$cnt.'password')]);
                         break;
                 }
             }
         }
-        DB::table('users')->insert(['name'=>'A01','password'=>Hash::make('A01password')]);
+        User::create(['name'=>'A01','password'=>Hash::make('A01password')]);
 
     }
 }
