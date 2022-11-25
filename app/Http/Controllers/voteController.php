@@ -70,10 +70,13 @@ class voteController extends Controller
         $chat = new Chat();
         $userinfo = Auth::user();
         $userid = $userinfo['id'];
-
+        Room::where('r_id',$rid)->update(["r_positive"=>0]);
+        Room::where('r_id',$rid)->update(["r_denial"=>0]);
         //各ユーザーの登録を削除
         $debater->remove_debater_by_roomid( $rid);
         $bystander->remove_bystander_by_roomid($rid);
+
+
 
         //チャットの履歴を削除
         $chat->remove_chat_by_id($rid);
