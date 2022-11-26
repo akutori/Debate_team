@@ -85,6 +85,10 @@ function get_data() {
                         `;
                 $("#chat-data").append(html).fadeIn();
             }
+            let audio = new Audio()
+            let audioList = ['../../audio/決定ボタンを押す44.mp3','../../audio/決定ボタンを押す50.mp3']
+            audio.src = audioList[Math.floor( Math.random()*audioList.length )]
+            audio.play()
         },
         error: () => {
             //alert("ajax Error");
@@ -162,10 +166,10 @@ function timer() {
     const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
     //タイマー部分に表示させる
     $("#timer").text('残り '+m+'分'+s+'秒');
-    if(m===-1) $("#timer").text('残り 0分0秒');
     //指定の時間に達しているかの比較
     if(NowTime > RoomTime){
         //投票画面に遷移
+        clearTimeout();
         window.location.href = '/vote2/'+ROOMID+'/';
     }
     //1秒間隔でタイマーを実行
