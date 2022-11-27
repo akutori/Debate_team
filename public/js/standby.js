@@ -19,6 +19,7 @@ function get_data() {
                 /*
                     リダイレクト(チャットページ)
                 */
+                clearTimeout();
                 return window.location.href="/chat/"+data.room_id+"/"+data.state;
             }else{
                 //待ってほしいメッセージ
