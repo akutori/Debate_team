@@ -20,7 +20,7 @@ class UserFfromHtoSeeder extends Seeder
 
         // F01 ~ F40
         for ($a = 1; $a < 10; $a++) {
-            User::create(['name' => 'F0' . $a, 'password' => Hash::make('E0' . $a . 'password')]);
+            User::create(['name' => 'F0' . $a, 'password' => Hash::make('F0' . $a . 'password')]);
         }
         for ($i = 10; $i < 41; $i++) {
             User::create(['name' => 'F' . $i, 'password' => Hash::make('F' . $i. 'password')]);
