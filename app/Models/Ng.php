@@ -23,7 +23,7 @@ class Ng extends Model
         $ng = new NG();
         $ng->n_id = null;
         $ng->n_words = $n_words;
-       //\DB::table('ngs')->insert(['n_words' => $n_words]);
+       \DB::table('ngs')->insert(['n_words' => $n_words]);
        $ng->save();
     }
 }
