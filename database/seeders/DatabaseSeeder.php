@@ -20,8 +20,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(CategorySeeder::class);
-        $this->call(TitleSeeder::class);
-        $this->call(RoomSeeder::class);
+        //$this->call(CategorySeeder::class);
+        //$this->call(TitleSeeder::class);
+        //$this->call(RoomSeeder::class);
+
+        // testデータのseederを実行
+        //$this->call(UserAfromEtoSeeder::class);
+        $this->call(UserFfromHtoSeeder::class);
+        $this->call(NgSeeder::class);
     }
 }

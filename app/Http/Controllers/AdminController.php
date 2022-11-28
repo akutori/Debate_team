@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Ng;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,5 +45,42 @@ class AdminController extends Controller
         $admin = new Admin();
         $admin->insert( $adminName, $adminPassword );
         return view('rootpage',compact('adminName'));
+    }
+
+    // 管理者画面からNGword編集画面へ遷移
+    public function ngwordView(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        // モデル「NG」のインスタンスを生成
+        $ng = new Ng();
+
+        // モデル「Ng」のngListメソッドを呼び出す
+        //　戻り値：ngLists に代入
+        $list = $ng->ngList();
+
+        // ngword.blade.php　を表示
+        //　compact で ngLists を渡す
+        return view('ngword', compact('list'));
+
+    }
+
+    // Ngword編集画面から登録のみする
+    //　遷移先はNgword編集画面
+    public function ngwordInsert(Request $request){
+        // 入力された内容を受け取る
+        $n_words = $request->only('ngword');
+
+        // モデル「NG」のインスタンスを生成
+        $ng = new Ng;
+        //$ng->timestamps = false;
+
+        // Ngテーブルに登録する処理
+        $ng->create([
+            'n_words'=>$request->input('ngword'),
+        ]);
+        //$ng->ngwordInsert($n_words);
+
+        // Ngwrod編集画面へ遷移
+        $list = $ng->ngList();
+        return view('ngword',compact('list'));
     }
 }
