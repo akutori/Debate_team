@@ -73,7 +73,7 @@ class Room extends Model
             //ディベートの終了時刻を設定
             $Debate_End_Time->addMinutes($END_TIME);
             //現在時間とディベート終了予定時間の差が終了時間以内か
-            if ($Today->minute < $Debate_End_Time->minute) {
+            if ($Today < $Debate_End_Time) {
                 //比較分の差が終了時間以下なのでディベートは続いている
                 return false;
             }

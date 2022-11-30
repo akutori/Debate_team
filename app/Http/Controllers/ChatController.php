@@ -102,7 +102,7 @@ class ChatController extends Controller
                       'user_name'=>$user_name,
                       'room_id'=>$request->input('room_id'),
                       'users_position'=>$users_position,
-                      'message'=>$message,
+                      'message'=>htmlspecialchars($message),
                       'score'=>$chat_score])
                 ->save();
     }
