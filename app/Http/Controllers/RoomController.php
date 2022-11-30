@@ -63,7 +63,8 @@ class RoomController extends Controller
             }
             //傍観者に二人いる and 自分が発表者として登録されていない場合(つまり自分が3人目) and そのルームでディベートが始まっている場合にルームにリダイレクトする
             if ($debater->countdebater($roomid) === 2 && !$debater->roomedDebater($userid, $roomid)) {
-                return redirect('/stheme/' . $roomid);
+                $genreid = $room->findroom($roomid);
+                return redirect('/stheme/' . $genreid->title_id);
             }
             //同じルームで発表者として登録されていない場合は選択したルームに再登録する
             if(!$debater->roomedDebater($userid,$roomid)){
