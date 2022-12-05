@@ -161,10 +161,13 @@ function timer() {
     //時間を取得比較用
     const h = Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
     //分を計算してマイナスを取り除く
-    const m = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60)-1;
+    let m = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60)-1;
     //秒を計算してマイナスを取り除く
     const s = Math.abs(Math.floor(((NowTime - RoomTime) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
     //タイマー部分に表示させる
+    if(s===0){
+        m++
+    }
     $("#timer").text('残り '+m+'分'+s+'秒');
     //指定の時間に達しているかの比較
     if(NowTime > RoomTime){
