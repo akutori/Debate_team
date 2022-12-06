@@ -4,14 +4,12 @@
 use App\Http\Controllers\allController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\RankingController;
 use App\Http\Controllers\AdminController;
 
 

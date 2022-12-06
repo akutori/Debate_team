@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bystander;
 use App\Models\Debater;
 use App\Models\Ng;
 use App\Models\Room;
@@ -12,19 +13,42 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Chat;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class ChatController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param $roomid
+     * @param $state
+     * @return Application|Factory|RedirectResponse|Redirector|View
      */
-    public function index($roomid,$state){
+    public function index($roomid,$state): View|Factory|Redirector|RedirectResponse|Application
+    {
+
+        $user=Auth::user();
+        $name = $user['name'];
+        $userid= $user['id'];
+        $debater = new Debater();
+        $bystander = new Bystander();
+        //直前のURLを取得
+        $previousUrl = URL::previous();
+        //そのURLをもとにRequestインスタンスを生成
+        $request = Request::create($previousUrl);
+        //直前のURLが、/standby/*のパスを含むかどうかを判定する
+        $isStandby = $request->is('standby/*');
+        //直前のURLが待機室ではなかった&そのルームで発表者としても傍観者としても登録されていない場合はマイページにリダイレクト
+        if(!$isStandby&&(!$debater->roomedDebater($userid,$roomid)&&!$bystander->roomedBystander($userid,$roomid))){
+            return redirect('/mypage');
+        }
+
         /*タイムスタンプ保存*/
         $stflg = DB::table('rooms')->where('r_id', $roomid)->select('timestartflg')->first();
         //スタートフラグが0の場合現在時刻を打刻し、スタートフラグを1にする。
@@ -39,9 +63,6 @@ class ChatController extends Controller
         //Iso8601形式の文字列で代入
         $StartTime = $StartTime->toIso8601String();
 
-        $user=Auth::user();
-        $name = $user['name'];
-        $userid= $user['id'];
         $usersposition = Debater::where("room_id",$roomid)->where("user_id",$userid)->first();
         //賛成のときはチャットのusers_positionに賛成を入れる
         if(!isset($usersposition)){
