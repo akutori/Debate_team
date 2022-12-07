@@ -33,12 +33,16 @@ LaravelはPHPよりも、難しく複雑ですが、その分やりたいこと�
 
 <div class="mb-lg-4 mt-lg-4 mt-xxl-5">
 <h1 class="alert-danger mb-5">注意事項</h1>
-<div style="font-size: 1.5em" class="mb-5">
+<br style="font-size: 1.5em" class="mb-5">
     <b>・発言者は三人以上入れません</b><br/>
     <b>・ルーム作成は1アカウントにつき最大３つです。※削除すれば新しく４つめを作ることができます</b><br/>
     <b>・アピールのため検閲範囲を少し厳しくしております</b><br/>
     <b>・攻撃的な発言や差別的な発言は検閲が入り、送信する事ができません</b><br/>
     <b>・通報やバグの報告・意見は下記のURLをクリック</b><br/>
+    <b>・</b>
+    <a href="https://forms.gle/DYZbo3fFitR2iVdi6
+">https://forms.gle/DYZbo3fFitR2iVdi6
+    </a><br/>
 </div>
 </div>
 
@@ -55,6 +59,7 @@ LaravelはPHPよりも、難しく複雑ですが、その分やりたいこと�
 ６、発言者２人、傍観者１人以上の計３人以上が集まったらゲームが開始されます<br/>
 ７、タイマが終われば傍観者のみにどちらの意見に納得したか投票できます<br/>
 ８、結果がでて、試合終了です。トップページに戻ります<br/>
+
 </div>
 </div>
 <div class="text-lg-center">
