@@ -78,8 +78,13 @@ class NgController extends Controller
      * @param  \App\Models\Ng  $ng
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ng $ng)
+    public function destroy(Request $request)
     {
-        //
+        $ng = new Ng();
+        //$ngs = $request -> only(["ngs"]);
+        foreach( $request->input('ngs') as $n_id ){
+           $ng -> deletes( $n_id );
+        }
+        return view("ngDeleteFinish");
     }
 }

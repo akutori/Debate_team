@@ -43,4 +43,8 @@ class Ng extends Model
         //NGワードに引っかからなかった場合は普通に元に戻す
         return $word;
     }
+
+    public function deletes($n_id){
+        Ng::where("n_id", $n_id) -> delete();
+    }
 }

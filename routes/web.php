@@ -103,6 +103,8 @@ Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 Route::get('/timeChange',[\App\Http\Controllers\TimeChangeController::class,'index']);
 // 管理者画面の「NGワード編集」ボタンを押下したとき
 Route::get('/ngwordEdit',[AdminController::class,'ngwordView']);
+// Ng画面の「削除」ボタンを押下したとき
+Route::post('/ngDelete',[\App\Http\Controllers\NgController::class,'destroy']);
 // Ngword編集画面で「登録ボタン」を押下したとき
 Route::get('/ngwordEdit/insert',[\App\Http\Controllers\AdminController::class,'ngwordInsert']);
 
@@ -115,7 +117,6 @@ Route::post('/makeAcount',[\App\Http\Controllers\AdminController::class,'makeAdm
 //管理者ログイン画面のloginを押下時
 Route::post('/admin',[\App\Http\Controllers\AdminController::class,'login']);
 
-// 管理者画面の「NGワード編集」ボタンを押下したとき
 // 管理者画面の「ルーム一覧」ボタンを押下したとき
 Route::get('/roomAll',[\App\Http\Controllers\RoomAllController::class,'index']);
 // 管理者画面の「チャット時間の編集」ボタンを押下したとき

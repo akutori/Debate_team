@@ -14,16 +14,16 @@
     追加登録
 </button>
 
-<table>
-    <tr>
-        <td>キーワード</td>
-    </tr>
+<form method="post" action="{{ url('/ngDelete') }}">
+    @csrf
+    <h1>キーワード一覧and削除</h1>
+
     @foreach( $list as $ng )
-        <tr>
-            <th>{{ $ng -> n_words }}</th>
-        </tr>
+        <p><input type="checkbox" name="ngs[]" value="{{ $ng -> n_id  }}">{{ $ng -> n_words }}</p>
     @endforeach
-</table>
+
+    <button type="submit">削除</button>
+</form>
 
 <!-- NGwordを登録するモーダルを表示 -->
 <div class="modal fade" id="ngwordModal" tabindex="-1" aria-labelledby="ngwordTitle" aria-hidden="true" data-bs-backdrop="static">
