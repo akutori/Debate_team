@@ -38,6 +38,8 @@ class ChatController extends Controller
         $userid= $user['id'];
         $debater = new Debater();
         $bystander = new Bystander();
+        //投票画面と投票結果のセッションを削除
+        session()->forget(['is_refresh_vote_page','is_refresh_vote_result_page']);
         //直前のURLを取得
         $previousUrl = URL::previous();
         //そのURLをもとにRequestインスタンスを生成

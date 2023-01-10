@@ -19,15 +19,10 @@ class VoteController extends Controller
     //
     public function index(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
-
-        //直前のURLを取得
-        $previousUrl = URL::previous();
-        //そのURLをもとにRequestインスタンスを生成
-        $requestURL = Request::create($previousUrl);
-        //直前のURLが、/chat/*のパスを含むかどうかを判定する
-        $isChat = $requestURL->is('chat/*');
-        //直前のURLが待機室ではなかった場合はマイページにリダイレクト
-        if(!$isChat){
+        //セッション名「is_refresh_vote_page」がなかった場合はリロードしていないと判断し、セッションを設定そうでなければリロードしたと判断しマイページに遷移
+        if (!session()->has('is_refresh_vote_page')) {
+            session(['is_refresh_vote_page' => true]);
+        }else{
             return redirect('/mypage');
         }
 
@@ -57,15 +52,10 @@ class VoteController extends Controller
     public function VoteResult(Request $request): View|Factory|Redirector|RedirectResponse|Application
     {
 
-        //直前のURLを取得
-        $previousUrl = URL::previous();
-        //そのURLをもとにRequestインスタンスを生成
-        $requestURL = Request::create($previousUrl);
-        //直前のURLが「vote」であり、かつクエリパラメータに「roomid」が含まれている場合true
-        $isVote = $requestURL->is('vote') && $requestURL->query('roomid');
-
-        //直前のURLが投票画面ではなかった場合はマイページにリダイレクト
-        if(!$isVote){
+        //セッション名「is_refresh_vote_page」がなかった場合はリロードしていないと判断し、セッションを設定そうでなければリロードしたと判断しマイページに遷移
+        if (!session()->has('is_refresh_vote_result_page')) {
+            session(['is_refresh_vote_result_page' => true]);
+        }else{
             return redirect('/mypage');
         }
 
@@ -75,7 +65,6 @@ class VoteController extends Controller
         $userid = $userinfo['id'];
         $rid = $request->input('roomid');
         $rodb = DB::table('rooms')->where('r_id', $rid)->get();
-        $roomtime = Room::find($rid);
         //賛成派反対派のpoint振り分け
         //賛成票取得
         $r_positive = DB::table('rooms')->where('r_id', $rid)->where('r_positive', true)->get();

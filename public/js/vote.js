@@ -109,6 +109,11 @@ window.addEventListener('load',()=>{
     );
 })
 
-window.addEventListener("popstate", function (e) {
+//ブラウザバックを無効化
+window.addEventListener("DOMContentLoaded", function () {
     history.pushState(null, null, null);
+
+    window.addEventListener("popstate", function () {
+        history.pushState(null, null, null);
+    });
 });
