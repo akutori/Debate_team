@@ -42,7 +42,7 @@ class RoomController extends Controller
             }
         }
         //ディベートが終了しているのであればすべての履歴を削除し入室する
-        if ($room->this_room_debate_time_end($roomid) && !$room->is_debate_start($roomid)) {
+        if ($room->this_room_debate_time_end($roomid) && $room->is_debate_start($roomid)) {
             $this->removedebate($roomid);
             switch ($state) {
                 case 0:
