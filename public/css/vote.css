@@ -71,3 +71,40 @@ body{
 .muc{
     text-align: center;
 }
+
+.resultbutton-center{
+    display: flex;
+    justify-content: center;
+}
+
+.backhome-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    width: 200px;
+    height: 55px;
+    font-weight: bold;
+    transition: 0.3s;
+    background-color: #1976d2;
+}
+
+.backhome-button:hover {
+    opacity: .7;
+}
+
+.vote-position{
+    font-size: 1.5em;
+    margin: 10px;
+}
+
+.vote-cast{
+    font-weight: bold;
+    font-size: 1.8em;
+    margin: 15px;
+}

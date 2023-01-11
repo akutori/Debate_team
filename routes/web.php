@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\allController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,8 +41,6 @@ Route::get('/createdtheme',[ThemeController::class,'userindex']);
 //チャットページ(待機画面から)
 Route::get('/chat/{rid}/{state}',[ChatController::class,'index']);
 
-
-
 //laravel のホーム画面
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -56,11 +55,12 @@ Route::get('standby/{rid}/{state}',[RoomController::class,'waituser']);
 Route::get('/check/{rid}/{state}',[RoomController::class,'confirmation']);
 
 //投票機能
-Route::get('/vote2/{rid}',[\App\Http\Controllers\vote2Controller::class,'index']);
-Route::get('/vote3/{rid}',[\App\Http\Controllers\voteController::class,'index']);
-Route::get('/voteko/{rid}',[\App\Http\Controllers\votesumController::class,'ko']);
-Route::get('/votesan/{rid}',[\App\Http\Controllers\votesumController::class,'san']);
-Route::get('/vote/{rid}',[\App\Http\Controllers\votesumController::class,'index']);
+//投票画面
+Route::get('/vote',[VoteController::class,'index']);
+//投票集計(Ajax)
+Route::post('/vote/sum',[VoteController::class,'VoteCounting']);
+//投票結果
+Route::get('/vote/result',[VoteController::class,'VoteResult']);
 
 //all機能
 Route::get('/all',[allController::class,'index']);

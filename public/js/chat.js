@@ -154,7 +154,6 @@ function timer() {
     const RoomTime = new Date($('#starttime').val());
     //現在の時間を取得
     let NowTime = new Date()
-    //分に+14を加えて終了時間を設定(14で15分ちょうどとなる)
     RoomTime.setMinutes(RoomTime.getMinutes() + 15)
     //日時を取得比較用
     const d = Math.floor((NowTime - RoomTime) / (24 * 60 * 60 * 1000));
@@ -173,7 +172,7 @@ function timer() {
     if(NowTime > RoomTime){
         //投票画面に遷移
         clearTimeout();
-        window.location.href = '/vote2/'+ROOMID+'/';
+        window.location.href = '/vote?roomid='+ROOMID;
     }
     //1秒間隔でタイマーを実行
     setTimeout('timer()', 1000);
