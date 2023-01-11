@@ -9,13 +9,13 @@
 <body>
 <p class="dai">結果</p>
 <div class="san">
-    <p>賛成派</p>
+    <p class="vote-position">賛成派</p>
     @foreach($rodb as $ro)
-        <p>{{$ss = $ro->r_positive}}</p>
+        <p class="vote-cast">{{$ss = $ro->r_positive}}</p>
 </div>
 <div class="hite">
-    <p>否定派</p>
-    <p>{{$uu = $ro->r_denial}}</p>
+    <p class="vote-position">否定派</p>
+    <p class="vote-cast">{{$uu = $ro->r_denial}}</p>
 </div>
 
 <div class="kekka">
@@ -28,8 +28,8 @@
         <p>引き分け</p>
     @endif
 </div>
-<div>
-    <button type="button" onclick="location.href='{{url('/')}}'">トップに戻る</button>
+<div class="resultbutton-center">
+    <button type="button" class="backhome-button" onclick="location.href='{{url('/')}}'">トップに戻る</button>
 </div>
 
 @endforeach
