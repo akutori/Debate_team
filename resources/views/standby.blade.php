@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="{{asset('js/jquery.js')}}"></script>
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <link href="{{asset('css/standby.css')}}" rel="stylesheet">
@@ -13,7 +14,7 @@
 <input type="hidden" name="roomid" id="roomid" value="{{$roomid}}">
 <input type="hidden" name="state" id="state" value="{{$state}}">
 
-<div class="container mt-5 shadow-lg text-cente w-50 bg-light">
+<div class="container mt-5 shadow-lg text-cente w-auto bg-light">
     <div class="row pt-5 pb-4">
         <div class="col-1"></div>
         <div class="col-12 col-md-10 text-center">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/vote.js')}}"></script>
@@ -27,17 +27,17 @@
             <div class="row my-5">
                 <input type="hidden" value="{{$roomid}}" id="roomid" name="roomid">
                 <div class="col-2"></div>
-                <div class="col-3">
+                <div class="col-lg-3 mb-lg-0 mb-2">
                     <button type="submit" id="good" onclick="voteFunction(event)" value="1" class="btn btn-secondary btn-outline-danger text-white shadow-lg fs-1 p-5 form-control">賛成</button>
                 </div>
                 <div class="col-2"></div>
-                <div class="col-3">
+                <div class="col-lg-3 mt-lg-0 mt-5">
                     <div class="text-end">
                         <button type="submit" id="bad" onclick="voteFunction(event)" value="0" class="btn btn-secondary btn-outline-primary text-white shadow-lg fs-1 p-5 form-control">反対</button>
                     </div>
                 </div>
                 <span id="votedwaitmessage" class="text-center fs-2 p-4"></span>
-                <span id="votedmessage" class="text-center fs-4 p-5"></span>
+                <span id="votedmessage" class="text-center fs-4 p-lg-5"></span>
                 <div class="col-2"></div>
             </div>
         </form>

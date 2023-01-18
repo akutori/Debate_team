@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 <html lang="ja">
 <head>
     <title>{{config('app.name')}}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/jquery.js')}}"></script>

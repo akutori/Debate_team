@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{config('app.name')}}</title>
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
@@ -97,12 +98,13 @@
 <div class="container">
     <div class="row">
         <!-- 切り替えボタンの設定 -->
-        <div class="col-5"></div>
-        <button type="button" class="btn btn-outline-primary btn-lg shadow-lg mb-4 col-2" data-bs-toggle="modal"
+        <div class="col-lg-5 col-3"></div>
+        <button type="button" class="btn btn-outline-primary btn-lg shadow-lg mb-4 col-lg-2 col-6"
+                data-bs-toggle="modal"
                 data-bs-target="#makeroom">
             ルーム作成
         </button>
-        <div class="col-5"></div>
+        <div class="col-lg-5 col-3"></div>
     </div>
     @if(isset($alerttext))
         {!! $alerttext !!}
@@ -136,13 +138,17 @@
             <div class="modal-body">
                 <h1 class="text-center mt-5">お題作成フォーム</h1>
                 <p class="fs-6 fst-italic text-center text-decoration-underline">Create a new theme</p>
-                <div class="py-2 mb-5 bg-body rounded container-fluid w-50">
+                <div class="py-2 mb-5 bg-body rounded container-fluid w-auto">
                     <form action="{{url('/userroom/create')}}" method="post" class="form-horizontal">
+                        <div class="row">
                         @csrf
                         <input type="hidden" value="{{$userid}}" name="userid">
-                        <div class="form-group mb-4">
-                            <p><span class="fs-5">カテゴリー</span>
-                                <select class="form-select mt-2 mb-3 p-4 p-md-2" id="category-select" name="categoryid"
+                        <div class="col-3"></div>
+                        <div class="form-group mb-4 col-lg-6">
+                            <p>
+                                <span class="fs-5"><label for="category-select">カテゴリー</label></span>
+                                <select class="form-select mt-2 mb-3 p-4 p-md-2" id="category-select"
+                                        name="categoryid"
                                         required>
                                     <option value="" disabled selected>カテゴリーを選択してください</option>
                                     @foreach($categorys as $category)
@@ -150,24 +156,36 @@
                                     @endforeach
                                 </select>
                             </p>
-                        </div>
-                        <p><span class="fs-5">題名</span>
+
+                        <p>
+                            <span class="fs-5"><label for="inputtitle">題名</label></span>
                             <input type="text" placeholder="題名を入力" maxlength="255" minlength="1" name="title"
+                                   id="inputtitle"
                                    required
                                    class="form-control py-4 form-control-lg mt-2">
                         </p>
-                        <input type="submit" class="btn btn-outline-primary btn-lg mt-3 p-lg-3 shadow"
-                               id="createroom"
-                               value="ルームの新規作成">
-                        <span class="float-lg-end">
-                                <button type="button" class="btn btn-outline-danger btn-lg mt-3 p-lg-3 shadow"
-                                        data-bs-dismiss="modal">閉じる</button>
-                        </span>
+                        </div>
+                        <div class="col-3"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">
+                                <input type="submit"
+                                       class="btn btn-outline-primary btn-lg mt-3 p-lg-3 shadow form-control"
+                                       id="createroom"
+                                       value="ルームの新規作成">
+                            </div>
+                            <div class="col-lg-3">
+                            <span class="float-lg-end">
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-lg mt-3 p-lg-3 shadow form-control"
+                                            data-bs-dismiss="modal">閉じる</button>
+                            </span>
+                            </div>
+                            <div class="col-lg-3"></div>
+                        </div>
                     </form>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
             </div>
         </div>
     </div>
@@ -178,23 +196,23 @@
     @if(isset($rooms))
         @foreach($rooms as $room)
             <div class="row mb-5" style="background-color: rgb(14,92,102)">
-                <div class="col-2 text-dark">
+                <div class="col-lg-2 col-12 text-dark">
                     @if(\Illuminate\Support\Facades\Auth::id()==$room->id)
                         <div class="row" style="background-color: #ff6a00;">
-                            <div class="col-lg-6 fs-5 text-center">ユーザー</div>
-                            <div class="col-lg-6 fs-5 text-center"><strong>{{$room->name}}</strong></div>
+                            <div class="col-lg-6 col-3 fs-5 text-center">ユーザー</div>
+                            <div class="col-lg-6 col-9 fs-5 text-center"><strong>{{$room->name}}</strong></div>
                             @else
                                 <div class="row" style="background-color: #ffd255;">
-                                    <div class="col-lg-6 fs-5 text-center">ユーザー</div>
-                                    <div class="col-lg-6 fs-5 text-center">{{$room->name}}</div>
+                                    <div class="col-lg-6 col-3 fs-5 text-center">ユーザー</div>
+                                    <div class="col-lg-6 col-9 fs-5 text-center">{{$room->name}}</div>
                                     @endif
                                 </div>
                                 <div class="row" style="background-color: #ffbb00;">
-                                    <div class="col-lg-6 fs-5 text-center">ジャンル</div>
-                                    <div class="col-lg-6 fs-5 text-center">{{$room->c_name}}</div>
+                                    <div class="col-lg-6 col-3 fs-5 text-center">ジャンル</div>
+                                    <div class="col-lg-6 col-9 fs-5 text-center">{{$room->c_name}}</div>
                                 </div>
                         </div>
-                        <a type="button" class="col-10 fs-1 text-center text-light text-decoration-none"
+                        <a type="button" class="col-lg-10 col-12 fs-1 text-center text-light text-decoration-none"
                            data-bs-toggle="modal"
                            data-bs-target="#selectroom{{$room->r_id}}">
                             {{$room->t_name}}
@@ -213,7 +231,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="閉じる"></button>
                                     </div>
-                                    <form action="{{url('/standby')}}" method="get">{{--todo パラメータを合わせるまでは保留--}}
+                                    <form action="{{url('/standby')}}" method="get">
                                         <input type="hidden" name="roomid" value="{{$room->r_id}}">
                                         <div class="modal-body">
                                             <p class="fs-3 pb-2 text-center">立場を選択</p>

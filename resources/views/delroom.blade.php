@@ -4,6 +4,7 @@
     <link href="{{asset('css/standby.css')}}" rel="stylesheet">
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/standby.js')}}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
 <p class="fs-1 text-center">DelRoom</p>

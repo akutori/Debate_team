@@ -2,7 +2,8 @@
 @extends('header')
 @section('head')
     <link rel="stylesheet" href="{{asset('css/theme.css')}}">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -24,4 +25,4 @@
     </div>
 
 @endsection
-@endsection
+

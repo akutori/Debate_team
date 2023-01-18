@@ -13,7 +13,6 @@ function get_data() {
 
     $.ajax({
         url: "result/ajax",
-        async:false,
         dataType: "json",
 
         success: data => {
